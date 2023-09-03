@@ -1,9 +1,14 @@
-module.exports = (sequelize: any, DataTypes: any, Model: any, db: any) => {
-    class Role extends Model {}
+module.exports = (sequelize: any, Model: any, DataTypes: any) => {
+
+    class Role extends Model {
+        public id?: number;
+        public url?: string;
+        public description?: string;
+    }
 
     Role.init({
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             autoIncrement: true,
             primaryKey: true
         },
@@ -16,8 +21,10 @@ module.exports = (sequelize: any, DataTypes: any, Model: any, db: any) => {
             allowNull: false,
         }
     }, {
-        sequelize,
+        sequelize: sequelize,
         modelName: 'Role',
+        timestamps: false
     });
+
     return Role;
 }

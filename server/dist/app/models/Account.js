@@ -1,10 +1,10 @@
 "use strict";
-module.exports = (sequelize, DataTypes, Model) => {
+module.exports = (sequelize, Model, DataTypes) => {
     class Account extends Model {
     }
     Account.init({
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             autoIncrement: true,
             primaryKey: true
         },
@@ -34,11 +34,11 @@ module.exports = (sequelize, DataTypes, Model) => {
             }
         },
         GroupAccountId: {
-            type: DataTypes.STRING,
-            defaultValue: '2'
+            type: DataTypes.BIGINT,
+            defaultValue: 2
         }
     }, {
-        sequelize,
+        sequelize: sequelize,
         modelName: 'Account',
     });
     return Account;

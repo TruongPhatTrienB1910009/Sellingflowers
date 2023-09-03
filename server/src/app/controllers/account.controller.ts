@@ -1,16 +1,23 @@
 import { NextFunction, Request, Response } from "express";
-const db = require('../models')
+const { getRolesAccount } = require('../utils/account.utils');
+const db = require('../models');
+// const bcrypt = require('bcrypt');
+// const saltRounds = 10;
 
 const getAccount = (req: Request, res: Response, nexr: NextFunction) => {
     res.send({
-        "message": "hi"
+        "message": "welcome"
     })
 }
 
-const signIn = (req: Request, res: Response, next: NextFunction) => {
+const signIn = async (req: Request, res: Response, next: NextFunction) => {
 
+    const user = await db.Account.findOne({
+        where: {email: req.body.email}
+    })
+    const data = await getRolesAccount(user);
     res.send({
-        "message": "hi"
+        "message": data
     })
 }
 
@@ -39,5 +46,5 @@ const signUp = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 module.exports = {
-    getAccount, signUp
+    getAccount, signUp, signIn
 }

@@ -1,28 +1,25 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
-
-const sequelize = new Sequelize('sellingflower', 'root', '22042022', {
-    host: 'localhost',
-    dialect: 'mysql'
-});
-
+import { Model, DataTypes, Optional } from 'sequelize';
+const { Sequelize } = require('sequelize');
+import sequelize from "../config/sequelize";
 const db : any = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.Account = require('./Account')(db.sequelize, DataTypes, Model);
-db.Group_account = require('./Group')(db.sequelize, DataTypes, Model, db);
-db.Roles = require('./Roles')(db.sequelize, DataTypes, Model, db);
-db.Group_role = require('./Group_role')(db.sequelize, DataTypes, Model);
-
-
+db.Account = require('../models/Account')(db.sequelize, Model, DataTypes);
+db.Group_account =  require('../models/Group_Account')(db.sequelize, Model, DataTypes);
+db.Role = require('../models/Roles')(db.sequelize, Model, DataTypes);
+db.Group_role = require('../models/Group_role')(db.sequelize, Model, DataTypes);
 
 // >>>>> config associations
 
-// db.Group.belongsToMany(db.Roles, { through: 'group_roles'})
-// db.Roles.belongsToMany(db.Group, { through: 'group_roles'})
+db.Group_account.hasMany(db.Account)
+db.Account.belongsTo(db.Group_account, {
+    foreignKey: {
+        name: 'GroupAccountId'
+    }
+})
 
-db.Group_account.hasOne(db.Account)
-db.Account.belongsTo(db.Group_account, { foreignKey: {name: 'GroupAccountId'} })
+db.Group_account.belongsToMany(db.Role, { through: 'Group_roles', foreignKey: 'RoleId' })
+db.Role.belongsToMany(db.Group_account, { through: 'Group_roles', foreignKey: 'GroupAccountId' })
 
-db.sequelize.sync({alter: true});
 module.exports = db;

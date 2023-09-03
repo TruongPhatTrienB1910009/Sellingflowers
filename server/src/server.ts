@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
+const db = require('./app/models');
 const express = require('express');
-const db = require('./app/models/index');
 const dotenv = require('dotenv');
 const cors = require('cors');
 dotenv.config();
@@ -14,20 +14,21 @@ app.use(cors());
 
 const port = 3000;
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server');
-});
-
 
 // handel router
-app.use('/account', accountRoute);
+app.use('/', accountRoute);
 
-try {
-  db.sequelize.authenticate();
-  console.log("Connected to Database");
-  app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
-  });
-} catch (error) {
-  console.log(error);
+const runServer = async () => {
+  try {
+    await db.sequelize.sync();
+    db.sequelize.authenticate();
+    console.log("Connected to Database");
+    app.listen(port, () => {
+      console.log(`Server is running at http://localhost:${port}`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
+
+runServer();

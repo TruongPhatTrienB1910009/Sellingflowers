@@ -1,9 +1,19 @@
-module.exports = (sequelize: any, DataTypes: any, Model: any) => {
-    class Account extends Model {}
+module.exports = (sequelize: any, Model: any, DataTypes: any) => {
+    class Account extends Model {
+        public id?: number | undefined;
+        public name?: string | undefined;
+        public phone?: string | undefined;
+        public email?: string | undefined;
+        public password?: string | undefined;
+        public GroupAccountId?: number | undefined;
+
+        public readonly createAt?: Date | undefined;
+        public readonly updateAt?: Date | undefined;
+    }
 
     Account.init({
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             autoIncrement: true,
             primaryKey: true
         },
@@ -33,12 +43,14 @@ module.exports = (sequelize: any, DataTypes: any, Model: any) => {
             }
         },
         GroupAccountId: {
-            type: DataTypes.STRING,
-            defaultValue: '2'
+            type: DataTypes.BIGINT,
+            defaultValue: 2
         }
     }, {
-        sequelize,
+        sequelize: sequelize,
         modelName: 'Account',
     });
+
+
     return Account;
 }

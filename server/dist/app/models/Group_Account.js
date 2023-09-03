@@ -1,14 +1,14 @@
 "use strict";
 module.exports = (sequelize, Model, DataTypes) => {
-    class Role extends Model {
+    class Group_account extends Model {
     }
-    Role.init({
+    Group_account.init({
         id: {
             type: DataTypes.BIGINT,
             autoIncrement: true,
             primaryKey: true
         },
-        url: {
+        name: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -17,9 +17,9 @@ module.exports = (sequelize, Model, DataTypes) => {
             allowNull: false,
         }
     }, {
-        sequelize: sequelize,
-        modelName: 'Role',
+        sequelize,
+        modelName: 'Group_account',
         timestamps: false
     });
-    return Role;
+    return Group_account;
 };

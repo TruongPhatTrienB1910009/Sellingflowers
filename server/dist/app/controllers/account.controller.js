@@ -9,17 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const { getRolesAccount } = require('../utils/account.utils');
 const db = require('../models');
+// const bcrypt = require('bcrypt');
+// const saltRounds = 10;
 const getAccount = (req, res, nexr) => {
     res.send({
-        "message": "hi"
+        "message": "welcome"
     });
 };
-const signIn = (req, res, next) => {
+const signIn = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield db.Account.findOne({
+        where: { email: req.body.email }
+    });
+    const data = yield getRolesAccount(user);
     res.send({
-        "message": "hi"
+        "message": data
     });
-};
+});
 const signUp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield db.Account.findOne({ where: { email: req.body.email } });
@@ -46,5 +53,5 @@ const signUp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 module.exports = {
-    getAccount, signUp
+    getAccount, signUp, signIn
 };

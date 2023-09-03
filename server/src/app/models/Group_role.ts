@@ -1,24 +1,31 @@
-module.exports = (sequelize: any, DataTypes: any, Model: any) => {
-    class Group_role extends Model {}
+module.exports = (sequelize: any, Model: any, DataTypes: any) => {
+
+    class Group_role extends Model {
+        public GroupAccountId?: number | undefined;
+        public RoleId?: number | undefined;
+    }
 
     Group_role.init({
-        GroupsId: {
-            type: DataTypes.INTEGER,
+        GroupAccountId: {
+            type: DataTypes.BIGINT,
             references: {
-                model: 'group_accounts',
+                model: 'Group_account',
                 key: 'id'
             }
         },
-        RolesId: {
-            type: DataTypes.INTEGER,
+        RoleId: {
+            type: DataTypes.BIGINT,
             references: {
-                model: 'roles',
+                model: 'Role',
                 key: 'id'
             },
         }
     }, {
-        sequelize,
-        modelName: 'group_roles',
+        sequelize: sequelize,
+        modelName: 'Group_roles',
+        timestamps: false
     });
+
     return Group_role;
+
 }
