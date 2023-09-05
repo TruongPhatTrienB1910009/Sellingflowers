@@ -13,7 +13,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Image from 'next/image'
+import InputBase from '@mui/material/InputBase';
+import { styled, alpha } from '@mui/material/styles';
+import SearchIcon from '@mui/icons-material/Search';
+import Image from 'next/image';
 // css
 import '@/styles/navStyle.css';
 
@@ -26,7 +29,7 @@ interface Props {
 }
 
 const drawerWidth = 240;
-const navItems = ['Đăng Nhập', 'Đăng ký'];
+const navItems = ['Thông Báo', 'Đăng Nhập', 'Đăng ký'];
 
 export default function DrawerAppBar(props: Props) {
     const { window } = props;
@@ -65,16 +68,16 @@ export default function DrawerAppBar(props: Props) {
                         aria-label="open drawer"
                         edge="start"
                         onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: 'none' } }} 
+                        sx={{ mr: 2, display: { sm: 'none' } }}
                     >
-                    <MenuIcon />
+                        <MenuIcon />
                     </IconButton>
                     <Typography
                         component="div"
                         sx={{ flexGrow: 1 }}
                         className='Typography'
                     >
-                        <Image 
+                        <Image
                             src="/images/logo.jpg"
                             width={46}
                             height={46}
@@ -83,8 +86,18 @@ export default function DrawerAppBar(props: Props) {
                         />
 
                         Green.
+
+                        <Search>
+                            <SearchIconWrapper>
+                                <SearchIcon />
+                            </SearchIconWrapper>
+                            <StyledInputBase
+                                placeholder="Search…"
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
+                        </Search>
                     </Typography>
-                    
+
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {navItems.map((item) => (
                             <Button key={item} sx={{ color: '#fff' }}>
@@ -114,3 +127,43 @@ export default function DrawerAppBar(props: Props) {
         </Box>
     );
 }
+
+const Search = styled('div')(({ theme }) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+        backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(3),
+        width: 'auto',
+    },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            width: '60ch',
+        },
+    },
+}));
