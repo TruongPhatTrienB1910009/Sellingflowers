@@ -1,0 +1,22 @@
+.navBar{
+    background-color: #228B22;
+    box-shadow: 0 0 6px #228B22;
+}
+
+.toolBar {
+    min-height: 72px;
+}
+
+.logo {
+    border-radius: 50%;
+    object-fit: contain;
+    margin-right: 8px;
+}
+
+.Typography {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 600;
+    font-family: monospace;
+}

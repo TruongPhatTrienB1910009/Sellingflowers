@@ -1,8 +1,7 @@
-import './globals.css'
+import '@/styles/globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
+import Navbar from '@/components/NavBar'
+import ScopedCssBaseline from '@mui/material/ScopedCssBaseline';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,8 +14,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang='en'>
+      <body suppressHydrationWarning={true} >
+        <ScopedCssBaseline>
+          <Navbar />
+          <main className='app'>
+            {children}
+          </main>
+        </ScopedCssBaseline>
+      </body>
     </html>
   )
 }
