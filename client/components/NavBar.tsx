@@ -16,6 +16,7 @@ import Button from '@mui/material/Button';
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
+import Link from 'next/link';
 import Image from 'next/image';
 // css
 import '@/styles/navStyle.css';
@@ -60,71 +61,116 @@ export default function DrawerAppBar(props: Props) {
     const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
-        <Box sx={{ display: 'flex' }}>
-            <AppBar component="nav" className='navBar'>
-                <Toolbar className='toolBar'>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: 'none' } }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography
-                        component="div"
-                        sx={{ flexGrow: 1 }}
-                        className='Typography'
-                    >
-                        <Image
-                            src="/images/logo.jpg"
-                            width={46}
-                            height={46}
-                            alt="Logo"
-                            className='logo'
-                        />
-
-                        Green.
-
-                        <Search>
-                            <SearchIconWrapper>
-                                <SearchIcon />
-                            </SearchIconWrapper>
-                            <StyledInputBase
-                                placeholder="Search…"
-                                inputProps={{ 'aria-label': 'search' }}
+        <>
+            <Box>
+                <AppBar component="nav" className='navBar'>
+                    <Toolbar className='toolBar'>
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            edge="start"
+                            onClick={handleDrawerToggle}
+                            sx={{ mr: 2, display: { sm: 'none' } }}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography
+                            component="div"
+                            sx={{ flexGrow: 1 }}
+                            className='Typography'
+                        >
+                            <Image
+                                src="/images/logo.jpg"
+                                width={46}
+                                height={46}
+                                alt="Logo"
+                                className='logo'
                             />
-                        </Search>
-                    </Typography>
 
-                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                        {navItems.map((item) => (
-                            <Button key={item} sx={{ color: '#fff' }}>
-                                {item}
-                            </Button>
-                        ))}
-                    </Box>
-                </Toolbar>
-            </AppBar>
-            <nav>
-                <Drawer
-                    container={container}
-                    variant="temporary"
-                    open={mobileOpen}
-                    onClose={handleDrawerToggle}
-                    ModalProps={{
-                        keepMounted: true, // Better open performance on mobile.
-                    }}
-                    sx={{
-                        display: { xs: 'block', sm: 'none' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                    }}
-                >
-                    {drawer}
-                </Drawer>
-            </nav>
-        </Box>
+                            Green.
+
+                            <Search>
+                                <SearchIconWrapper>
+                                    <SearchIcon />
+                                </SearchIconWrapper>
+                                <StyledInputBase
+                                    placeholder="Tìm kiếm…"
+                                    inputProps={{ 'aria-label': 'search' }}
+                                />
+                            </Search>
+                        </Typography>
+
+                        <Box sx={{ display: { xs: 'none', sm: 'block' }, flexGrow: 1 }}>
+                            <ul className='navItemsLink'>
+                                <li className='navLink'>
+                                    <Link href="/">
+                                        <Button sx={{ color: '#fff' }}>
+                                            Thông báo
+                                        </Button>
+                                    </Link>
+                                </li>
+                                <li className='navLink'>
+                                    <Link href="/signin">
+                                        <Button sx={{ color: '#fff' }}>
+                                            Đăng nhập
+                                        </Button>
+                                    </Link>
+                                </li>
+                                <li className='navLink'>
+                                    <Link href="/signup">
+                                        <Button sx={{ color: '#fff' }}>
+                                            Đăng ký
+                                        </Button>
+                                    </Link>
+                                </li>
+                            </ul>
+                        </Box>
+                    </Toolbar>
+                    <Toolbar className='toolBar_2'>
+                        <ul className='navItemsLink'>
+                            <li className='navSubLink'>
+                                <Link href="/">
+                                    <Button sx={{ color: '#fff' }}>
+                                        Tất cả
+                                    </Button>
+                                </Link>
+                            </li>
+                            <li className='navSubLink'>
+                                <Link href="/about">
+                                    <Button sx={{ color: '#fff' }}>
+                                        Cây cảnh
+                                    </Button>
+                                </Link>
+                            </li>
+                            <li className='navSubLink'>
+                                <Link href="/blog/hello-world">
+                                    <Button sx={{ color: '#fff' }}>
+                                        Hoa tươi
+                                    </Button>
+                                </Link>
+                            </li>
+                        </ul>
+                    </Toolbar>
+                </AppBar>
+                <nav>
+                    <Drawer
+                        container={container}
+                        variant="temporary"
+                        open={mobileOpen}
+                        onClose={handleDrawerToggle}
+                        ModalProps={{
+                            keepMounted: true, // Better open performance on mobile.
+                        }}
+                        sx={{
+                            display: { xs: 'block', sm: 'none' },
+                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                        }}
+                    >
+                        {drawer}
+                    </Drawer>
+                </nav>
+            </Box>
+        </>
     );
 }
 

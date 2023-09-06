@@ -4,7 +4,37 @@
 }
 
 .toolBar {
-    min-height: 72px;
+    min-height: 70px;
+}
+
+.navItemsLink {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    list-style: none;
+}
+
+.navLink {
+    margin-left: 20px;
+}
+
+.navLink button {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.navSubLink {
+    margin-left: 20px;
+}
+
+.navSubLink button {
+    text-transform: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.toolBar_2 {
+    min-height: 46px;
 }
 
 .logo {
@@ -16,7 +46,7 @@
 .Typography {
     display: flex;
     align-items: center;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 600;
-    font-family: monospace;
+    font-family: monospace !important;
 }
