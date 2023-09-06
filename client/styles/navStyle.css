@@ -1,10 +1,10 @@
 .navBar{
-    background-color: #228B22;
-    box-shadow: 0 0 6px #228B22;
+    background-color: #228B22!important;
+    box-shadow: 0 0 6px #228B22!important;
 }
 
 .toolBar {
-    min-height: 70px;
+    min-height: 70px !important;
 }
 
 .navItemsLink {

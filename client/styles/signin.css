@@ -1,0 +1,31 @@
+.title {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 26px;
+    font-family: monospace;
+    font-weight: 600;
+    color: #379683;
+    margin-right: 4px !important;
+}
+
+.link {
+    color: #379683;
+    text-decoration: underline;
+}
+
+.link:hover {
+    color: blueviolet;
+    text-decoration: underline;
+}
+
+.btn {
+    background-color: #228b22;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 10px;
+}
+
+.btn:hover {
+    background-color: #297629;
+}
