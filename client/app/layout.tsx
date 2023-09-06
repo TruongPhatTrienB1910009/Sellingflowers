@@ -1,6 +1,7 @@
 import '@/styles/globals.css'
 import type { Metadata } from 'next'
-import Navbar from '@/components/NavBar'
+import Navbar from '@/components/NavBar';
+import StickyFooter from '@/components/Footer';
 import ScopedCssBaseline from '@mui/material/ScopedCssBaseline';
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({
           <main className='app'>
             {children}
           </main>
+          <StickyFooter />
         </ScopedCssBaseline>
       </body>
     </html>
