@@ -1,15 +1,13 @@
 'use client';
+import { handleSignUp } from '@/services/homeService';
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -19,14 +17,18 @@ import '@/styles/signin.css';
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
+        const user = {
             email: data.get('email'),
             password: data.get('password'),
             confirm: data.get('confirm'),
-        });
+        };
+        const newUser = await handleSignUp(user);
+        if (newUser) {
+            console.log(newUser);
+        }
     };
 
     return (
@@ -76,7 +78,7 @@ export default function SignUp() {
                                     fullWidth
                                     name="confirm"
                                     label="Xác nhận mật khẩu"
-                                    type="confirm"
+                                    type="password"
                                     id="confirm"
                                     autoComplete="new-password"
                                     sx={styleInput}

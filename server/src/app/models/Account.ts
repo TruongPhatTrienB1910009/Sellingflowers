@@ -19,14 +19,11 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
         },
         name: {
             type: DataTypes.STRING,
-            allowNull: false
+            defaultValue: "no name"
         },
         phone: {
             type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                is: /^(?:\+84|0)(?:\d{9}|[1-9][0-9]{8})$/
-            }
+            defaultValue: ''
         },
         email: {
             type: DataTypes.STRING,
