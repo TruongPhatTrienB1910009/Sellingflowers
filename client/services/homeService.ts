@@ -1,11 +1,11 @@
 import axios from "./axios";
 
 export const handleSignUp = async (data: any) => {
-    const account = await axios.post('/signup', data);
-    console.log("account", account);
+    const account = (await axios.post('/signup', data)).data;
     return account;
 }
 
-const handleLogin = async (data: any) => {
-
+export const handleSignIn = async (data: any) => {
+    const account = (await axios.post('/signin', data)).data;
+    return account;
 }

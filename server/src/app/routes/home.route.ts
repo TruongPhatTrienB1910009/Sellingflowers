@@ -6,7 +6,7 @@ router.route("/signup")
     .post(homeController.signUp);
 
 router.route("/signin")
-    .get(homeController.signIn);
+    .post(homeController.signIn);
 
     
 module.exports = router;

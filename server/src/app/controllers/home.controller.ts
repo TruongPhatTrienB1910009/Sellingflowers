@@ -5,6 +5,7 @@ const db = require('../models');
 
 const signIn = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        console.log(req.body);
         const user = await db.Account.findOne({
             where: { email: req.body.email }
         })
@@ -23,6 +24,7 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
                 EC: 0,
                 DT: {
                     accesstoken: token,
+                    email: user.email,
                     groupRoles: rolesAccount
                 }
             })

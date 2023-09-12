@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import Navbar from '@/components/NavBar';
 import StickyFooter from '@/components/Footer';
 import ScopedCssBaseline from '@mui/material/ScopedCssBaseline';
+import { ReduxProvider } from '@/redux/provider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,13 +18,15 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body suppressHydrationWarning={true} >
-        <ScopedCssBaseline>
-          <Navbar />
-          <main className='app'>
-            {children}
-          </main>
-          <StickyFooter />
-        </ScopedCssBaseline>
+        <ReduxProvider>
+          <ScopedCssBaseline>
+            <Navbar />
+            <main className='app'>
+              {children}
+            </main>
+            <StickyFooter />
+          </ScopedCssBaseline>
+        </ReduxProvider>
       </body>
     </html>
   )

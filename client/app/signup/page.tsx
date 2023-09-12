@@ -12,11 +12,14 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import '@/styles/signin.css';
+import { useRouter } from 'next/navigation';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+    const router = useRouter()
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -27,7 +30,7 @@ export default function SignUp() {
         };
         const newUser = await handleSignUp(user);
         if (newUser) {
-            console.log(newUser);
+            router.push('/signin');
         }
     };
 

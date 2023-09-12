@@ -1,4 +1,5 @@
 'use client';
+import { handleSignIn } from '@/services/homeService';
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -11,20 +12,32 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import '@/styles/signin.css';
-import { pink } from '@mui/material/colors';
+import { useRouter } from 'next/navigation';
+import { signIn, signOut } from '@/redux/features/auth-slice';
+import { useDispatch } from 'react-redux';
 
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const dispatch = useDispatch();
+    const router = useRouter();
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
+        const user = {
             email: data.get('email'),
             password: data.get('password'),
-        });
+        };
+
+        const userSignIn = await handleSignIn(user);
+        if (userSignIn && userSignIn.EC === 0) {
+            dispatch(signIn(userSignIn.DT));
+            console.log(userSignIn)
+            localStorage.setItem('accesstoken', JSON.stringify(userSignIn.DT.accesstoken));
+            router.push('/');
+        }
     };
 
     return (

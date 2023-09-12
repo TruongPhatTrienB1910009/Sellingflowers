@@ -16,10 +16,13 @@ import Button from '@mui/material/Button';
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Tooltip from '@mui/material/Tooltip';
 import Link from 'next/link';
 import Image from 'next/image';
 // css
 import '@/styles/navStyle.css';
+import { useAppSelector } from '@/redux/store';
 
 interface Props {
     /**
@@ -35,6 +38,8 @@ const navItems = ['Thông Báo', 'Đăng Nhập', 'Đăng ký'];
 export default function DrawerAppBar(props: Props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+
+    const User = useAppSelector((state) => state.authReducer.value);
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
@@ -102,27 +107,54 @@ export default function DrawerAppBar(props: Props) {
 
                         <Box sx={{ display: { xs: 'none', sm: 'block' }, flexGrow: 1 }}>
                             <ul className='navItemsLink'>
-                                <li className='navLink'>
-                                    <Link href="/">
-                                        <Button sx={{ color: '#fff' }}>
-                                            Thông báo
-                                        </Button>
-                                    </Link>
-                                </li>
-                                <li className='navLink'>
-                                    <Link href="/signin">
-                                        <Button sx={{ color: '#fff' }}>
-                                            Đăng nhập
-                                        </Button>
-                                    </Link>
-                                </li>
-                                <li className='navLink'>
-                                    <Link href="/signup">
-                                        <Button sx={{ color: '#fff' }}>
-                                            Đăng ký
-                                        </Button>
-                                    </Link>
-                                </li>
+                                {
+                                    User.isAuth ? (
+                                        <>
+                                            <li className='navLink'>
+                                                <AccountCircleIcon />
+                                            </li>
+                                            <li className='navLink'>
+                                                <span className='accountEmail'>
+                                                    {User.account.email}
+                                                </span>
+                                                <div className='navProfile'>
+                                                    <ul>
+                                                        <li>
+                                                            Tài Khoản Của Tôi
+                                                        </li>
+                                                        <li>
+                                                            Đăng Xuất
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <li className='navLink'>
+                                                <Link href="/">
+                                                    <Button sx={{ color: '#fff' }}>
+                                                        Thông báo
+                                                    </Button>
+                                                </Link>
+                                            </li>
+                                            <li className='navLink'>
+                                                <Link href="/signin">
+                                                    <Button sx={{ color: '#fff' }}>
+                                                        Đăng nhập
+                                                    </Button>
+                                                </Link>
+                                            </li>
+                                            <li className='navLink'>
+                                                <Link href="/signup">
+                                                    <Button sx={{ color: '#fff' }}>
+                                                        Đăng ký
+                                                    </Button>
+                                                </Link>
+                                            </li>
+                                        </>
+                                    )
+                                }
                             </ul>
                         </Box>
                     </Toolbar>
