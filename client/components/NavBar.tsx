@@ -17,12 +17,14 @@ import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import Tooltip from '@mui/material/Tooltip';
 import Link from 'next/link';
 import Image from 'next/image';
 // css
 import '@/styles/navStyle.css';
 import { useAppSelector } from '@/redux/store';
+import { signOut } from '@/redux/features/auth-slice';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
 
 interface Props {
     /**
@@ -38,8 +40,15 @@ const navItems = ['Thông Báo', 'Đăng Nhập', 'Đăng ký'];
 export default function DrawerAppBar(props: Props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
-
     const User = useAppSelector((state) => state.authReducer.value);
+    const dispatch = useDispatch();
+    const router = useRouter();
+
+    const handleSignOut = () => {
+        localStorage.removeItem('accesstoken');
+        dispatch(signOut());
+        router.push('/');
+    }
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
@@ -122,7 +131,7 @@ export default function DrawerAppBar(props: Props) {
                                                         <li>
                                                             Tài Khoản Của Tôi
                                                         </li>
-                                                        <li>
+                                                        <li onClick={handleSignOut}>
                                                             Đăng Xuất
                                                         </li>
                                                     </ul>
