@@ -34,7 +34,6 @@ export default function SignIn() {
         const userSignIn = await handleSignIn(user);
         if (userSignIn && userSignIn.EC === 0) {
             dispatch(signIn(userSignIn.DT));
-            console.log(userSignIn)
             localStorage.setItem('accesstoken', JSON.stringify(userSignIn.DT.accesstoken));
             router.push('/');
         }
@@ -96,7 +95,7 @@ export default function SignIn() {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="/signup" variant="body2" className='link'>
+                                <Link href="/buyer/signup" variant="body2" className='link'>
                                     {"Chưa có mật khẩu? Đăng ký"}
                                 </Link>
                             </Grid>
