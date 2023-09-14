@@ -119,12 +119,9 @@ export default function DrawerAppBar(props: Props) {
                                 {
                                     User.isAuth ? (
                                         <>
-                                            <li className='navLink'>
-                                                <AccountCircleIcon />
-                                            </li>
-                                            <li className='navLink'>
+                                            <li className='navLink containNavProfile'>
                                                 <span className='accountEmail'>
-                                                    {User.account.email}
+                                                    <AccountCircleIcon className='accountEmail-icon'/>
                                                 </span>
                                                 <div className='navProfile'>
                                                     <ul>
@@ -136,6 +133,7 @@ export default function DrawerAppBar(props: Props) {
                                                         </li>
                                                     </ul>
                                                 </div>
+                                                
                                             </li>
                                         </>
                                     ) : (
@@ -148,14 +146,14 @@ export default function DrawerAppBar(props: Props) {
                                                 </Link>
                                             </li>
                                             <li className='navLink'>
-                                                <Link href="/signin">
+                                                <Link href="/buyer/signin">
                                                     <Button sx={{ color: '#fff' }}>
                                                         Đăng nhập
                                                     </Button>
                                                 </Link>
                                             </li>
                                             <li className='navLink'>
-                                                <Link href="/signup">
+                                                <Link href="/buyer/signup">
                                                     <Button sx={{ color: '#fff' }}>
                                                         Đăng ký
                                                     </Button>

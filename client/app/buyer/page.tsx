@@ -8,9 +8,7 @@ const page = () => {
         router.push('/buyer/signin');
     })
 
-    return (
-        <></>
-    )
+    return (<></>)
 }
 
 export default page

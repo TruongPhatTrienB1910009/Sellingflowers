@@ -34,7 +34,7 @@ export default function SignIn() {
         const userSignIn = await handleSignIn(user);
         if (userSignIn && userSignIn.EC === 0) {
             dispatch(signIn(userSignIn.DT));
-            localStorage.setItem('accesstoken', JSON.stringify(userSignIn.DT.accesstoken));
+            localStorage.setItem('accesstoken', userSignIn.DT.accesstoken);
             router.push('/');
         }
     };

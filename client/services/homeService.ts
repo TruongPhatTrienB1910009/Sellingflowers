@@ -10,7 +10,7 @@ export const handleSignIn = async (data: any) => {
     return account;
 }
 
-export const handleAutoSignIn = async (accesstoken: string) => {
-    const data = (await axios.post('/checkuser', accesstoken)).data;
+export const handleAutoSignIn = async (token: any) => {
+    const data = (await axios.post('/checkuser', token)).data;
     return data;
 }

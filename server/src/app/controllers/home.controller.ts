@@ -1,5 +1,6 @@
+
 import { NextFunction, Request, Response } from "express";
-const { getRolesAccount, hashPassword, checkPassword, createToken } = require('../utils/account.utils');
+const { getRolesAccount, hashPassword, createToken, verifyToken } = require('../utils/account.utils');
 const ApiError = require('../../api-error');
 const db = require('../models');
 
@@ -69,6 +70,24 @@ const signUp = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
+const checkUserByToken = async (req: Request, res:Response, next: NextFunction) => {
+    const token = req.body.token;
+    try {
+        const result = verifyToken(token);
+        return res.status(200).json({
+            EM: 'Check token successfully',
+            EC: 0,
+            DT: result
+        })
+    } catch (error:any) {
+        return res.status(500).json({
+            EM: 'token expired',
+            EC: -1,
+            DT: ""
+        })
+    }
+}
+
 module.exports = {
-    signUp, signIn
+    signUp, signIn, checkUserByToken
 }

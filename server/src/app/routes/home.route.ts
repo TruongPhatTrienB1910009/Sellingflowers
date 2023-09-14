@@ -8,5 +8,7 @@ router.route("/signup")
 router.route("/signin")
     .post(homeController.signIn);
 
+router.route("/checkuser")
+    .post(homeController.checkUserByToken);
     
 module.exports = router;

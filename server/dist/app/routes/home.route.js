@@ -10,4 +10,6 @@ router.route("/signup")
     .post(homeController.signUp);
 router.route("/signin")
     .post(homeController.signIn);
+router.route("/checkuser")
+    .post(homeController.checkUserByToken);
 module.exports = router;

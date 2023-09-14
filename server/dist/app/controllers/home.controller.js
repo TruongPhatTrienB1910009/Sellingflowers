@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const { getRolesAccount, hashPassword, checkPassword, createToken } = require('../utils/account.utils');
+const { getRolesAccount, hashPassword, createToken, verifyToken } = require('../utils/account.utils');
 const ApiError = require('../../api-error');
 const db = require('../models');
 const signIn = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -74,6 +74,24 @@ const signUp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         return next(new ApiError(500, error.message));
     }
 });
+const checkUserByToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const token = req.body.token;
+    try {
+        const result = verifyToken(token);
+        return res.status(200).json({
+            EM: 'Check token successfully',
+            EC: 0,
+            DT: result
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            EM: 'token expired',
+            EC: -1,
+            DT: ""
+        });
+    }
+});
 module.exports = {
-    signUp, signIn
+    signUp, signIn, checkUserByToken
 };
