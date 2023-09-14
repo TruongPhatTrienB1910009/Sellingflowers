@@ -85,7 +85,7 @@ const checkUserByToken = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         });
     }
     catch (error) {
-        return res.status(500).json({
+        return res.send({
             EM: 'token expired',
             EC: -1,
             DT: ""
