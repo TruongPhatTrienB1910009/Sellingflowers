@@ -146,14 +146,14 @@ export default function DrawerAppBar(props: Props) {
                                                 </Link>
                                             </li>
                                             <li className='navLink'>
-                                                <Link href="/buyer/signin">
+                                                <Link href="/signin">
                                                     <Button sx={{ color: '#fff' }}>
                                                         Đăng nhập
                                                     </Button>
                                                 </Link>
                                             </li>
                                             <li className='navLink'>
-                                                <Link href="/buyer/signup">
+                                                <Link href="/signup">
                                                     <Button sx={{ color: '#fff' }}>
                                                         Đăng ký
                                                     </Button>

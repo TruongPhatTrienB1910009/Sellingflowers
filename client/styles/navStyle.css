@@ -34,7 +34,7 @@
 }
 
 .toolBar_2 {
-    min-height: 46px;
+    min-height: 46px !important;
 }
 
 .logo {
@@ -46,8 +46,8 @@
 .Typography {
     display: flex;
     align-items: center;
-    font-size: 22px;
-    font-weight: 600;
+    font-size: 22px !important;
+    font-weight: 600 !important;
     font-family: monospace !important;
 }
 

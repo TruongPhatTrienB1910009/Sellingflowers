@@ -1,0 +1,47 @@
+.homeLayout {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+    grid-column-gap: 10px;
+    margin-top: 8px;
+}
+
+.leftLayout {
+    background-color: white;
+    border-radius: 2px !important;
+    overflow: hidden;
+}
+
+.leftLayout h3 {
+    font-size: 15px;
+    padding: 10px;
+    background-color: #228b22;
+    color: white;
+}
+
+.containFilter ul {
+    list-style: none;
+}
+
+.containFilter ul li {
+    padding: 16px 10px;
+    font-size: 16px;
+    transition: ease-out 0.2s;
+}
+
+.containFilter ul li:hover {
+    background-color: #c6c5c5;
+    color: #f28902;
+    cursor: pointer;
+}
+
+.formSizeOfTrees {
+}
+
+.formControl {
+    padding: 6px 10px;
+    font-size: 14px !important;
+}
+
+.rightLayout {
+    
+}

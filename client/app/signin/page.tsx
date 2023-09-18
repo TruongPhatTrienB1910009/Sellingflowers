@@ -95,7 +95,7 @@ export default function SignIn() {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="/buyer/signup" variant="body2" className='link'>
+                                <Link href="/signup" variant="body2" className='link'>
                                     {"Chưa có mật khẩu? Đăng ký"}
                                 </Link>
                             </Grid>
