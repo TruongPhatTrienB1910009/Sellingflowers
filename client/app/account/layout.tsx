@@ -12,7 +12,6 @@ export default function ({
 }) {
 
     const dispatch = useDispatch();
-
     useEffect(() => {
         const checkAutoSignIn = async () => {
             if (localStorage.getItem("accesstoken")) {

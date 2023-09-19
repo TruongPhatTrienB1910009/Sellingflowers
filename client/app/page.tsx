@@ -1,5 +1,4 @@
 'use client';
-import { useAppSelector } from "@/redux/store";
 import { useDispatch } from "react-redux";
 import { signIn, signOut } from "@/redux/features/auth-slice";
 import { useEffect } from "react";
@@ -9,13 +8,13 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
+import WrapperCards from "@/components/common/WrapperCards";
+import { listItems } from "@/data/test";
 import "@/styles/home.css";
 
 export default function Home() {
     const dispatch = useDispatch();
     const router = useRouter();
-    const User = useAppSelector((state) => state.authReducer.value);
 
     console.log("page index")
 
@@ -39,59 +38,61 @@ export default function Home() {
     return (
         <div className="homeLayout">
             <div className="leftLayout">
-                <div className="containFilter">
-                    <h3>Phân Loại</h3>
-                    <ul>
-                        <li>
-                            Tất cả
-                        </li>
-                        <li>
-                            Sân vườn
-                        </li>
-                        <li>
-                            Trong nhà
-                        </li>
-                        <li>
-                            Cây để bàn
-                        </li>
-                        <li>
-                            Thủy sinh
-                        </li>
-                    </ul>
-                </div>
-                <div className="containFilter">
-                    <h3>Kích Thước</h3>
-                    <FormControl className="formSizeOfTrees">
-                        <RadioGroup
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            defaultValue="all"
-                            name="radio-buttons-group"
-                        >
-                            <FormControlLabel className="formControl" value="all" control={<Radio />} label="Tất cả" />
-                            <FormControlLabel className="formControl" value="50" control={<Radio />} label="Dưới 50cm" />
-                            <FormControlLabel className="formControl" value="50to100" control={<Radio />} label="50cm - 1m" />
-                            <FormControlLabel className="formControl" value="100" control={<Radio />} label="Trên 1m" />
-                        </RadioGroup>
-                    </FormControl>
-                </div>
-                <div className="containFilter">
-                    <h3>Khoảng Giá</h3>
-                    <FormControl className="formSizeOfTrees">
-                        <RadioGroup
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            defaultValue="allprice"
-                            name="radio-buttons-group"
-                        >
-                            <FormControlLabel className="formControl" value="allprice" control={<Radio />} label="Tất cả" />
-                            <FormControlLabel className="formControl" value="500" control={<Radio />} label="Dưới 500k" />
-                            <FormControlLabel className="formControl" value="500to2000" control={<Radio />} label="500k - 2tr" />
-                            <FormControlLabel className="formControl" value="2000" control={<Radio />} label="Trên 2tr" />
-                        </RadioGroup>
-                    </FormControl>
+                <div className="leftContainer">
+                    <div className="containFilter">
+                        <h3>Phân Loại</h3>
+                        <ul>
+                            <li>
+                                Tất cả
+                            </li>
+                            <li>
+                                Sân vườn
+                            </li>
+                            <li>
+                                Trong nhà
+                            </li>
+                            <li>
+                                Cây để bàn
+                            </li>
+                            <li>
+                                Thủy sinh
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="containFilter">
+                        <h3>Kích Thước</h3>
+                        <FormControl className="formSizeOfTrees">
+                            <RadioGroup
+                                aria-labelledby="demo-radio-buttons-group-label"
+                                defaultValue="all"
+                                name="radio-buttons-group"
+                            >
+                                <FormControlLabel className="formControl" value="all" control={<Radio />} label="Tất cả" />
+                                <FormControlLabel className="formControl" value="50" control={<Radio />} label="Dưới 50cm" />
+                                <FormControlLabel className="formControl" value="50to100" control={<Radio />} label="50cm - 1m" />
+                                <FormControlLabel className="formControl" value="100" control={<Radio />} label="Trên 1m" />
+                            </RadioGroup>
+                        </FormControl>
+                    </div>
+                    <div className="containFilter">
+                        <h3>Khoảng Giá</h3>
+                        <FormControl className="formSizeOfTrees">
+                            <RadioGroup
+                                aria-labelledby="demo-radio-buttons-group-label"
+                                defaultValue="allprice"
+                                name="radio-buttons-group"
+                            >
+                                <FormControlLabel className="formControl" value="allprice" control={<Radio />} label="Tất cả" />
+                                <FormControlLabel className="formControl" value="500" control={<Radio />} label="Dưới 500k" />
+                                <FormControlLabel className="formControl" value="500to2000" control={<Radio />} label="500k - 2tr" />
+                                <FormControlLabel className="formControl" value="2000" control={<Radio />} label="Trên 2tr" />
+                            </RadioGroup>
+                        </FormControl>
+                    </div>
                 </div>
             </div>
             <div className="rightLayout">
-                <h1>Right</h1>
+                <WrapperCards listItems={listItems} />
             </div>
         </div>
     )

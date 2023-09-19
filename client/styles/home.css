@@ -1,17 +1,18 @@
 .homeLayout {
     display: grid;
     grid-template-columns: 2fr 10fr;
-    grid-column-gap: 10px;
+    grid-column-gap: 14px;
     margin-top: 8px;
+    overflow: hidden;
 }
 
-.leftLayout {
+.leftContainer {
     background-color: white;
     border-radius: 2px !important;
     overflow: hidden;
 }
 
-.leftLayout h3 {
+.leftContainer h3 {
     font-size: 15px;
     padding: 10px;
     background-color: #228b22;
@@ -43,5 +44,5 @@
 }
 
 .rightLayout {
-    
+    overflow: hidden;
 }
