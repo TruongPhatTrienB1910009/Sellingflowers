@@ -16,8 +16,6 @@ export default function Home() {
     const dispatch = useDispatch();
     const router = useRouter();
 
-    console.log("page index")
-
     const checkUser = async () => {
         const token = localStorage.getItem("accesstoken");
         if (token) {

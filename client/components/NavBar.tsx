@@ -19,6 +19,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Link from 'next/link';
 import Image from 'next/image';
+
 // css
 import '@/styles/navStyle.css';
 import { useAppSelector } from '@/redux/store';
