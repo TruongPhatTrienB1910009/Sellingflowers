@@ -13,13 +13,36 @@ db.Account = require('../models/Account')(db.sequelize, sequelize_1.Model, seque
 db.Group_account = require('../models/Group_Account')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
 db.Role = require('../models/Roles')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
 db.Group_role = require('../models/Group_role')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
+db.TypeProduct = require('../models/TypeProduct')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
+db.Root = require('../models/Root')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
+db.Categories = require('../models/Categories')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
+db.Bill = require('../models/Bill')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
+db.Product = require('../models/Product')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
+db.DetailBill = require('../models/DetailBill')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
 // >>>>> config associations
+// Group_account - Account
 db.Group_account.hasMany(db.Account);
 db.Account.belongsTo(db.Group_account, {
     foreignKey: {
         name: 'GroupAccountId'
     }
 });
+// Group_account - Role
 db.Group_account.belongsToMany(db.Role, { through: 'Group_roles', foreignKey: 'RoleId' });
 db.Role.belongsToMany(db.Group_account, { through: 'Group_roles', foreignKey: 'GroupAccountId' });
+// TypeProduct - Categories
+db.Categories.hasMany(db.TypeProduct, { foreignKey: 'CategoriesId' });
+db.TypeProduct.belongsTo(db.Categories);
+// Product - Categories
+db.Categories.hasMany(db.Product, { foreignKey: 'ProductId' });
+db.Product.belongsTo(db.Categories);
+// Bill - Account
+db.Account.hasMany(db.Bill, { foreignKey: "AccountId" });
+db.Bill.belongsTo(db.Account);
+// Product - DetailBill - Bill
+db.Bill.belongsToMany(db.Product, { through: db.DetailBill, foreignKey: 'ProductId' });
+db.Product.belongsToMany(db.Bill, { through: db.DetailBill, foreignKey: 'BillId' });
+// Root - Product
+db.Root.hasMany(db.Product, { foreignKey: 'ProductId' });
+db.Product.belongsTo(db.Root);
 module.exports = db;

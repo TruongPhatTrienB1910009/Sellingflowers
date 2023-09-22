@@ -12,11 +12,10 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
             primaryKey: true
         },
         note: {
-            type: DataTypes.string,
+            type: DataTypes.STRING,
         },
         totalprice: {
-            type: DataTypes.number,
-            allowNull: false
+            type: DataTypes.BIGINT,
         }
     }, {
         sequelize: sequelize,

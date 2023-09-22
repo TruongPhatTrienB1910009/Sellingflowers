@@ -11,7 +11,7 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
             primaryKey: true
         },
         name: {
-            type: DataTypes.string,
+            type: DataTypes.STRING,
         }
     }, {
         sequelize: sequelize,

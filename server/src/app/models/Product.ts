@@ -2,7 +2,7 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
 
     class Product extends Model {
         public id?: number;
-        public url?: string;
+        public name?: string;
         public description?: string;
         public price?: number;
         public size?: number;
@@ -29,33 +29,33 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
             allowNull: false,
         },
         price: {
-            type: DataTypes.number,
+            type: DataTypes.BIGINT,
             allowNull: false,
         },
         size: {
-            type: DataTypes.number,
+            type: DataTypes.BIGINT,
             allowNull: false,
         },
         inventory: {
-            type: DataTypes.number,
+            type: DataTypes.BIGINT,
             allowNull: false,
         },
         Characteristic: {
-            type: DataTypes.string,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         fengshui: {
-            type: DataTypes.string,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         takecare: {
-            type: DataTypes.string
+            type: DataTypes.STRING
         },
         use: {
-            type: DataTypes.string
+            type: DataTypes.STRING
         },
         img: {
-            type: DataTypes.string
+            type: DataTypes.STRING
         }
     }, {
         sequelize: sequelize,

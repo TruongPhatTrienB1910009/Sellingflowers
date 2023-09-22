@@ -23,13 +23,13 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
             }
         },
         totalItems: {
-            type: DataTypes.number,
+            type: DataTypes.BIGINT,
         },
         notes: {
-            type: DataTypes.string,
+            type: DataTypes.STRING,
         },
         address: {
-            type: DataTypes.string,
+            type: DataTypes.STRING,
             allowNull: false
         }
     }, {

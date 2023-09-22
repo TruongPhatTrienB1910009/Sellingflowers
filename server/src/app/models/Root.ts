@@ -12,10 +12,10 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
             primaryKey: true
         },
         country: {
-            type: DataTypes.string,
+            type: DataTypes.STRING,
         },
         area: {
-            type: DataTypes.string,
+            type: DataTypes.STRING,
         }
     }, {
         sequelize: sequelize,
