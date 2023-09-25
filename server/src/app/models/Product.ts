@@ -7,7 +7,7 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
         public price?: number;
         public size?: number;
         public inventory?: number;
-        public Characteristic?: string;
+        public characteristic?: string;
         public fengshui?: string;
         public takecare?: string;
         public use?: string;
@@ -18,7 +18,8 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
         id: {
             type: DataTypes.BIGINT,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
+            unique: 'id'
         },
         name: {
             type: DataTypes.STRING,
@@ -40,12 +41,12 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
             type: DataTypes.BIGINT,
             allowNull: false,
         },
-        Characteristic: {
+        characteristic: {
             type: DataTypes.STRING,
             allowNull: false,
         },
         fengshui: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
         },
         takecare: {

@@ -18,6 +18,8 @@ const { checkUserJWT } = require('./app/middlewares/authenticate');
 // import router
 const accountRoute = require('./app/routes/account.route');
 const homeRoute = require('./app/routes/home.route');
+const productRoute = require('./app/routes/product.route');
+const cartRoute = require('./app/routes/cart.route');
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -25,6 +27,8 @@ const port = 3000;
 // handel router
 app.use('/', homeRoute);
 app.use('/account', checkUserJWT, accountRoute);
+app.use('/products', productRoute);
+app.use('/cart', checkUserJWT, cartRoute);
 const runServer = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield db.sequelize.sync();

@@ -14,7 +14,6 @@ const ApiError = require('../../api-error');
 const db = require('../models');
 const signIn = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(req.body);
         const user = yield db.Account.findOne({
             where: { email: req.body.email }
         });

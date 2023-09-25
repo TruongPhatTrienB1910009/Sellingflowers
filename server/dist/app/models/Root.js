@@ -6,7 +6,7 @@ module.exports = (sequelize, Model, DataTypes) => {
         id: {
             type: DataTypes.BIGINT,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
         },
         country: {
             type: DataTypes.STRING,
@@ -17,6 +17,7 @@ module.exports = (sequelize, Model, DataTypes) => {
     }, {
         sequelize: sequelize,
         modelName: 'Root',
+        timestamps: false
     });
     return Root;
 };

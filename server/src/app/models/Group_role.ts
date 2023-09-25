@@ -18,7 +18,7 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
             references: {
                 model: 'Role',
                 key: 'id'
-            },
+            }
         }
     }, {
         sequelize: sequelize,

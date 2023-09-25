@@ -1,4 +1,3 @@
-
 import { NextFunction, Request, Response } from "express";
 const { getRolesAccount, hashPassword, createToken, verifyToken } = require('../utils/account.utils');
 const ApiError = require('../../api-error');
@@ -6,7 +5,6 @@ const db = require('../models');
 
 const signIn = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log(req.body);
         const user = await db.Account.findOne({
             where: { email: req.body.email }
         })

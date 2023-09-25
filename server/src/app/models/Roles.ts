@@ -10,7 +10,7 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
         id: {
             type: DataTypes.BIGINT,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
         },
         url: {
             type: DataTypes.STRING,

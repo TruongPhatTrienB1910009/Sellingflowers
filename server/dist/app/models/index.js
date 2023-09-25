@@ -19,9 +19,10 @@ db.Categories = require('../models/Categories')(db.sequelize, sequelize_1.Model,
 db.Bill = require('../models/Bill')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
 db.Product = require('../models/Product')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
 db.DetailBill = require('../models/DetailBill')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
+db.Checkout = require('../models/Checkout')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
 // >>>>> config associations
 // Group_account - Account
-db.Group_account.hasMany(db.Account);
+db.Group_account.hasMany(db.Account, { onDelete: 'cascade' });
 db.Account.belongsTo(db.Group_account, {
     foreignKey: {
         name: 'GroupAccountId'
@@ -31,18 +32,21 @@ db.Account.belongsTo(db.Group_account, {
 db.Group_account.belongsToMany(db.Role, { through: 'Group_roles', foreignKey: 'RoleId' });
 db.Role.belongsToMany(db.Group_account, { through: 'Group_roles', foreignKey: 'GroupAccountId' });
 // TypeProduct - Categories
-db.Categories.hasMany(db.TypeProduct, { foreignKey: 'CategoriesId' });
+db.Categories.hasMany(db.TypeProduct, { foreignKey: 'CategoryId', onDelete: 'cascade' });
 db.TypeProduct.belongsTo(db.Categories);
 // Product - Categories
-db.Categories.hasMany(db.Product, { foreignKey: 'ProductId' });
+db.Categories.hasMany(db.Product, { foreignKey: 'CategoryId', onDelete: 'cascade' });
 db.Product.belongsTo(db.Categories);
 // Bill - Account
-db.Account.hasMany(db.Bill, { foreignKey: "AccountId" });
+db.Account.hasMany(db.Bill, { foreignKey: "AccountId", onDelete: 'cascade' });
 db.Bill.belongsTo(db.Account);
 // Product - DetailBill - Bill
-db.Bill.belongsToMany(db.Product, { through: db.DetailBill, foreignKey: 'ProductId' });
-db.Product.belongsToMany(db.Bill, { through: db.DetailBill, foreignKey: 'BillId' });
+db.Bill.belongsToMany(db.Product, { through: db.DetailBill, foreignKey: 'BillId' });
+db.Product.belongsToMany(db.Bill, { through: db.DetailBill, foreignKey: 'ProductId' });
 // Root - Product
-db.Root.hasMany(db.Product, { foreignKey: 'ProductId' });
+db.Root.hasMany(db.Product, { foreignKey: 'RootId', onDelete: 'cascade' });
 db.Product.belongsTo(db.Root);
+// Checkout - Bill
+db.Checkout.hasMany(db.Bill, { foreignKey: 'CheckoutId', onDelete: 'cascade' });
+db.Bill.belongsTo(db.Checkout, { defaultValue: 1 });
 module.exports = db;

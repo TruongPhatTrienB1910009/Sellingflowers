@@ -1,25 +1,20 @@
 "use strict";
 module.exports = (sequelize, Model, DataTypes) => {
-    class Role extends Model {
+    class Checkout extends Model {
     }
-    Role.init({
+    Checkout.init({
         id: {
             type: DataTypes.BIGINT,
             autoIncrement: true,
             primaryKey: true,
         },
-        url: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        description: {
-            type: DataTypes.STRING,
-            allowNull: false,
+        name: {
+            type: DataTypes.STRING
         }
     }, {
         sequelize: sequelize,
-        modelName: 'Role',
+        modelName: 'Checkout',
         timestamps: false
     });
-    return Role;
+    return Checkout;
 };
