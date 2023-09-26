@@ -41,8 +41,8 @@ db.Product.belongsTo(db.Categories);
 db.Account.hasMany(db.Bill, { foreignKey: "AccountId", onDelete: 'cascade' });
 db.Bill.belongsTo(db.Account);
 // Product - DetailBill - Bill
-db.Bill.belongsToMany(db.Product, { through: db.DetailBill, foreignKey: 'BillId' });
-db.Product.belongsToMany(db.Bill, { through: db.DetailBill, foreignKey: 'ProductId' });
+db.Bill.belongsToMany(db.Product, { through: db.DetailBill, foreignKey: 'BillId', targetKey: 'id' });
+db.Product.belongsToMany(db.Bill, { through: db.DetailBill, foreignKey: 'ProductId', targetKey: 'id' });
 // Root - Product
 db.Root.hasMany(db.Product, { foreignKey: 'RootId', onDelete: 'cascade' });
 db.Product.belongsTo(db.Root);

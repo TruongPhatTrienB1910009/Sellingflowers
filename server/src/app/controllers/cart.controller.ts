@@ -14,16 +14,12 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
             }
         });
 
-        console.log("useruseruseruseruseruseruseruseruseruser", user[0]);
-
         const billCreated = await db.Bill.findAll({
             where: {
                 AccountId: user[0].id,
                 CheckoutId: 1
             }
         })
-
-        console.log("billCreated", billCreated[0]);
 
         if (billCreated[0]) {
             console.log("ha", req.body.ProductId, billCreated[0].id)
@@ -39,7 +35,6 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
                 await detailbill[0].update({
                     totalItems: detailbill[0].totalItems + req.body.totalItems
                 })
-
 
                 await detailbill[0].save();
                 return res.status(200).json({
@@ -58,15 +53,11 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
                 })
             }
         } else {
-            console.log("user[0].id", user[0].id)
-            console.log("----------------------------------------------------------------")
             const bill = await db.Bill.create({ "AccountId": user[0].id, "CheckoutId": 1 });
             await bill.save();
             const data = { BillId: bill.id, ...req.body }
             const detail = await db.DetailBill.create(data);
             await detail.save();
-            console.log("detail", detail.id);
-            console.log("detail", detail);
 
             const result = await db.DetailBill.findOne({
                 where: {
@@ -81,7 +72,6 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
             })
         }
     } catch (error) {
-        console.log(error)
         return res.status(500).json({
             EM: 'not found',
             EC: -1,
@@ -90,6 +80,44 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
     }
 }
 
+
+const getAllItemsInCart = async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
+    try {
+        const user = await db.Account.findOne({
+            where: {
+                email: req.user.email
+            }
+        })
+
+        const data = await db.Bill.findOne({
+            include: [
+                {
+                    model: db.Product,
+                    through: db.DetailBill
+                }
+            ],
+            where: {
+                AccountId: user.id
+            }
+        })
+
+        if(data) {
+            return res.status(200).json({
+                EM: 'OK',
+                EC: 0,
+                DT: data
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            EM: 'failed',
+            EC: -1,
+            DT: (error as Error).message
+        })
+    }
+}
+
 module.exports = {
-    addToCart
+    addToCart, getAllItemsInCart
 }

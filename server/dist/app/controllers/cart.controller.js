@@ -18,14 +18,12 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
                 email: req.user.email
             }
         });
-        console.log("useruseruseruseruseruseruseruseruseruser", user[0]);
         const billCreated = yield db.Bill.findAll({
             where: {
                 AccountId: user[0].id,
                 CheckoutId: 1
             }
         });
-        console.log("billCreated", billCreated[0]);
         if (billCreated[0]) {
             console.log("ha", req.body.ProductId, billCreated[0].id);
             const detailbill = yield db.DetailBill.findAll({
@@ -57,15 +55,11 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
             }
         }
         else {
-            console.log("user[0].id", user[0].id);
-            console.log("----------------------------------------------------------------");
             const bill = yield db.Bill.create({ "AccountId": user[0].id, "CheckoutId": 1 });
             yield bill.save();
             const data = Object.assign({ BillId: bill.id }, req.body);
             const detail = yield db.DetailBill.create(data);
             yield detail.save();
-            console.log("detail", detail.id);
-            console.log("detail", detail);
             const result = yield db.DetailBill.findOne({
                 where: {
                     BillId: bill.id
@@ -80,7 +74,6 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         }
     }
     catch (error) {
-        console.log(error);
         return res.status(500).json({
             EM: 'not found',
             EC: -1,
@@ -88,6 +81,41 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         });
     }
 });
+const getAllItemsInCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield db.Account.findOne({
+            where: {
+                email: req.user.email
+            }
+        });
+        const data = yield db.Bill.findOne({
+            include: [
+                {
+                    model: db.Product,
+                    through: db.DetailBill
+                }
+            ],
+            where: {
+                AccountId: user.id
+            }
+        });
+        if (data) {
+            return res.status(200).json({
+                EM: 'OK',
+                EC: 0,
+                DT: data
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            EM: 'failed',
+            EC: -1,
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    addToCart
+    addToCart, getAllItemsInCart
 };
