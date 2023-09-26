@@ -1,10 +1,44 @@
 import { NextFunction, Request, Response } from "express";
-const ApiError = require('../../api-error');
 const db = require('../models');
+const multer = require('multer');
+const path = require('path');
 
-const createProduct = async (req: Request, res: Response, next: NextFunction) => {
+interface fileRequest extends Request {
+    file: any
+}
+
+const Storage = multer.diskStorage({
+    destination: (req: any, file: any, cb: any) => {
+        cb(null, '../client/public/images/upload');
+    },
+    filename: (req: any, file: any, cb: any) => {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+})
+
+const upload = multer({
+    storage: Storage,
+    limits: { fileSize: '1000000' },
+    fileFilter: (req: any, file: any, cb: any) => {
+        const fileTypes = /jpeg|jpg|png|gif/
+        const mimeType = fileTypes.test(file.mimetype)
+        const extname = fileTypes.test(path.extname(file.originalname))
+
+        if(mimeType && extname) {
+            return cb(null, true)
+        }
+
+        cb('Give proper files formate to upload')
+    }
+}).single('img')
+
+const createProduct = async (req: fileRequest, res: Response, next: NextFunction) => {
     try {
-        const product = await db.Product.create(req.body);
+        const info = {
+            img: req.file.path,
+            ...req.body
+        }
+        const product = await db.Product.create(info);
         await product.save();
         if(product.id) {
             return res.status(200).json({
@@ -17,11 +51,11 @@ const createProduct = async (req: Request, res: Response, next: NextFunction) =>
         return res.status(500).json({
             EM: 'Product created failed',
             EC: 0,
-            DT: error
+            DT: (error as Error).message
         });
     }
 }
 
 module.exports = {
-    createProduct,
+    createProduct, upload
 }

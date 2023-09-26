@@ -9,11 +9,34 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const ApiError = require('../../api-error');
 const db = require('../models');
+const multer = require('multer');
+const path = require('path');
+const Storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, '../client/public/images/upload');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+const upload = multer({
+    storage: Storage,
+    limits: { fileSize: '1000000' },
+    fileFilter: (req, file, cb) => {
+        const fileTypes = /jpeg|jpg|png|gif/;
+        const mimeType = fileTypes.test(file.mimetype);
+        const extname = fileTypes.test(path.extname(file.originalname));
+        if (mimeType && extname) {
+            return cb(null, true);
+        }
+        cb('Give proper files formate to upload');
+    }
+}).single('img');
 const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const product = yield db.Product.create(req.body);
+        const info = Object.assign({ img: req.file.path }, req.body);
+        const product = yield db.Product.create(info);
         yield product.save();
         if (product.id) {
             return res.status(200).json({
@@ -27,10 +50,10 @@ const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         return res.status(500).json({
             EM: 'Product created failed',
             EC: 0,
-            DT: error
+            DT: error.message
         });
     }
 });
 module.exports = {
-    createProduct,
+    createProduct, upload
 };
