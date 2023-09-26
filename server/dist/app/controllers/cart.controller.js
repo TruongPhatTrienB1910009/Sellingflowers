@@ -25,7 +25,6 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
             }
         });
         if (billCreated[0]) {
-            console.log("ha", req.body.ProductId, billCreated[0].id);
             const detailbill = yield db.DetailBill.findAll({
                 where: {
                     ProductId: req.body.ProductId,
@@ -34,7 +33,7 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
             });
             if (detailbill[0]) {
                 yield detailbill[0].update({
-                    totalItems: detailbill[0].totalItems + req.body.totalItems
+                    totalItems: req.body.totalItems
                 });
                 yield detailbill[0].save();
                 return res.status(200).json({
@@ -108,7 +107,41 @@ const getAllItemsInCart = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         }
     }
     catch (error) {
-        console.log(error);
+        return res.status(500).json({
+            EM: 'failed',
+            EC: -1,
+            DT: error.message
+        });
+    }
+});
+const removeItemFromCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield db.Account.findOne({
+            where: {
+                email: req.user.email
+            }
+        });
+        const billCreated = yield db.Bill.findAll({
+            where: {
+                AccountId: user.id,
+                CheckoutId: 1
+            }
+        });
+        if (billCreated[0]) {
+            yield db.DetailBill.destroy({
+                where: {
+                    BillId: billCreated[0].id,
+                    ProductId: req.body.ProductId
+                }
+            });
+            return res.status(200).json({
+                EM: 'OK',
+                EC: 0,
+                DT: {}
+            });
+        }
+    }
+    catch (error) {
         return res.status(500).json({
             EM: 'failed',
             EC: -1,
@@ -117,5 +150,5 @@ const getAllItemsInCart = (req, res, next) => __awaiter(void 0, void 0, void 0, 
     }
 });
 module.exports = {
-    addToCart, getAllItemsInCart
+    addToCart, getAllItemsInCart, removeItemFromCart
 };

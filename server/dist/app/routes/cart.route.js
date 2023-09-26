@@ -8,5 +8,6 @@ const router = express_1.default.Router();
 const cartController = require('../controllers/cart.controller');
 router.route("/")
     .get(cartController.getAllItemsInCart)
-    .post(cartController.addToCart);
+    .post(cartController.addToCart)
+    .delete(cartController.removeItemFromCart);
 module.exports = router;

@@ -22,7 +22,6 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
         })
 
         if (billCreated[0]) {
-            console.log("ha", req.body.ProductId, billCreated[0].id)
 
             const detailbill = await db.DetailBill.findAll({
                 where: {
@@ -33,7 +32,7 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
 
             if (detailbill[0]) {
                 await detailbill[0].update({
-                    totalItems: detailbill[0].totalItems + req.body.totalItems
+                    totalItems: req.body.totalItems
                 })
 
                 await detailbill[0].save();
@@ -109,7 +108,6 @@ const getAllItemsInCart = async (req: IGetUserAuthInfoRequest, res: Response, ne
             })
         }
     } catch (error) {
-        console.log(error)
         return res.status(500).json({
             EM: 'failed',
             EC: -1,
@@ -118,6 +116,45 @@ const getAllItemsInCart = async (req: IGetUserAuthInfoRequest, res: Response, ne
     }
 }
 
+const removeItemFromCart = async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
+    try {
+        const user = await db.Account.findOne({
+            where: {
+                email: req.user.email
+            }
+        })
+    
+        const billCreated = await db.Bill.findAll({
+            where: {
+                AccountId: user.id,
+                CheckoutId: 1
+            }
+        })
+    
+        if(billCreated[0]) {
+            await db.DetailBill.destroy({
+                where: {
+                    BillId: billCreated[0].id,
+                    ProductId: req.body.ProductId
+                }
+            })
+
+            return res.status(200).json({
+                EM: 'OK',
+                EC: 0,
+                DT: {}
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            EM: 'failed',
+            EC: -1,
+            DT: (error as Error).message
+        })
+    }
+}
+
+
 module.exports = {
-    addToCart, getAllItemsInCart
+    addToCart, getAllItemsInCart, removeItemFromCart
 }
