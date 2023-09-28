@@ -18,8 +18,12 @@ db.Root = require('../models/Root')(db.sequelize, sequelize_1.Model, sequelize_1
 db.Categories = require('../models/Categories')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
 db.Bill = require('../models/Bill')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
 db.Product = require('../models/Product')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
+db.Review = require('../models/Review')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
 db.DetailBill = require('../models/DetailBill')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
 db.Checkout = require('../models/Checkout')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
+db.Supplier = require('../models/Supplier')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
+db.ImportBill = require('../models/ImportBill')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
+db.DetailImportBill = require('../models/DetailImportBill')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
 // >>>>> config associations
 // Group_account - Account
 db.Group_account.hasMany(db.Account, { onDelete: 'cascade' });
@@ -49,4 +53,16 @@ db.Product.belongsTo(db.Root);
 // Checkout - Bill
 db.Checkout.hasMany(db.Bill, { foreignKey: 'CheckoutId', onDelete: 'cascade' });
 db.Bill.belongsTo(db.Checkout, { defaultValue: 1 });
+// Supplier - ImportBill
+db.Supplier.hasMany(db.ImportBill, { foreignKey: 'SupplierId', onDelete: 'cascade' });
+db.ImportBill.belongsTo(db.Supplier);
+// ImportBill - Account
+db.Account.hasMany(db.ImportBill, { foreignKey: 'AccountId', onDelete: 'cascade' });
+db.ImportBill.belongsTo(db.Account);
+// ImportBill - DetailImportBill - Product
+db.ImportBill.belongsToMany(db.Product, { through: db.DetailImportBill, foreignKey: 'ImportBillId', targetKey: 'id' });
+db.Product.belongsToMany(db.ImportBill, { through: db.DetailImportBill, foreignKey: 'ProductId', targetKey: 'id' });
+// Account - Review - Product
+db.Account.belongsToMany(db.Product, { through: db.Review, foreignKey: 'AccountId', targetKey: 'id' });
+db.Product.belongsToMany(db.Account, { through: db.Review, foreignKey: 'ProductId', targetKey: 'id' });
 module.exports = db;

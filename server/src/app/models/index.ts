@@ -14,8 +14,12 @@ db.Root = require('../models/Root')(db.sequelize, Model, DataTypes);
 db.Categories = require('../models/Categories')(db.sequelize, Model, DataTypes);
 db.Bill = require('../models/Bill')(db.sequelize, Model, DataTypes);
 db.Product = require('../models/Product')(db.sequelize, Model, DataTypes);
+db.Review = require('../models/Review')(db.sequelize, Model, DataTypes);
 db.DetailBill = require('../models/DetailBill')(db.sequelize, Model, DataTypes);
 db.Checkout = require('../models/Checkout')(db.sequelize, Model, DataTypes);
+db.Supplier = require('../models/Supplier')(db.sequelize, Model, DataTypes);
+db.ImportBill = require('../models/ImportBill')(db.sequelize, Model, DataTypes);
+db.DetailImportBill = require('../models/DetailImportBill')(db.sequelize, Model, DataTypes);
 
 // >>>>> config associations
 
@@ -27,7 +31,6 @@ db.Account.belongsTo(db.Group_account, {
         name: 'GroupAccountId'
     }
 })
-
 
 // Group_account - Role
 db.Group_account.belongsToMany(db.Role, { through: 'Group_roles', foreignKey: 'RoleId' })
@@ -56,5 +59,21 @@ db.Product.belongsTo(db.Root)
 // Checkout - Bill
 db.Checkout.hasMany(db.Bill, { foreignKey: 'CheckoutId', onDelete: 'cascade' })
 db.Bill.belongsTo(db.Checkout, { defaultValue: 1})
+
+// Supplier - ImportBill
+db.Supplier.hasMany(db.ImportBill, { foreignKey: 'SupplierId', onDelete: 'cascade' })
+db.ImportBill.belongsTo(db.Supplier)
+
+// ImportBill - Account
+db.Account.hasMany(db.ImportBill, { foreignKey: 'AccountId', onDelete: 'cascade' })
+db.ImportBill.belongsTo(db.Account)
+
+// ImportBill - DetailImportBill - Product
+db.ImportBill.belongsToMany(db.Product, { through: db.DetailImportBill, foreignKey: 'ImportBillId', targetKey: 'id' })
+db.Product.belongsToMany(db.ImportBill, { through: db.DetailImportBill, foreignKey: 'ProductId', targetKey: 'id' })
+
+// Account - Review - Product
+db.Account.belongsToMany(db.Product, { through: db.Review, foreignKey: 'AccountId', targetKey: 'id' })
+db.Product.belongsToMany(db.Account, { through: db.Review, foreignKey: 'ProductId', targetKey: 'id' })
 
 module.exports = db;
