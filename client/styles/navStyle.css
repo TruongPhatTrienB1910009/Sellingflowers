@@ -1,6 +1,6 @@
-.navBar{
-    background-color: #228B22!important;
-    box-shadow: 0 0 6px #228B22!important;
+.navBar {
+    background-color: #228B22 !important;
+    box-shadow: 0 0 6px #228B22 !important;
 }
 
 .toolBar {
@@ -51,26 +51,35 @@
     font-family: monospace !important;
 }
 
-
+.spanCart:hover,
 .accountEmail:hover {
     cursor: pointer;
 }
 
-.accountEmail:hover + .navProfile{
+.accountEmail:hover+.navProfile {
     display: block;
     -webkit-animation: fadeIn 1s;
     animation: fadeIn 1s;
 }
 
+.spanCart:hover+.navCart {
+    display: block;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+.spanCart,
 .accountEmail {
     position: relative;
 }
 
+.cartIcon,
 .accountEmail-icon {
     width: 40px;
     height: 40px;
 }
 
+.spanCart::after,
 .accountEmail::after {
     content: "";
     position: absolute;
@@ -81,10 +90,12 @@
     height: 8px;
 }
 
+.containNavCart,
 .containNavProfile {
     position: relative;
 }
 
+.navCart,
 .navProfile {
     background-color: #ffffff;
     color: black;
@@ -96,6 +107,11 @@
     right: 10px;
 }
 
+.navCart {
+    right: 68px;
+}
+
+
 .navProfile::before {
     content: "";
     position: absolute;
@@ -106,22 +122,80 @@
     border-bottom: 8px solid #fff;
 }
 
+.navCart::before {
+    content: "";
+    position: absolute;
+    right: 28px;
+    top: -8px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #fff;
+}
+
+.navCart:hover,
 .navProfile:hover {
     display: block;
 }
 
+.navCart ul,
 .navProfile ul {
     list-style: none;
     width: 200px;
 }
 
+.navCart ul span {
+    float: right;
+    margin: 8px 16px;
+}
+
+.navCart ul span button {
+    margin: 16px;
+    background-color: #48af48;
+    border-radius: 8px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+        sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    list-style: none;
+    margin: 0;
+    outline: none;
+    padding: 10px 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: color 100ms;
+    vertical-align: baseline;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.navCart ul span button:hover,
+.navCart ul span button:focus {
+    background-color: #69c069 !important;
+    color: aquamarine;
+    cursor: pointer;
+}
+
+.navCart ul {
+    width: 400px;
+}
+
+.navCart ul li,
 .navProfile ul li {
     padding: 16px;
     transition: ease-in 0.1s;
     font-weight: 500;
 }
 
-
+.navCart ul li:hover,
 .navProfile ul li:hover {
     color: #228B22;
     cursor: pointer;

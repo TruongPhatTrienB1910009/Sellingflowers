@@ -17,6 +17,7 @@ import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -120,6 +121,26 @@ export default function DrawerAppBar(props: Props) {
                                 {
                                     User.isAuth ? (
                                         <>
+                                            <li className='navLink containNavCart'>
+                                                <span className='spanCart'>
+                                                    <LocalMallIcon className='cartIcon'/>
+                                                </span>
+                                                <div className='navCart'>
+                                                    <ul>
+                                                        <li>
+                                                            Tài Khoản Của Tôi
+                                                        </li>
+                                                        <li onClick={handleSignOut}>
+                                                            Đăng Xuất
+                                                        </li>
+                                                        <span>
+                                                            <Link href='/cart'> 
+                                                                <button>Xem giỏ hàng</button>
+                                                            </Link>
+                                                        </span>
+                                                    </ul>
+                                                </div>
+                                            </li>
                                             <li className='navLink containNavProfile'>
                                                 <span className='accountEmail'>
                                                     <AccountCircleIcon className='accountEmail-icon'/>
