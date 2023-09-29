@@ -134,9 +134,7 @@ export default function DrawerAppBar(props: Props) {
                                                             Đăng Xuất
                                                         </li>
                                                         <span>
-                                                            <Link href='/cart'> 
-                                                                <button>Xem giỏ hàng</button>
-                                                            </Link>
+                                                            <button onClick={() => {router.push('/cart')}}>Xem giỏ hàng</button>
                                                         </span>
                                                     </ul>
                                                 </div>
