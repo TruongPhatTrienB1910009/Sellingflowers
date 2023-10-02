@@ -92,6 +92,9 @@ const getAllItemsInCart = (req, res, next) => __awaiter(void 0, void 0, void 0, 
                 {
                     model: db.Product,
                     through: db.DetailBill
+                },
+                {
+                    model: db.Checkout
                 }
             ],
             where: {

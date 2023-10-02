@@ -1,7 +1,7 @@
 'use client';
 import { useDispatch } from "react-redux";
 import { signIn, signOut } from "@/redux/features/auth-slice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { handleAutoSignIn } from "@/services/homeService";
 import { useRouter } from "next/navigation";
 import Radio from '@mui/material/Radio';
@@ -10,29 +10,27 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import WrapperCards from "@/components/common/WrapperCards";
 import { listItems } from "@/data/test";
+import { getAllProducts } from "@/services/productService";
 import "@/styles/home.css";
 
 export default function Home() {
-    const dispatch = useDispatch();
-    const router = useRouter();
+    const [listProducts, setListProducts] = useState([]);
 
-    const checkUser = async () => {
-        const token = localStorage.getItem("accesstoken");
-        if (token) {
-            const user = await handleAutoSignIn({ token });
-            if (user && user.EC == 0) {
-                dispatch(signIn(user.DT));
-            } else {
-                localStorage.removeItem("accesstoken");
-                dispatch(signOut(user.DT));
-                router.push("/");
+    const handleGetAllProducts = async () => {
+        try {
+            const data = await getAllProducts();
+            if(data.EC == 0) {
+                setListProducts(data.DT);
+                console.log(listProducts);
             }
+        } catch (error) {
+            alert(error);
         }
     }
 
     useEffect(() => {
-        checkUser();
-    }, [])
+        handleGetAllProducts();
+    }, [listProducts.length]);
     return (
         <div className="homeLayout">
             <div className="leftLayout">
@@ -41,19 +39,10 @@ export default function Home() {
                         <h3>Phân Loại</h3>
                         <ul>
                             <li>
-                                Tất cả
+                                Cây cảnh
                             </li>
                             <li>
-                                Sân vườn
-                            </li>
-                            <li>
-                                Trong nhà
-                            </li>
-                            <li>
-                                Cây để bàn
-                            </li>
-                            <li>
-                                Thủy sinh
+                                Hoa tươi
                             </li>
                         </ul>
                     </div>
@@ -90,7 +79,7 @@ export default function Home() {
                 </div>
             </div>
             <div className="rightLayout">
-                <WrapperCards listItems={listItems} />
+                <WrapperCards listItems={listProducts} />
             </div>
         </div>
     )

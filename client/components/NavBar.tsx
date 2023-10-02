@@ -29,10 +29,6 @@ import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 
 interface Props {
-    /**
-     * Injected by the documentation to work in an iframe.
-     * You won't need it on your project.
-     */
     window?: () => Window;
 }
 
@@ -195,16 +191,30 @@ export default function DrawerAppBar(props: Props) {
                                 </Link>
                             </li>
                             <li className='navSubLink'>
-                                <Link href="/about">
+                                <Link href="/categories/san-vuon">
                                     <Button sx={{ color: '#fff' }}>
-                                        Cây cảnh
+                                        Sân vườn
                                     </Button>
                                 </Link>
                             </li>
                             <li className='navSubLink'>
-                                <Link href="/blog/hello-world">
+                                <Link href="/categories/trong-nha">
                                     <Button sx={{ color: '#fff' }}>
-                                        Hoa tươi
+                                        Trong nhà
+                                    </Button>
+                                </Link>
+                            </li>
+                            <li className='navSubLink'>
+                                <Link href="/categories/de-ban">
+                                    <Button sx={{ color: '#fff' }}>
+                                        Để bàn
+                                    </Button>
+                                </Link>
+                            </li>
+                            <li className='navSubLink'>
+                                <Link href="/categories/thuy-sinh">
+                                    <Button sx={{ color: '#fff' }}>
+                                        Thủy sinh
                                     </Button>
                                 </Link>
                             </li>

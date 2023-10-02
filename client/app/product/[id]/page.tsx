@@ -1,20 +1,39 @@
 "use client";
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "@/styles/detail.css";
-import { useRouter } from "next/navigation";
-import { listItems } from "@/data/test";
-import MediaCard from '@/components/common/Card';
-import { Typography } from '@mui/material';
+import { CardMedia, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { getProductById } from '@/services/productService';
 
-const page = ({ params }: { params: { id: number } }) => {
-  const item = listItems[params.id];
-  console.log(item)
+
+const Page = ({ params }: { params: { id: number } }) => {
+
+  const [item, setItem] = useState<any>({});
+
+  const handleGetProduct = async () => {
+    try {
+      const data = await getProductById(params.id);
+      if (data.EC == 0) {
+        console.log(data.DT)
+        console.log(data.DT?.img?.slice(data.DT?.img.indexOf('images')))
+        setItem(data.DT);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
+  useEffect(() => {
+    handleGetProduct();
+  }, [])
+
   return (
     <div className='productDetailContainer'>
       <div className='productSide'>
-        <img className='img' src={item.img} alt="" />
+        <img className='img' src={`/${item?.img?.slice(item?.img.indexOf('images'))}`} alt="" />
       </div>
       <div className='detailSide'>
         <div className='detailSide__info'>
@@ -25,13 +44,13 @@ const page = ({ params }: { params: { id: number } }) => {
           <Typography variant="body1" gutterBottom>{item.description}</Typography>
 
           <Typography variant="body1" display="block" gutterBottom>
-            <strong>Kích Thước:</strong>
+            <strong>Kích Thước: {item.size}</strong>
           </Typography>
           <Typography variant="body1" display="block" gutterBottom><strong>Tình Trạng:</strong> Còn hàng</Typography>
           <Typography variant="body1" display="block" gutterBottom><strong>Giá Bán:</strong> {item.price}</Typography>
           <Typography variant="body2" gutterBottom><i>Lưu ý: giá sản phẩm đã bao gồm chậu.</i></Typography>
           <Typography className='detailSide_countItem'>
-            <RemoveCircleOutlineIcon /> <input type="number" min={1} value={100}/> <AddCircleOutlineIcon />
+            <RemoveCircleOutlineIcon /> <input type="number" min={1} /> <AddCircleOutlineIcon />
           </Typography>
         </div>
         <div className='detailSide__commit'>
@@ -47,4 +66,4 @@ const page = ({ params }: { params: { id: number } }) => {
   )
 }
 
-export default page
+export default Page

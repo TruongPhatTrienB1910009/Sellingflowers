@@ -93,6 +93,9 @@ const getAllItemsInCart = async (req: IGetUserAuthInfoRequest, res: Response, ne
                 {
                     model: db.Product,
                     through: db.DetailBill
+                },
+                {
+                    model: db.Checkout
                 }
             ],
             where: {

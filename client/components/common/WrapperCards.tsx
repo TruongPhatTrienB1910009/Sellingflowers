@@ -8,7 +8,6 @@ interface proplist {
 }
 
 const WrapperCards: React.FC<proplist> = ({ listItems }) => {
-    console.log(listItems)
     return (
         <Box sx={{ flexGrow: 1, overflow: "hidden" }}>
             <Grid container spacing={2}>

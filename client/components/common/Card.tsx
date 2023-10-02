@@ -8,18 +8,18 @@ import Typography from '@mui/material/Typography';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import "@/styles/common/card.css";
 
+
 interface CardProps {
     item: any;
 }
 
 const MediaCard: React.FC<CardProps> = ({item}) => {
-  console.log(item);
   return (
     <Card sx={{ maxWidth: "100%" }}>
       <CardMedia
         component="img"
         sx={{ maxHeight: "auto" }}
-        image={item?.img}
+        image={item?.img.slice(item?.img.indexOf('images'))}
         title="green iguana"
       />
       <CardContent>
@@ -33,7 +33,7 @@ const MediaCard: React.FC<CardProps> = ({item}) => {
       <CardActions className='cardAts'>
         <div>
           <Button size="small">Giá {item?.price}</Button>
-          <Button size="small">Còn {item?.inventoryamount} SP</Button>
+          <Button size="small">Còn {item?.inventory} SP</Button>
         </div>
         <AddShoppingCartIcon sx={{color: "#228b22"}} />
       </CardActions>
