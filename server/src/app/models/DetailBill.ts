@@ -30,7 +30,6 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
         },
         address: {
             type: DataTypes.STRING,
-            allowNull: false
         }
     }, {
         sequelize: sequelize,

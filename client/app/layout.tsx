@@ -9,6 +9,7 @@ import nProgress from "nprogress";
 import "nprogress/nprogress.css";
 import LayOut from '@/components/MainLayout';
 import { ReduxProvider } from '@/redux/provider';
+import CustomizedSnackbars from '@/components/common/Snackbar';
 
 export const metadata: Metadata = {
   title: 'Create Next App',

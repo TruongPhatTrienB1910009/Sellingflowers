@@ -11,7 +11,8 @@ const MainLayout = ({ children }: {children: React.ReactNode}) => {
     useEffect(() => {
         const checkAutoSignIn = async () => {
             if (localStorage.getItem("accesstoken")) {
-                const data = await handleAutoSignIn(localStorage.getItem("accesstoken") as string);
+                const data = await handleAutoSignIn({ token: localStorage.getItem("accesstoken") as string });
+                console.log(data, localStorage.getItem("accesstoken") as string);
                 if (data && data.EC == 0) {
                     dispatch(signIn(data.DT));
                 }
