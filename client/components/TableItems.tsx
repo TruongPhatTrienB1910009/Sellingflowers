@@ -9,6 +9,8 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Checkbox, IconButton, Tooltip } from '@mui/material';
+import { VND } from '@/app/utils/VND';
 
 interface Column {
   id: 'name' | 'code' | 'population' | 'size' | 'density' | 'density2';
@@ -51,45 +53,8 @@ const columns: readonly Column[] = [
   },
 ];
 
-interface Data {
-  name: string;
-  code: string;
-  population: number;
-  size: number;
-  density: number;
-  density2: number;
-}
 
-function createData(
-  name: string,
-  code: string,
-  population: number,
-  size: number,
-  density2: number
-): Data {
-  const density = population / size;
-  return { name, code, population, size, density, density2 };
-}
-
-const rows = [
-  createData('India', 'IN', 1324171354, 3287263, 1),
-  createData('China', 'CN', 1403500365, 9596961, 1),
-  createData('Italy', 'IT', 60483973, 301340, 1),
-  createData('United States', 'US', 327167434, 9833520, 1),
-  createData('Canada', 'CA', 37602103, 9984670, 1),
-  createData('Australia', 'AU', 25475400, 7692024, 1),
-  createData('Germany', 'DE', 83019200, 357578, 1),
-  createData('Ireland', 'IE', 4857000, 70273, 1),
-  createData('Mexico', 'MX', 126577691, 1972550, 1),
-  createData('Japan', 'JP', 126317000, 377973, 1),
-  createData('France', 'FR', 67022000, 640679, 1),
-  createData('United Kingdom', 'GB', 67545757, 242495, 1),
-  createData('Russia', 'RU', 146793744, 17098246, 1),
-  createData('Nigeria', 'NG', 200962417, 923768, 1),
-  createData('Brazil', 'BR', 210147125, 8515767, 1),
-];
-
-export default function TableItems() {
+export default function TableItems({ listItemsInCart }: any) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -120,28 +85,32 @@ export default function TableItems() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {listItemsInCart
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              .map((row: any) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     <TableCell>
-                        <DeleteIcon />
+                      <Checkbox /> {row.name}
                     </TableCell>
                     <TableCell>
-                        <DeleteIcon />
+                      <img style={{ height: 'auto', maxWidth: '50px' }} src={row?.img.slice(row?.img.indexOf('images'))} alt="" />
                     </TableCell>
                     <TableCell align='right'>
-                        <DeleteIcon />
+                      {VND.format(row.price)}
                     </TableCell>
                     <TableCell align='right'>
-                        <DeleteIcon />
+                      {row.DetailBill.totalItems}
                     </TableCell>
                     <TableCell align='right'>
-                        <DeleteIcon />
+                      {VND.format(row.price * row.DetailBill.totalItems)}
                     </TableCell>
                     <TableCell align='right'>
-                        <DeleteIcon />
+                      <Tooltip title="Xóa" placement="top">
+                        <IconButton>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                 );
@@ -152,7 +121,7 @@ export default function TableItems() {
       <TablePagination
         rowsPerPageOptions={[5, 25, 100]}
         component="div"
-        count={rows.length}
+        count={listItemsInCart.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
