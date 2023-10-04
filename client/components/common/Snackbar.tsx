@@ -10,9 +10,8 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const CustomizedSnackbars = forwardRef((props, ref) => {
+const CustomizedSnackbars = forwardRef(({message, stateMessage}: any, ref) => {
     const [open, setOpen] = React.useState(false);
-
     function handleClose (event?: React.SyntheticEvent | Event, reason?: string) {
         if (reason === 'clickaway') {
             return;
@@ -30,8 +29,8 @@ const CustomizedSnackbars = forwardRef((props, ref) => {
 
     return (
         <Snackbar open={open} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} key={'top' + 'right'}>
-            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                This is a success message!
+            <Alert onClose={handleClose} severity={stateMessage} sx={{ width: '100%' }}>
+                {message}
             </Alert>
         </Snackbar>
     );

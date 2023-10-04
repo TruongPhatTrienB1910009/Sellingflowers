@@ -20,6 +20,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import Link from 'next/link';
 import Image from 'next/image';
+import NestedListItems from './NestedListItems';
 
 // css
 import '@/styles/navStyle.css';
@@ -27,6 +28,7 @@ import { useAppSelector } from '@/redux/store';
 import { signOut } from '@/redux/features/auth-slice';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { getAllItemsInCart } from '@/services/cartService';
 
 interface Props {
     window?: () => Window;
@@ -42,11 +44,27 @@ export default function DrawerAppBar(props: Props) {
     const dispatch = useDispatch();
     const router = useRouter();
 
+    const [listItemsInCart, setListItemsInCart] = React.useState<any>([]);
+
     const handleSignOut = () => {
         localStorage.removeItem('accesstoken');
         dispatch(signOut());
         router.push('/');
     }
+
+    const getAllProducts = async () => {
+        if (localStorage.getItem('accesstoken')) {
+            const items = await getAllItemsInCart();
+            if(items) {
+                console.log(items);
+                setListItemsInCart(items.DT.Products);
+            }
+        }
+    }
+
+    React.useEffect(() => {
+        getAllProducts();
+    }, [listItemsInCart.length]);
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
@@ -119,25 +137,23 @@ export default function DrawerAppBar(props: Props) {
                                         <>
                                             <li className='navLink containNavCart'>
                                                 <span className='spanCart'>
-                                                    <LocalMallIcon className='cartIcon'/>
+                                                    <LocalMallIcon className='cartIcon' />
                                                 </span>
                                                 <div className='navCart'>
-                                                    <ul>
-                                                        <li>
-                                                            Tài Khoản Của Tôi
-                                                        </li>
-                                                        <li onClick={handleSignOut}>
-                                                            Đăng Xuất
-                                                        </li>
-                                                        <span>
-                                                            <button onClick={() => {router.push('/cart')}}>Xem giỏ hàng</button>
-                                                        </span>
-                                                    </ul>
+                                                    <NestedListItems listItemsInCart={listItemsInCart} />
+                                                    <span style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                                        {
+                                                            (listItemsInCart.length > 2) ? (
+                                                                <p style={{marginRight: '40px', fontSize: '0.875rem', color: 'rgba(0, 0, 0, 0.6)'}}>còn {listItemsInCart.length - 2} sản phẩm khác</p>
+                                                            ) : ''
+                                                        }
+                                                        <button onClick={() => { router.push('/cart') }}>Xem giỏ hàng</button>
+                                                    </span>
                                                 </div>
                                             </li>
                                             <li className='navLink containNavProfile'>
                                                 <span className='accountEmail'>
-                                                    <AccountCircleIcon className='accountEmail-icon'/>
+                                                    <AccountCircleIcon className='accountEmail-icon' />
                                                 </span>
                                                 <div className='navProfile'>
                                                     <ul>
@@ -149,7 +165,7 @@ export default function DrawerAppBar(props: Props) {
                                                         </li>
                                                     </ul>
                                                 </div>
-                                                
+
                                             </li>
                                         </>
                                     ) : (

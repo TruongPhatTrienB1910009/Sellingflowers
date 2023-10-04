@@ -1,7 +1,19 @@
 import axios from "axios";
 
+let token: string = '';
+if (typeof window !== 'undefined') {
+    // Perform localStorage action
+    token = localStorage.getItem('accesstoken') as string;
+}
+
 const instance = axios.create({
-    baseURL: 'http://localhost:3000/'
+    baseURL: 'http://localhost:3000/',
+    headers: {
+        'Content-Type': 'application/json',
+        'Acess-Control-Allow-Origin': '*',
+        'Authorization': `Bearer ${token}`,
+        'Accept': "application/json"
+    }
 });
 
 instance.interceptors.response.use(function (response) {

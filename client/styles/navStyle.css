@@ -137,18 +137,18 @@
     display: block;
 }
 
-.navCart ul,
+.navCart,
 .navProfile ul {
     list-style: none;
     width: 200px;
 }
 
-.navCart ul span {
+.navCart span {
     float: right;
     margin: 8px 16px;
 }
 
-.navCart ul span button {
+.navCart span button {
     margin: 16px;
     background-color: #48af48;
     border-radius: 8px;
@@ -177,25 +177,25 @@
     touch-action: manipulation;
 }
 
-.navCart ul span button:hover,
-.navCart ul span button:focus {
+.navCart span button:hover,
+.navCart span button:focus {
     background-color: #69c069 !important;
     color: aquamarine;
     cursor: pointer;
 }
 
-.navCart ul {
-    width: 400px;
+.navCart {
+    width: 380px;
 }
 
-.navCart ul li,
+.navCart li,
 .navProfile ul li {
     padding: 16px;
     transition: ease-in 0.1s;
     font-weight: 500;
 }
 
-.navCart ul li:hover,
+.navCart li:hover,
 .navProfile ul li:hover {
     color: #228B22;
     cursor: pointer;

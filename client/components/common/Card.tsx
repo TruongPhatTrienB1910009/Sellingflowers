@@ -19,6 +19,8 @@ interface CardProps {
 
 const MediaCard: React.FC<CardProps> = ({ item }) => {
     const childRef = useRef<any>(null);
+    const [message, setMessage] = useState<any>("");
+    const [stateMessage, setStateMessage] = useState<any>("success");
 
     const handleAddItemToCart = async (e: any) => {
         try {
@@ -30,7 +32,11 @@ const MediaCard: React.FC<CardProps> = ({ item }) => {
             })
 
             if (data.EC == 0) {
+                setMessage(data.EM);
                 childRef.current!.handleOpen();
+            } else {
+                setMessage(data.EM);
+                setStateMessage("error")
             }
         } catch (error) {
             console.error(error);
@@ -39,7 +45,7 @@ const MediaCard: React.FC<CardProps> = ({ item }) => {
 
     return (
         <>
-            <CustomizedSnackbars ref={childRef} />
+            <CustomizedSnackbars ref={childRef} message={message} stateMessage={stateMessage}/>
             <Card sx={{ maxWidth: "100%" }}>
                 <CardMedia
                     component="img"
