@@ -56,7 +56,6 @@ export default function DrawerAppBar(props: Props) {
         if (localStorage.getItem('accesstoken')) {
             const items = await getAllItemsInCart();
             if(items) {
-                console.log(items);
                 setListItemsInCart(items.DT.Products);
             }
         }

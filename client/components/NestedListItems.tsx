@@ -7,7 +7,6 @@ import Link from 'next/link';
 
 
 export default function NestedListItems({ listItemsInCart }: any) {
-    console.log(listItemsInCart);
     return (
         <List
             sx={{ width: '100%', bgcolor: 'background.paper', padding: '0' }}

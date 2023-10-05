@@ -1,15 +1,10 @@
 'use client';
-import { useDispatch } from "react-redux";
-import { signIn, signOut } from "@/redux/features/auth-slice";
 import { useEffect, useState } from "react";
-import { handleAutoSignIn } from "@/services/homeService";
-import { useRouter } from "next/navigation";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import WrapperCards from "@/components/common/WrapperCards";
-import { listItems } from "@/data/test";
 import { getAllProducts } from "@/services/productService";
 import "@/styles/home.css";
 
@@ -21,7 +16,6 @@ export default function Home() {
             const data = await getAllProducts();
             if(data.EC == 0) {
                 setListProducts(data.DT);
-                console.log(listProducts);
             }
         } catch (error) {
             alert(error);

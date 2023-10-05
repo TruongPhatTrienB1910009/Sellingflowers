@@ -5,6 +5,13 @@ import { useEffect } from 'react';
 import { handleAutoSignIn } from '@/services/homeService';
 import { useDispatch } from 'react-redux';
 import { signIn, signOut } from '@/redux/features/auth-slice';
+import Router from "next/router";
+import nProgress from "nprogress";
+import '@/styles/nprogress.css';
+
+Router.events.on("routeChangeStart", nProgress.start);
+Router.events.on("routeChangeError", nProgress.done);
+Router.events.on("routeChangeComplete", nProgress.done);
 
 const MainLayout = ({ children }: {children: React.ReactNode}) => {
     const dispatch = useDispatch();
@@ -25,7 +32,7 @@ const MainLayout = ({ children }: {children: React.ReactNode}) => {
     })
 
     return (
-        <main className='app'>
+        <main className='app'>  
             {children}
         </main>
     )
