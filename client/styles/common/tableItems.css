@@ -1,0 +1,15 @@
+.inputBtnGroup input[type=number]::-webkit-inner-spin-button, 
+.inputBtnGroup input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
+.inputBtnGroup input {
+    outline: none;
+    border: none;
+    width: 40px;
+    padding: 0 10px;
+    text-align: center;
+}

@@ -9,14 +9,17 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Checkbox, IconButton, Tooltip } from '@mui/material';
+import { Button, ButtonGroup, Checkbox, IconButton, Tooltip } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 import { VND } from '@/app/utils/VND';
+import '@/styles/common/tableItems.css'
 
 interface Column {
     id: 'name' | 'code' | 'population' | 'size' | 'density' | 'density2';
     label: string;
     minWidth?: number;
-    align?: 'right';
+    align?: 'right' | 'left' | 'center';
     format?: (value: number) => string;
 }
 
@@ -27,14 +30,14 @@ const columns: readonly Column[] = [
         id: 'population',
         label: 'Đơn Giá',
         minWidth: 170,
-        align: 'right',
+        align: 'center',
         format: (value: number) => value.toLocaleString('en-US'),
     },
     {
         id: 'size',
         label: 'Số Lượng',
         minWidth: 170,
-        align: 'right',
+        align: 'center',
         format: (value: number) => value.toLocaleString('en-US'),
     },
     {
@@ -57,8 +60,12 @@ const columns: readonly Column[] = [
 export default function TableItems({ listItemsInCart, checkedState, handleAddItemToCheckout }: any) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    
-    console.log(checkedState)
+
+    const [item, setItem] = React.useState<any>({});
+    const [totalItem, setTotalItem] = React.useState<number>(1);
+
+    const preventNegativeValues = (e: any) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault();
+    const handleChange = (e: any) => setTotalItem(e.target.value);
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -102,11 +109,21 @@ export default function TableItems({ listItemsInCart, checkedState, handleAddIte
                                             <TableCell>
                                                 <img style={{ height: 'auto', maxWidth: '50px' }} src={row?.img.slice(row?.img.indexOf('images'))} alt="" />
                                             </TableCell>
-                                            <TableCell align='right'>
+                                            <TableCell align='center'>
                                                 {VND.format(row.price)}
                                             </TableCell>
-                                            <TableCell align='right'>
-                                                {row.DetailBill.totalItems}
+                                            <TableCell align='center' className='inputBtnGroup'>
+                                                <ButtonGroup variant="outlined" aria-label="outlined button group">
+                                                    <Button onClick={() => { if (totalItem > 1) setTotalItem(totalItem - 1) }}>
+                                                        <RemoveIcon />
+                                                    </Button>
+                                                    <Button>
+                                                        <input type="number" value={totalItem} onKeyDown={preventNegativeValues} onChange={handleChange} />
+                                                    </Button>
+                                                    <Button onClick={() => { setTotalItem(Number(totalItem) + 1) }}>
+                                                        <AddIcon />
+                                                    </Button>
+                                                </ButtonGroup>
                                             </TableCell>
                                             <TableCell align='right'>
                                                 {VND.format(row.price * row.DetailBill.totalItems)}

@@ -22,7 +22,7 @@ export default function NestedListItems({ listItemsInCart }: any) {
                                 <ListItemButton>
                                     <ListItemAvatar>
                                         <Avatar>
-                                            <img style={{ width: '100%' }} src={item?.img.slice(item?.img.indexOf('images'))} alt="" />
+                                            <img style={{ width: '100%' }} src={`/${item?.img.slice(item?.img.indexOf('images'))}`} alt="" />
                                         </Avatar>
                                     </ListItemAvatar>
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
@@ -35,7 +35,7 @@ export default function NestedListItems({ listItemsInCart }: any) {
                             </Link>
                         )
                     })
-                ) : ('hi')
+                ) : ('No Items in cart')
             }
         </List>
     );
