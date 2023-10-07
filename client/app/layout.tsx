@@ -1,7 +1,5 @@
 import '@/styles/globals.css'
 import type { Metadata } from 'next'
-import Navbar from '@/components/NavBar';
-import StickyFooter from '@/components/Footer';
 import ScopedCssBaseline from '@mui/material/ScopedCssBaseline';
 import LayOut from '@/components/MainLayout';
 import { ReduxProvider } from '@/redux/provider';
@@ -22,11 +20,9 @@ export default function RootLayout({
       <body suppressHydrationWarning={true} >
         <ReduxProvider>
           <ScopedCssBaseline>
-            <Navbar />
-              <LayOut>
-                {children}
-              </LayOut>
-            <StickyFooter />
+          <LayOut>
+            {children}
+          </LayOut>
           </ScopedCssBaseline>
         </ReduxProvider>
       </body>
