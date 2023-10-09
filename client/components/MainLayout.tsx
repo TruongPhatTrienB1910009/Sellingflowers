@@ -13,6 +13,7 @@ import nProgress from "nprogress";
 import '@/styles/nprogress.css';
 import SubNav from './admin/SubNav';
 import { Box } from '@mui/material';
+import AppBarAdmin from './admin/AppBarAdmin';
 
 Router.events.on("routeChangeStart", nProgress.start);
 Router.events.on("routeChangeError", nProgress.done);
@@ -45,9 +46,9 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         
             (isAdmin) ? (
-                <Box sx={{minHeight: '100vh', backgroundColor: '#eee'}}>
+                <Box sx={{minHeight: '100vh', backgroundColor: '#eee', display: 'flex'}}>
                     <SubNav />
-
+                    <AppBarAdmin />
                 </Box>
             ) : (
                 <> 
