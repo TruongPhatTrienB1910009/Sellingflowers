@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import { Button, Checkbox } from '@mui/material';
 import TableItems from '@/components/TableItems'
 import '@/styles/cart.css';
-import { getAllItemsInCart } from '@/services/cartService';
+import { getAllItemsInCart, updateTotalsItem } from '@/services/cartService';
 import { VND } from '../../../utils/VND';
 
 
@@ -13,6 +13,7 @@ const page = () => {
     const [totalPrice, setTotalPrice] = React.useState<number>(0);
     const [checkedState, setCheckedState] = React.useState<any>([]);
     const [checkAll, setCheckAll] = React.useState<any>(false);
+    const [reRender, setRerender] = React.useState<any>(false);
 
     const getAllProducts = async () => {
         if (localStorage.getItem('accesstoken')) {
@@ -36,7 +37,7 @@ const page = () => {
 
         const total = updatedCheckedState.reduce((accumulator: any, currentValue: any, index: number) => {
             if (currentValue === true) {
-                return accumulator + listItemsInCart[index].price;
+                return accumulator + listItemsInCart[index].price * listItemsInCart[index].DetailBill.totalItems;
             } else {
                 return accumulator;
             }
@@ -72,13 +73,33 @@ const page = () => {
         setTotalPrice(total);
     }
 
+    const handleUpdateTotalsItem = async (
+        event: any,
+        { id, totalItems }: { id: number, totalItems?: number }
+    ) => {
+        try {
+            const result = await updateTotalsItem({
+                ProductId: listItemsInCart[id].DetailBill.ProductId,
+                BillId: listItemsInCart[id].DetailBill.BillId,
+                totalItems: totalItems
+            })
+
+            if(result.EC == 0) {
+                setRerender(!reRender)
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     React.useEffect(() => {
         getAllProducts();
-    }, [listItemsInCart.length, checkedState.length]);
+    }, [listItemsInCart.length, checkedState.length, reRender]);
 
     return (
         <Container maxWidth="xl" sx={{ mt: '10px' }}>
-            <TableItems listItemsInCart={listItemsInCart} checkedState={checkedState} handleAddItemToCheckout={addItemToCheckout} />
+            <TableItems listItemsInCart={listItemsInCart} checkedState={checkedState} handleAddItemToCheckout={addItemToCheckout} handleUpdateTotalsItem={handleUpdateTotalsItem}/>
             <div className='container__BuyItems'>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Checkbox checked = {checkAll} onChange={handleCheckAll} /> Chọn tất cả

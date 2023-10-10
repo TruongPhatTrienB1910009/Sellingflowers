@@ -157,7 +157,34 @@ const removeItemFromCart = async (req: IGetUserAuthInfoRequest, res: Response, n
     }
 }
 
+const updateTotalItems = async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
+    try {
+        const result = await db.DetailBill.update({
+            totalItems: req.body.totalItems
+        }, {
+            where: {
+                BillId: req.body.BillId,
+                ProductId: req.body.ProductId
+            }
+        })
+
+        if(result) {
+            return res.status(200).json({
+                EM: 'OK',
+                EC: 0,
+                DT: result
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            EM: 'failed',
+            EC: -1,
+            DT: (error as Error).message
+        })
+    }
+}
+
 
 module.exports = {
-    addToCart, getAllItemsInCart, removeItemFromCart
+    addToCart, getAllItemsInCart, removeItemFromCart, updateTotalItems
 }

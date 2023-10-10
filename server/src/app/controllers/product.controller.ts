@@ -114,6 +114,8 @@ const getProductById = async (req: fileRequest, res: Response, next: NextFunctio
     }
 }
 
+
+
 module.exports = {
     createProduct, upload, getAllProducts, getProductById
 }

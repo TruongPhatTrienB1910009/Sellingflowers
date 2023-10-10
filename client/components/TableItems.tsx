@@ -57,15 +57,11 @@ const columns: readonly Column[] = [
 ];
 
 
-export default function TableItems({ listItemsInCart, checkedState, handleAddItemToCheckout }: any) {
+export default function TableItems({ listItemsInCart, checkedState, handleAddItemToCheckout, handleUpdateTotalsItem }: any) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-    const [item, setItem] = React.useState<any>({});
-    const [totalItem, setTotalItem] = React.useState<number>(1);
-
     const preventNegativeValues = (e: any) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault();
-    const handleChange = (e: any) => setTotalItem(e.target.value);
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -114,13 +110,13 @@ export default function TableItems({ listItemsInCart, checkedState, handleAddIte
                                             </TableCell>
                                             <TableCell align='center' className='inputBtnGroup'>
                                                 <ButtonGroup variant="outlined" aria-label="outlined button group">
-                                                    <Button onClick={() => { if (totalItem > 1) setTotalItem(totalItem - 1) }}>
+                                                    <Button onClick={(event) => { if (row.DetailBill.totalItems > 1) handleUpdateTotalsItem(event, { id: index, totalItems: row.DetailBill.totalItems - 1 }) }}>
                                                         <RemoveIcon />
                                                     </Button>
                                                     <Button>
-                                                        <input type="number" value={totalItem} onKeyDown={preventNegativeValues} onChange={handleChange} />
+                                                        <input type="number" value={row.DetailBill.totalItems} onKeyDown={preventNegativeValues} onChange={(event) => { handleUpdateTotalsItem(event, { id: index }) }} />
                                                     </Button>
-                                                    <Button onClick={() => { setTotalItem(Number(totalItem) + 1) }}>
+                                                    <Button onClick={(event) => { handleUpdateTotalsItem(event, { id: index, totalItems: row.DetailBill.totalItems + 1 }) }}>
                                                         <AddIcon />
                                                     </Button>
                                                 </ButtonGroup>

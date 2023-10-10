@@ -152,6 +152,32 @@ const removeItemFromCart = (req, res, next) => __awaiter(void 0, void 0, void 0,
         });
     }
 });
+const updateTotalItems = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield db.DetailBill.update({
+            totalItems: req.body.totalItems
+        }, {
+            where: {
+                BillId: req.body.BillId,
+                ProductId: req.body.ProductId
+            }
+        });
+        if (result) {
+            return res.status(200).json({
+                EM: 'OK',
+                EC: 0,
+                DT: result
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EM: 'failed',
+            EC: -1,
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    addToCart, getAllItemsInCart, removeItemFromCart
+    addToCart, getAllItemsInCart, removeItemFromCart, updateTotalItems
 };

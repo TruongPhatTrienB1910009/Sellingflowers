@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const router = express_1.default.Router();
-const billController = require('../controllers/account.controller');
-router.route("/")
-    .post(billController.addToCart);
-module.exports = router;
+const Router = express_1.default.Router();
+const billController = require("../controllers/bill.controller");
+Router.route('/bill');
+// .patch(billController.updateTotalItems)
+module.exports = Router;
