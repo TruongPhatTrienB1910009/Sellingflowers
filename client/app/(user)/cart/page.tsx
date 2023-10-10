@@ -5,7 +5,7 @@ import { Button, Checkbox } from '@mui/material';
 import TableItems from '@/components/TableItems'
 import '@/styles/cart.css';
 import { getAllItemsInCart } from '@/services/cartService';
-import { VND } from '../utils/VND';
+import { VND } from '../../../utils/VND';
 
 
 const page = () => {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import { Avatar, Box, ListItemAvatar, Typography } from '@mui/material';
-import { VND } from '@/app/utils/VND';
+import { VND } from '@/utils/VND';
 import Link from 'next/link';
 
 

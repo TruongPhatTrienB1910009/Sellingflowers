@@ -17,7 +17,7 @@ const Search = styled('div')(({ theme }) => ({
     marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(1),
+        // marginLeft: theme.spacing(1),
         width: 'auto',
     },
 }));
@@ -52,10 +52,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function AppBarAdmin() {
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box>
             <AppBar position="static" sx={{backgroundColor: '#fff', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px'}}>
-                <Toolbar>
-                    <Search>
+                <Toolbar sx={{'@media (min-width: 600px)': {
+                    paddingX: '16px'
+                }}}>
+                    <Search >
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>

@@ -12,7 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, ButtonGroup, Checkbox, IconButton, Tooltip } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { VND } from '@/app/utils/VND';
+import { VND } from '@/utils/VND';
 import '@/styles/common/tableItems.css'
 
 interface Column {

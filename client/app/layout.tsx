@@ -20,9 +20,7 @@ export default function RootLayout({
       <body suppressHydrationWarning={true} >
         <ReduxProvider>
           <ScopedCssBaseline>
-          <LayOut>
             {children}
-          </LayOut>
           </ScopedCssBaseline>
         </ReduxProvider>
       </body>

@@ -12,9 +12,14 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { signIn, signOut } from '@/redux/features/auth-slice';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
 
 export default function SubNav() {
     const [selectedIndex, setSelectedIndex] = React.useState(3);
+    const dispatch = useDispatch();
+    const router = useRouter();
 
     const handleListItemClick = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -22,6 +27,12 @@ export default function SubNav() {
     ) => {
         setSelectedIndex(index);
     };
+
+    const handleSignOut = () => {
+        dispatch(signOut());
+        localStorage.removeItem("accesstoken");
+        router.push("/signin");
+    }
 
     return (
         <Box sx={{ width: '100%', maxWidth: 320, minHeight: '100vh', bgcolor: 'background.paper' }}>
@@ -93,7 +104,7 @@ export default function SubNav() {
                 </ListItemButton>
                 <ListItemButton
                     selected={selectedIndex === 5}
-                    onClick={(event) => handleListItemClick(event, 5)}
+                    onClick={handleSignOut}
                     sx={{
                         padding: '16px'
                     }}
