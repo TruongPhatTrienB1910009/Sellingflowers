@@ -6,14 +6,15 @@ import TableItems from '@/components/TableItems'
 import '@/styles/cart.css';
 import { getAllItemsInCart, updateTotalsItem } from '@/services/cartService';
 import { VND } from '../../../utils/VND';
+import { useRouter } from 'next/navigation';
 
-
-const page = () => {
+function Page() {
     const [listItemsInCart, setListItemsInCart] = React.useState<any>([]);
     const [totalPrice, setTotalPrice] = React.useState<number>(0);
     const [checkedState, setCheckedState] = React.useState<any>([]);
     const [checkAll, setCheckAll] = React.useState<any>(false);
     const [reRender, setRerender] = React.useState<any>(false);
+    const router = useRouter();
 
     const getAllProducts = async () => {
         if (localStorage.getItem('accesstoken')) {
@@ -64,7 +65,7 @@ const page = () => {
 
         const total = updatedCheckedState.reduce((accumulator: any, currentValue: any, index: number) => {
             if (currentValue === true) {
-                return accumulator + listItemsInCart[index].price;
+                return accumulator + listItemsInCart[index].price * listItemsInCart[index].DetailBill.totalItems;
             } else {
                 return accumulator;
             }
@@ -93,6 +94,14 @@ const page = () => {
         }
     }
 
+    const goToCheckOut = async () => {
+        const arrCheckOut = checkedState.map((value: any, index: any) => value === true ? index : null).filter((index: any) => index !== null);
+
+        console.log(arrCheckOut)
+        sessionStorage.setItem('checkout', JSON.stringify(arrCheckOut))
+        router.push('/checkout');
+    }
+
     React.useEffect(() => {
         getAllProducts();
     }, [listItemsInCart.length, checkedState.length, reRender]);
@@ -109,7 +118,7 @@ const page = () => {
                         Tổng thanh toán ({(checkedState.filter((item: any) => item == true)).length} Sản phẩm): {VND.format(totalPrice)}
                     </div>
                     <div>
-                        <Button>
+                        <Button onClick={() => goToCheckOut()}>
                             Mua Hàng
                         </Button>
                     </div>
@@ -119,4 +128,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page
