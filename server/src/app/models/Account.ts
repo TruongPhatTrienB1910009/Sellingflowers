@@ -34,10 +34,10 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
             }
         },
         password: {
-            type: DataTypes.STRING,
-            validate: {
-                min: 8
-            }
+            type: DataTypes.STRING
+        },
+        gender: {
+            type: DataTypes.BIGINT
         },
         GroupAccountId: {
             type: DataTypes.BIGINT,

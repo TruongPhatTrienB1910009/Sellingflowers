@@ -25,10 +25,10 @@ module.exports = (sequelize, Model, DataTypes) => {
             }
         },
         password: {
-            type: DataTypes.STRING,
-            validate: {
-                min: 8
-            }
+            type: DataTypes.STRING
+        },
+        gender: {
+            type: DataTypes.BIGINT
         },
         GroupAccountId: {
             type: DataTypes.BIGINT,
