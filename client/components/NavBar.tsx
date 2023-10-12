@@ -156,7 +156,7 @@ export default function DrawerAppBar(props: Props) {
                                                 </span>
                                                 <div className='navProfile'>
                                                     <ul>
-                                                        <li>
+                                                        <li onClick={() => router.push('/account/profile')}>
                                                             Tài Khoản Của Tôi
                                                         </li>
                                                         <li onClick={handleSignOut}>

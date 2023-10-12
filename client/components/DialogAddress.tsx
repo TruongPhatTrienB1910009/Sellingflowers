@@ -29,7 +29,7 @@ export default function DialogAddress({openDialog} : {openDialog: any}) {
     };
 
     React.useEffect (() => {
-        handleClickOpen();
+        if(openDialog > 1) handleClickOpen();
     }, [openDialog])
 
     return (

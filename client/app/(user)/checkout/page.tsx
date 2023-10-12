@@ -6,7 +6,7 @@ import DialogAddress from '@/components/DialogAddress'
 import { getAllItemsInCart } from '@/services/cartService'
 
 const ComponentAddress = () => {
-    const [openDialog, setOpenDialog] = useState(false);
+    const [openDialog, setOpenDialog] = useState(1);
 
     return (
         <>
@@ -18,7 +18,9 @@ const ComponentAddress = () => {
             }}>
                 <h4>Địa chỉ giao hàng</h4>
                 <div>
-
+                    <button onClick={() => setOpenDialog(openDialog + 1)}>
+                        Open
+                    </button>
                 </div>
             </Box>
             <DialogAddress openDialog={openDialog} />
@@ -28,8 +30,6 @@ const ComponentAddress = () => {
 
 
 const ComponentCheckout = () => {
-    const [openDialog, setOpenDialog] = useState(false);
-
     return (
         <>
             <Box sx={{
