@@ -31,8 +31,15 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
             })
 
             if (detailbill[0]) {
+                const product = await db.Product.findOne({
+                    where: {
+                        id: req.body.ProductId
+                    }
+                })
+
                 await detailbill[0].update({
-                    totalItems: req.body.totalItems
+                    totalItems: req.body.totalItems,
+                    totalPriceItem: req.body.totalItems * product.price
                 })
 
                 await detailbill[0].save();
@@ -42,7 +49,14 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
                     DT: detailbill[0]
                 })
             } else {
-                const data = { BillId: billCreated[0].id, ...req.body }
+                const product = await db.Product.findOne({
+                    where: {
+                        id: req.body.ProductId
+                    }
+                })
+
+                const data = { BillId: billCreated[0].id, ...req.body, totalPriceItem:  req.body.totalItems * product.price}
+                console.log(data)
                 const newDetail = await db.DetailBill.create(data);
                 await newDetail.save();
                 return res.status(200).json({
@@ -54,7 +68,12 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
         } else {
             const bill = await db.Bill.create({ "AccountId": user[0].id, "CheckoutId": 1 });
             await bill.save();
-            const data = { BillId: bill.id, ...req.body }
+            const product = await db.Product.findOne({
+                where: {
+                    id: req.body.ProductId
+                }
+            })
+            const data = { BillId: bill.id, ...req.body, totalPriceItem:  req.body.totalItems * product.price }
             const detail = await db.DetailBill.create(data);
             await detail.save();
 

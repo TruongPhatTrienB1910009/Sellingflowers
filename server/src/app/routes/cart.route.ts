@@ -7,5 +7,5 @@ router.route("/")
     .post(cartController.addToCart)
     .patch(cartController.updateTotalItems)
     .delete(cartController.removeItemFromCart)
-    
+
 module.exports = router;

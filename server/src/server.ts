@@ -12,6 +12,7 @@ const homeRoute = require('./app/routes/home.route');
 const productRoute = require('./app/routes/product.route');
 const cartRoute = require('./app/routes/cart.route');
 const billRoute = require('./app/routes/bill.route');
+const checkoutRoute = require('./app/routes/checkout.route');
 
 const app = express();
 app.use(express.json());
@@ -26,6 +27,7 @@ app.use('/account', checkUserJWT, accountRoute);
 app.use('/products', productRoute);
 app.use('/cart', checkUserJWT, cartRoute);
 app.use('/bill', checkUserJWT, billRoute);
+app.use('/checkout', checkUserJWT, checkoutRoute);
 
 const runServer = async () => {
   try {

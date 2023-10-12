@@ -25,11 +25,8 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
         totalItems: {
             type: DataTypes.BIGINT,
         },
-        notes: {
-            type: DataTypes.STRING,
-        },
-        address: {
-            type: DataTypes.STRING,
+        totalPriceItem: {
+            type: DataTypes.BIGINT,
         }
     }, {
         sequelize: sequelize,
