@@ -17,7 +17,7 @@ export default function ProfileLayout({
                 <Box sx={{
                     backgroundColor: '#fff',
                     width: '100%',
-                    minHeight: '100vh',
+                    minHeight: '80vh',
                     padding: '10px 20px',
                     borderRadius: '5px',
                 }}>

@@ -1,0 +1,19 @@
+.inputCell {
+    width: 800px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+label {
+    width: 30%;
+}
+
+.inputCell input[type=text] {
+    height: 30px;
+    margin: 20px 0;
+    width: 100%;
+    padding: 20px;
+    font-size: 14px;
+}
