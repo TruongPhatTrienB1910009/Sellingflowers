@@ -47,9 +47,12 @@ const FormInfo = () => {
                     </div>
                 </div>
 
-                <Button sx={{backgroundColor: '#228b22', padding: '14px', color: '#fff', marginTop: '12px', ":hover": {
-                    backgroundColor: '#228b22',
-                }}}>
+                <Button sx={{
+                    backgroundColor: '#228b22', padding: '14px', color: '#fff', marginTop: '12px', ":hover": {
+                        backgroundColor: '#47ab47',
+                        color: '#eee'
+                    }
+                }}>
                     Lưu thông tin
                 </Button>
             </Box>

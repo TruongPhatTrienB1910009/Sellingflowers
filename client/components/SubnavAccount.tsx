@@ -1,3 +1,4 @@
+"use client"
 import * as React from 'react';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
@@ -7,9 +8,10 @@ import ListItemText from '@mui/material/ListItemText';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Person2Icon from '@mui/icons-material/Person2';
 import ReceiptIcon from '@mui/icons-material/Receipt';
+import { useRouter } from 'next/navigation';
 
 export default function SubnavAccount() {
-
+    const router = useRouter();
     return (
         <List
             sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', paddingBottom: '0px' }}
@@ -21,7 +23,7 @@ export default function SubnavAccount() {
                 </ListSubheader>
             }
         >
-            <ListItemButton sx={{
+            <ListItemButton onClick={() => {router.push('/account/profile')}} sx={{
                 padding: '16px'
             }}>
                 <ListItemIcon>
@@ -29,7 +31,7 @@ export default function SubnavAccount() {
                 </ListItemIcon>
                 <ListItemText primary="Hồ sơ" />
             </ListItemButton>
-            <ListItemButton sx={{
+            <ListItemButton onClick={() => {router.push('/account/address')}} sx={{
                 padding: '16px'
             }}>
                 <ListItemIcon>
@@ -37,7 +39,7 @@ export default function SubnavAccount() {
                 </ListItemIcon>
                 <ListItemText primary="Địa chỉ" />
             </ListItemButton>
-            <ListItemButton sx={{
+            <ListItemButton onClick={() => {router.push('/account/receipts')}} sx={{
                 padding: '16px'
             }}>
                 <ListItemIcon>
