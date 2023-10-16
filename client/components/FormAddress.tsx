@@ -9,6 +9,7 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, FormControl, InputLabel, MenuItem, NativeSelect, Select, SelectChangeEvent } from '@mui/material';
+import { createNewAddress } from '@/services/accountService';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -71,7 +72,7 @@ export default function FormAddress({ openDialog }: { openDialog: any }) {
         }
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
         const address = {
@@ -83,7 +84,11 @@ export default function FormAddress({ openDialog }: { openDialog: any }) {
             detail: data.get('detail'),
         }
         
-        console.log(address);
+        const result = await createNewAddress(address);
+        if(result.EC == 0) {
+            alert("Tao dia chi moi thanh cong")
+            handleClose();
+        }
     }
 
     React.useEffect(() => {

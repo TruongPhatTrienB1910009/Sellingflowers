@@ -162,6 +162,30 @@ const updateDeliveryAddress = (req, res, next) => __awaiter(void 0, void 0, void
         });
     }
 });
+const deleteDeliveryAddress = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield db.DeliveryAddress.destroy({
+            where: {
+                id: req.params.id
+            }
+        });
+        if (result) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: result
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    getAccount, updateAccount, createDeliveryAddress, getAllAddress, updateDeliveryAddress, getDetailAddress
+    getAccount, updateAccount, createDeliveryAddress,
+    getAllAddress, updateDeliveryAddress, getDetailAddress, deleteDeliveryAddress
 };

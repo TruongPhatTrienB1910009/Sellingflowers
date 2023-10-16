@@ -14,5 +14,6 @@ router.route("/address")
     .post(accountController.createDeliveryAddress);
 router.route("/address/:id")
     .get(accountController.getDetailAddress)
-    .patch(accountController.updateDeliveryAddress);
+    .patch(accountController.updateDeliveryAddress)
+    .delete(accountController.deleteDeliveryAddress);
 module.exports = router;

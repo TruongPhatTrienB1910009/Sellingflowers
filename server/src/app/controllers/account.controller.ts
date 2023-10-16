@@ -175,6 +175,31 @@ const updateDeliveryAddress = async (req: UserRequest, res: Response, next: Next
     }
 }
 
+const deleteDeliveryAddress = async (req: UserRequest, res: Response, next: NextFunction) => {
+    try {
+        const result = await db.DeliveryAddress.destroy({
+            where: {
+                id: req.params.id
+            }
+        })
+
+        if(result) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: result
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: (error as Error).message
+        })
+    }
+}
+
 module.exports = {
-    getAccount, updateAccount, createDeliveryAddress, getAllAddress, updateDeliveryAddress, getDetailAddress
+    getAccount, updateAccount, createDeliveryAddress, 
+    getAllAddress, updateDeliveryAddress, getDetailAddress, deleteDeliveryAddress
 }

@@ -13,5 +13,6 @@ router.route("/address")
 router.route("/address/:id")
     .get(accountController.getDetailAddress)
     .patch(accountController.updateDeliveryAddress)
+    .delete(accountController.deleteDeliveryAddress);
     
 module.exports = router;
