@@ -12,6 +12,21 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
         },
         detail: {
             type: DataTypes.STRING
+        },
+        city: {
+            type: DataTypes.STRING
+        }, 
+        district: {
+            type: DataTypes.STRING
+        }, 
+        ward: {
+            type: DataTypes.STRING
+        },
+        name: {
+            type: DataTypes.STRING
+        },
+        phone: {
+            type: DataTypes.STRING
         }
     }, {
         sequelize: sequelize,

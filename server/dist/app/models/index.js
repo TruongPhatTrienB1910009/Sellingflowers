@@ -25,6 +25,7 @@ db.Supplier = require('../models/Supplier')(db.sequelize, sequelize_1.Model, seq
 db.ImportBill = require('../models/ImportBill')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
 db.DetailImportBill = require('../models/DetailImportBill')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
 db.DeliveryAddress = require('../models/DeliveryAddress')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
+db.BillStatus = require('../models/BillStatus')(db.sequelize, sequelize_1.Model, sequelize_1.DataTypes);
 // >>>>> config associations
 // Group_account - Account
 db.Group_account.hasMany(db.Account, { onDelete: 'cascade' });
@@ -69,4 +70,10 @@ db.Product.belongsToMany(db.Account, { through: db.Review, foreignKey: 'ProductI
 // DeliveryAddress - Account
 db.Account.hasMany(db.DeliveryAddress, { foreignKey: "AccountId", onDelete: 'cascade' });
 db.DeliveryAddress.belongsTo(db.Account);
+// DeliveryAddress - Bill
+db.DeliveryAddress.hasMany(db.Bill);
+db.Bill.belongsTo(db.DeliveryAddress);
+// Bill - BillStatus
+db.BillStatus.hasMany(db.Bill);
+db.Bill.belongsTo(db.BillStatus);
 module.exports = db;

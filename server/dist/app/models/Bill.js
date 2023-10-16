@@ -13,6 +13,9 @@ module.exports = (sequelize, Model, DataTypes) => {
         },
         totalprice: {
             type: DataTypes.BIGINT,
+        },
+        state: {
+            type: DataTypes.BIGINT
         }
     }, {
         sequelize: sequelize,

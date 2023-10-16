@@ -1,29 +1,24 @@
 module.exports = (sequelize: any, Model: any, DataTypes: any) => {
-    class Bill extends Model {
+    class BillStatus extends Model {
         public id?: number;
         public note?: string;
         public totalprice?: number;
     }
 
-    Bill.init({
+    BillStatus.init({
         id: {
             type: DataTypes.BIGINT,
             autoIncrement: true,
             primaryKey: true,
         },
-        note: {
-            type: DataTypes.STRING,
-        },
-        totalprice: {
-            type: DataTypes.BIGINT,
-        },
-        state: {
-            type: DataTypes.BIGINT
+        detail: {
+            type: DataTypes.STRING
         }
     }, {
         sequelize: sequelize,
-        modelName: 'Bill',
+        modelName: 'BillStatus',
+        timestamps: false
     })
 
-    return Bill;
+    return BillStatus;
 }
