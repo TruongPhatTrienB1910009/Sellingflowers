@@ -36,9 +36,14 @@ const getAccount = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
 });
 const updateAccount = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield db.Account.update(Object.assign({}, req.body), {
+        const user = yield db.Account.findOne({
             where: {
                 email: req.user.email
+            }
+        });
+        const result = yield db.Account.update(Object.assign({}, req.body), {
+            where: {
+                email: user.email
             }
         });
         if (result) {

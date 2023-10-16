@@ -33,9 +33,15 @@ const getAccount = async (req: UserRequest, res: Response, next: NextFunction) =
 
 const updateAccount = async (req: UserRequest, res: Response, next: NextFunction) => {
     try {
-        const result = await db.Account.update({...req.body}, {
+        const user = await db.Account.findOne({
             where: {
                 email: req.user.email
+            }
+        })
+
+        const result = await db.Account.update({...req.body}, {
+            where: {
+                email: user.email
             }
         })
 

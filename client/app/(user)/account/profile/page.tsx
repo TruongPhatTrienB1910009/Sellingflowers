@@ -1,8 +1,28 @@
+"use client"
+
 import { Box, Divider } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import FormInfo from '@/components/FormInfo'
+import { getAccount } from '@/services/accountService'
 
 const Profile = () => {
+    const [user, setUser] = useState<any>(null);
+
+    const getUser = async () => {
+        try {
+            const foundUser = await getAccount();
+            if(foundUser.EC == 0) {
+                setUser(foundUser.DT);
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        getUser();
+    }, [])
+
     return (
         <Box>
             <div style={{marginBottom: '20px'}}>
@@ -11,7 +31,7 @@ const Profile = () => {
             </div>
             <hr />
             <Box>
-                <FormInfo />
+                <FormInfo user={user}/>
             </Box>
         </Box>
     )
