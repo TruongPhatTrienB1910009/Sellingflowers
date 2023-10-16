@@ -21,7 +21,7 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         const billCreated = yield db.Bill.findAll({
             where: {
                 AccountId: user[0].id,
-                CheckoutId: 1
+                state: false
             }
         });
         if (billCreated[0]) {
@@ -66,7 +66,7 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
             }
         }
         else {
-            const bill = yield db.Bill.create({ "AccountId": user[0].id, "CheckoutId": 1 });
+            const bill = yield db.Bill.create({ "AccountId": user[0].id, "CheckoutId": 1, "state": false });
             yield bill.save();
             const product = yield db.Product.findOne({
                 where: {

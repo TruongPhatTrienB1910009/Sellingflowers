@@ -17,7 +17,7 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
         const billCreated = await db.Bill.findAll({
             where: {
                 AccountId: user[0].id,
-                CheckoutId: 1
+                state: false
             }
         })
 
@@ -66,7 +66,7 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
                 })
             }
         } else {
-            const bill = await db.Bill.create({ "AccountId": user[0].id, "CheckoutId": 1 });
+            const bill = await db.Bill.create({ "AccountId": user[0].id, "CheckoutId": 1, "state": false });
             await bill.save();
             const product = await db.Product.findOne({
                 where: {

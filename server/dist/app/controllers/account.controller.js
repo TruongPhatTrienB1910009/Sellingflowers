@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const db = require('../models');
+// account/profile
 const getAccount = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const account = yield db.Account.findOne({
@@ -56,13 +57,106 @@ const updateAccount = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         });
     }
 });
-const createDeliveryAddress = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+// account/address
+const getAllAddress = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // const user = await
+        const user = yield db.Account.findOne({
+            where: {
+                email: req.user.email
+            }
+        });
+        const result = yield db.DeliveryAddress.findAll({
+            where: {
+                AccountId: user.id
+            }
+        });
+        if (result) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: result
+            });
+        }
     }
     catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
+const createDeliveryAddress = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield db.Account.findOne({
+            where: {
+                email: req.user.email
+            }
+        });
+        const data = Object.assign({ AccountId: user.id }, req.body);
+        const newAddress = yield db.DeliveryAddress.create(data);
+        if (newAddress) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: newAddress
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
+const getDetailAddress = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const address = yield db.DeliveryAddress.findOne({
+            where: {
+                id: req.params.id
+            }
+        });
+        if (address) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: address
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
+const updateDeliveryAddress = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const address = yield db.DeliveryAddress.update(Object.assign({}, req.body), {
+            where: {
+                id: req.params.id
+            }
+        });
+        if (address) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: address
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
     }
 });
 module.exports = {
-    getAccount, updateAccount
+    getAccount, updateAccount, createDeliveryAddress, getAllAddress, updateDeliveryAddress, getDetailAddress
 };

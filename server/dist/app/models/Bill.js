@@ -15,7 +15,8 @@ module.exports = (sequelize, Model, DataTypes) => {
             type: DataTypes.BIGINT,
         },
         state: {
-            type: DataTypes.BIGINT
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
         }
     }, {
         sequelize: sequelize,

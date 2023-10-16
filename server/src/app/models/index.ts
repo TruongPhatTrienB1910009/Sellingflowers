@@ -88,6 +88,6 @@ db.Bill.belongsTo(db.DeliveryAddress)
 
 // Bill - BillStatus
 db.BillStatus.hasMany(db.Bill)
-db.Bill.belongsTo(db.BillStatus)
+db.Bill.belongsTo(db.BillStatus, { defaultValue: 1})
 
 module.exports = db;
