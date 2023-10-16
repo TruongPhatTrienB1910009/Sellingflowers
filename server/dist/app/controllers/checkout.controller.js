@@ -17,7 +17,7 @@ const checkOut = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         const getBill = yield db.Bill.findOne({
             where: {
                 AccountId: user.id,
-                CheckoutId: 1
+                BillStatusId: 1
             }
         });
         const getDetailsBill = yield db.DetailBill.findAll({
@@ -26,7 +26,11 @@ const checkOut = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
             }
         });
         if (getDetailsBill.length === req.body.checkout.length) {
-            yield getBill.update({ checkoutId: 2 });
+            let totalPrice = 0;
+            for (let i = 0; i < getDetailsBill.length; i++) {
+                totalPrice += getDetailsBill[i].totalPriceItem;
+            }
+            yield getBill.update({ BillStatusId: 2, DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice });
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
@@ -42,8 +46,9 @@ const checkOut = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
             })).filter((product) => product != null);
             const newBill = yield db.Bill.create({
                 AccountId: user.id,
-                CheckoutId: req.body.checkoutId,
-                note: req.body.note
+                BillStatusId: 2,
+                note: req.body.note,
+                DeliveryAddressId: req.body.DeliveryAddress
             });
             let totalPrice = 0;
             for (let i = 0; i < arrCheckout.length; i++) {

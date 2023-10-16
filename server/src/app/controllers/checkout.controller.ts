@@ -13,7 +13,7 @@ const checkOut = async (req: UserRequest, res: Response, next: NextFunction) => 
         const getBill = await db.Bill.findOne({
             where: {
                 AccountId: user.id,
-                CheckoutId: 1
+                BillStatusId: 1
             }
         })
 
@@ -24,7 +24,11 @@ const checkOut = async (req: UserRequest, res: Response, next: NextFunction) => 
         })
 
         if(getDetailsBill.length === req.body.checkout.length) {
-            await getBill.update({checkoutId: 2})
+            let totalPrice = 0;
+            for(let i = 0; i < getDetailsBill.length; i++) {
+                totalPrice += getDetailsBill[i].totalPriceItem
+            }
+            await getBill.update({BillStatusId: 2, DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice})
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
@@ -40,8 +44,9 @@ const checkOut = async (req: UserRequest, res: Response, next: NextFunction) => 
 
             const newBill = await db.Bill.create({
                 AccountId: user.id,
-                CheckoutId: req.body.checkoutId,
-                note: req.body.note
+                BillStatusId: 2,
+                note: req.body.note,
+                DeliveryAddressId: req.body.DeliveryAddress
             })
 
             let totalPrice = 0;
@@ -56,7 +61,7 @@ const checkOut = async (req: UserRequest, res: Response, next: NextFunction) => 
                 await newDetail.save();
             }
 
-            await newBill.update({ totalprice: totalPrice})
+            await newBill.update({ totalprice: totalPrice })
 
             const deleArr = arrCheckout.map((product: any, index: number) => {
                 return product.ProductId

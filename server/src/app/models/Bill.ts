@@ -20,6 +20,14 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
         state: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
+        }, 
+        BillStatusId: {
+            type: DataTypes.BIGINT,
+            defaultValue: 1
+        },
+        CheckoutId: {
+            type: DataTypes.BIGINT,
+            defaultValue: 1
         }
     }, {
         sequelize: sequelize,

@@ -54,7 +54,7 @@ db.Root.hasMany(db.Product, { foreignKey: 'RootId', onDelete: 'cascade' });
 db.Product.belongsTo(db.Root);
 // Checkout - Bill
 db.Checkout.hasMany(db.Bill, { foreignKey: 'CheckoutId', onDelete: 'cascade' });
-db.Bill.belongsTo(db.Checkout, { defaultValue: 1 });
+db.Bill.belongsTo(db.Checkout);
 // Supplier - ImportBill
 db.Supplier.hasMany(db.ImportBill, { foreignKey: 'SupplierId', onDelete: 'cascade' });
 db.ImportBill.belongsTo(db.Supplier);
@@ -74,6 +74,6 @@ db.DeliveryAddress.belongsTo(db.Account);
 db.DeliveryAddress.hasMany(db.Bill);
 db.Bill.belongsTo(db.DeliveryAddress);
 // Bill - BillStatus
-db.BillStatus.hasMany(db.Bill);
-db.Bill.belongsTo(db.BillStatus, { defaultValue: 1 });
+db.BillStatus.hasMany(db.Bill, { foreignKey: 'BillStatusId', onDelete: 'cascade' });
+db.Bill.belongsTo(db.BillStatus);
 module.exports = db;

@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-const ApiError = require('../../api-error');
 const db = require('../models');
 
 interface IGetUserAuthInfoRequest extends Request {
@@ -17,7 +16,7 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
         const billCreated = await db.Bill.findAll({
             where: {
                 AccountId: user[0].id,
-                state: false
+                BillStatusId: 1
             }
         })
 
@@ -56,7 +55,6 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
                 })
 
                 const data = { BillId: billCreated[0].id, ...req.body, totalPriceItem:  req.body.totalItems * product.price}
-                console.log(data)
                 const newDetail = await db.DetailBill.create(data);
                 await newDetail.save();
                 return res.status(200).json({
@@ -66,7 +64,7 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
                 })
             }
         } else {
-            const bill = await db.Bill.create({ "AccountId": user[0].id, "CheckoutId": 1, "state": false });
+            const bill = await db.Bill.create({ "AccountId": user[0].id});
             await bill.save();
             const product = await db.Product.findOne({
                 where: {

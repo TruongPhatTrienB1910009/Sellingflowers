@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const ApiError = require('../../api-error');
 const db = require('../models');
 const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -21,7 +20,7 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         const billCreated = yield db.Bill.findAll({
             where: {
                 AccountId: user[0].id,
-                state: false
+                BillStatusId: 1
             }
         });
         if (billCreated[0]) {
@@ -55,7 +54,6 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
                     }
                 });
                 const data = Object.assign(Object.assign({ BillId: billCreated[0].id }, req.body), { totalPriceItem: req.body.totalItems * product.price });
-                console.log(data);
                 const newDetail = yield db.DetailBill.create(data);
                 yield newDetail.save();
                 return res.status(200).json({
@@ -66,7 +64,7 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
             }
         }
         else {
-            const bill = yield db.Bill.create({ "AccountId": user[0].id, "CheckoutId": 1, "state": false });
+            const bill = yield db.Bill.create({ "AccountId": user[0].id });
             yield bill.save();
             const product = yield db.Product.findOne({
                 where: {
