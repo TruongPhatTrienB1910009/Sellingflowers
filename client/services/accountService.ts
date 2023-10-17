@@ -19,3 +19,8 @@ export const getAllAddress = async () => {
     const result = (await axios.get('/account/address')).data
     return result;
 }
+
+export const getAddressById = async (id: any) => {
+    const result = (await axios.get(`/account/address/${id}`)).data
+    return result;
+}

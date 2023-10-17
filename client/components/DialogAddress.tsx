@@ -19,7 +19,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-export default function DialogAddress({openDialog} : {openDialog: any}) {
+export default function DialogAddress({openDialog, handleSelectAddress} : {openDialog: any, handleSelectAddress: any}) {
     const [open, setOpen] = React.useState(false);
     const [listAddress, setListAddress] = React.useState([])
 
@@ -65,7 +65,7 @@ export default function DialogAddress({openDialog} : {openDialog: any}) {
                     <CloseIcon />
                 </IconButton>
                 <DialogContent dividers>
-                    <ListAddress listAddress={listAddress}/>
+                    <ListAddress handleClose={handleClose} listAddress={listAddress} handleSelectAddress={handleSelectAddress}/>
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus>
