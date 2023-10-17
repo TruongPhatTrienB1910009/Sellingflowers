@@ -19,7 +19,7 @@ const ComponentAddress = () => {
                 <h4>Địa chỉ giao hàng</h4>
                 <div>
                     <button onClick={() => setOpenDialog(openDialog + 1)}>
-                        Open
+                        Chọn địa chỉ
                     </button>
                 </div>
             </Box>

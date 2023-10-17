@@ -9,7 +9,6 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import WrapperCards from "@/components/common/WrapperCards";
-import { listItems } from "@/data/test";
 import "@/styles/home.css";
 
 export default function Category() {
@@ -81,7 +80,7 @@ export default function Category() {
                 </div>
             </div>
             <div className="rightLayout">
-                <WrapperCards listItems={listItems} />
+                {/* <WrapperCards listItems={listItems} /> */}
             </div>
         </div>
     )
