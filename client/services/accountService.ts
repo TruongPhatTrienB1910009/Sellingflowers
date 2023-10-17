@@ -14,3 +14,8 @@ export const createNewAddress = async (data: any) => {
     const result = (await axios.post('/account/address', data)).data;
     return result;
 }
+
+export const getAllAddress = async () => {
+    const result = (await axios.get('/account/address')).data
+    return result;
+}

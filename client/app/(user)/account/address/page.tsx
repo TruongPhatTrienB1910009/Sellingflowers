@@ -1,11 +1,25 @@
 "use client"
 import { Box, Button } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import FormAddress from '@/components/FormAddress';
+import ListAddress from '@/components/ListAddress';
+import { getAllAddress } from '@/services/accountService';
 
 const Address = () => {
     const [openDialog, setOpenDialog] = useState(1);
+    const [listAddress, setListAddress] = useState([]);
+
+    const handleGetAllAddress = async () => {
+        const data = await getAllAddress();
+        if(data.EC == 0) {
+            setListAddress(data.DT);
+        }
+    }
+
+    useEffect(() => {
+        handleGetAllAddress();
+    }, [listAddress.length])
 
     return (
         <Box>
@@ -35,6 +49,7 @@ const Address = () => {
             <hr />
             <Box>
                 <FormAddress openDialog={openDialog}/>
+                <ListAddress listAddress={listAddress} />
             </Box>
         </Box>
     )
