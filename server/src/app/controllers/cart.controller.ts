@@ -116,7 +116,8 @@ const getAllItemsInCart = async (req: IGetUserAuthInfoRequest, res: Response, ne
                 }
             ],
             where: {
-                AccountId: user.id
+                AccountId: user.id,
+                BillStatusId: 1
             }
         })
 
@@ -125,6 +126,12 @@ const getAllItemsInCart = async (req: IGetUserAuthInfoRequest, res: Response, ne
                 EM: 'OK',
                 EC: 0,
                 DT: data
+            })
+        } else {
+            return res.status(200).json({
+                EM: 'NOT OK',
+                EC: -1,
+                DT: 'NO ITEMS'
             })
         }
     } catch (error) {

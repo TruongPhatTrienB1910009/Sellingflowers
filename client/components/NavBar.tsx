@@ -63,7 +63,7 @@ export default function DrawerAppBar(props: Props) {
 
     React.useEffect(() => {
         getAllProducts();
-    }, [listItemsInCart.length]);
+    }, [listItemsInCart?.length]);
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
@@ -142,8 +142,8 @@ export default function DrawerAppBar(props: Props) {
                                                     <NestedListItems listItemsInCart={listItemsInCart} />
                                                     <span style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                                                         {
-                                                            (listItemsInCart.length > 2) ? (
-                                                                <p style={{marginRight: '40px', fontSize: '0.875rem', color: 'rgba(0, 0, 0, 0.6)'}}>còn {listItemsInCart.length - 2} sản phẩm khác</p>
+                                                            (listItemsInCart?.length > 2) ? (
+                                                                <p style={{marginRight: '40px', fontSize: '0.875rem', color: 'rgba(0, 0, 0, 0.6)'}}>còn {listItemsInCart?.length - 2} sản phẩm khác</p>
                                                             ) : ''
                                                         }
                                                         <button onClick={() => { router.push('/cart') }}>Xem giỏ hàng</button>

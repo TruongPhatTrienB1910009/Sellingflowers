@@ -14,7 +14,7 @@ export default function NestedListItems({ listItemsInCart }: any) {
             aria-labelledby="nested-list-subheader"
         >
             {
-                (listItemsInCart.length > 0) ? (
+                (listItemsInCart?.length > 0) ? (
                     listItemsInCart.map((item: any, index: number) => {
                         if (index > 2) return;
                         return (

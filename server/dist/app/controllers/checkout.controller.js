@@ -13,7 +13,9 @@ const sequelize_1 = require("sequelize");
 const db = require('../models');
 const checkOut = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log(req.body);
         const user = yield db.Account.findOne({ where: { email: req.user.email } });
+        req.body.checkout = JSON.parse(req.body.checkout);
         const getBill = yield db.Bill.findOne({
             where: {
                 AccountId: user.id,

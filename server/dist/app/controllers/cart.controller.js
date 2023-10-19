@@ -113,7 +113,8 @@ const getAllItemsInCart = (req, res, next) => __awaiter(void 0, void 0, void 0, 
                 }
             ],
             where: {
-                AccountId: user.id
+                AccountId: user.id,
+                BillStatusId: 1
             }
         });
         if (data) {
@@ -121,6 +122,13 @@ const getAllItemsInCart = (req, res, next) => __awaiter(void 0, void 0, void 0, 
                 EM: 'OK',
                 EC: 0,
                 DT: data
+            });
+        }
+        else {
+            return res.status(200).json({
+                EM: 'NOT OK',
+                EC: -1,
+                DT: 'NO ITEMS'
             });
         }
     }

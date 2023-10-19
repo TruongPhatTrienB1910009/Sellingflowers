@@ -7,6 +7,7 @@ import { getAllItemsInCart } from '@/services/cartService'
 import { getAddressById } from '@/services/accountService'
 import { caculateDeliveryFee } from '@/utils/api'
 import { VND } from '@/utils/VND'
+import { checkOut } from '@/services/checkoutService'
 
 const ComponentAddress = ({ handleSelectAddress, selectedAddress }: { handleSelectAddress: any, selectedAddress: any }) => {
     const [openDialog, setOpenDialog] = useState(1);
@@ -71,7 +72,7 @@ const ComponentAddress = ({ handleSelectAddress, selectedAddress }: { handleSele
 }
 
 
-const ComponentCheckout = ({selectedAddress, totalpriceItems}: {selectedAddress: any, totalpriceItems: any}) => {
+const ComponentCheckout = ({selectedAddress, totalpriceItems, handleCheckOut}: {selectedAddress: any, totalpriceItems: any, handleCheckOut: any}) => {
 
     const [address, setAddress] = useState<any>(null);
     const [deliveryFee, setDeliveryFee] = useState<any>(0);
@@ -112,7 +113,7 @@ const ComponentCheckout = ({selectedAddress, totalpriceItems}: {selectedAddress:
                             <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng thanh toán: {VND.format(totalpriceItems + deliveryFee)}</span>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
-                            <Button sx={{ backgroundColor: '#228b22', color: '#fff', padding: '16px 42px', ':hover': { backgroundColor: '#228b22' } }}>
+                            <Button onClick={handleCheckOut} sx={{ backgroundColor: '#228b22', color: '#fff', padding: '16px 42px', ':hover': { backgroundColor: '#228b22' } }}>
                                 Đặt Hàng
                             </Button>
                         </div>
@@ -158,6 +159,24 @@ const CheckOut = () => {
         setSelectedAddress(id);
     }
 
+    const handleCheckOut = async () => {
+        try {
+            const checkout: any = sessionStorage.getItem('checkout');
+            const DeliveryAddress: any = selectedAddress
+            const result = await checkOut({
+                checkout: checkout,
+                DeliveryAddress: DeliveryAddress
+            })
+
+            if (result.EC == 0 ) {
+                alert("thành công")
+            }
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
+
     React.useEffect(() => {
         getAllProducts();
     }, [listItemsInCart.length, setSelectedAddress]);
@@ -166,7 +185,7 @@ const CheckOut = () => {
         <Container maxWidth='lg' sx={{ marginTop: '6px' }}>
             <ComponentAddress handleSelectAddress={handleSelectAddress} selectedAddress={selectedAddress} />
             <TableItemsCheckout listItemsInCart={listItemsInCart} />
-            <ComponentCheckout  selectedAddress={selectedAddress} totalpriceItems={totalpriceItems}/>
+            <ComponentCheckout  selectedAddress={selectedAddress} totalpriceItems={totalpriceItems} handleCheckOut={handleCheckOut}/>
         </Container>
     )
 }

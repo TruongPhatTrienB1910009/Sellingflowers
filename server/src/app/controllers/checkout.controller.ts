@@ -8,8 +8,9 @@ interface UserRequest extends Request {
 
 const checkOut = async (req: UserRequest, res: Response, next: NextFunction) => {
     try {
+        console.log(req.body);
         const user = await db.Account.findOne({ where: { email: req.user.email } })
-
+        req.body.checkout = JSON.parse(req.body.checkout);
         const getBill = await db.Bill.findOne({
             where: {
                 AccountId: user.id,
