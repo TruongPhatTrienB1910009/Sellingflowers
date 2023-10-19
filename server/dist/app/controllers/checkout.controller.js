@@ -61,7 +61,7 @@ const checkOut = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
                 totalPrice += arrCheckout[i].totalPriceItem;
                 yield newDetail.save();
             }
-            yield newBill.update({ totalprice: totalPrice });
+            yield newBill.update({ totalprice: totalPrice + req.body.deleveryfee });
             const deleArr = arrCheckout.map((product, index) => {
                 return product.ProductId;
             });

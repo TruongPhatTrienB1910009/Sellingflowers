@@ -25,6 +25,9 @@ module.exports = (sequelize, Model, DataTypes) => {
         CheckoutId: {
             type: DataTypes.BIGINT,
             defaultValue: 1
+        },
+        deleveryfee: {
+            type: DataTypes.BIGINT,
         }
     }, {
         sequelize: sequelize,

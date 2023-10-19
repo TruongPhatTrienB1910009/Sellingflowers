@@ -61,7 +61,7 @@ const checkOut = async (req: UserRequest, res: Response, next: NextFunction) => 
                 await newDetail.save();
             }
 
-            await newBill.update({ totalprice: totalPrice })
+            await newBill.update({ totalprice: totalPrice + req.body.deleveryfee })
 
             const deleArr = arrCheckout.map((product: any, index: number) => {
                 return product.ProductId

@@ -10,6 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, FormControl, InputLabel, MenuItem, NativeSelect, Select, SelectChangeEvent } from '@mui/material';
 import { createNewAddress } from '@/services/accountService';
+import { getCities, getDistricts, getWards } from '@/utils/api';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -23,6 +24,16 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export default function FormAddress({ openDialog }: { openDialog: any }) {
     const [open, setOpen] = React.useState(false);
 
+
+    const handleGetCities = async () => {
+        const data = await getCities();
+
+        if (data) {
+            setCities(data);
+        }
+
+    }
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -32,28 +43,18 @@ export default function FormAddress({ openDialog }: { openDialog: any }) {
 
     React.useEffect(() => {
         if (openDialog > 1) handleClickOpen();
+        handleGetCities();
     }, [openDialog])
 
     const [cities, setCities] = React.useState([]);
     const [districts, setDistricts] = React.useState([]);
     const [wards, setWards] = React.useState([]);
 
-    const getAllCities = async () => {
-        const arr = await fetch('https://provinces.open-api.vn/api/?depth=1');
-        const result = await arr.json();
-        if (result) {
-            setCities(result);
-        }
-    }
-
     const getSelectCities = async (e: any) => {
         if (e.target.value) {
-            const arr: any = await fetch('https://provinces.open-api.vn/api/?depth=2');
-            const result = await arr.json();
-            if (result) {
-                const data: any = result.filter((c: any, index: number) => c.name == e.target.value);
-                setDistricts(data[0].districts);
-            }
+            setWards([]);
+            const districts = await getDistricts(e.target.value.slice(0, e.target.value.indexOf("-")));
+            setDistricts(districts)
         } else {
             setWards([]);
         }
@@ -61,13 +62,9 @@ export default function FormAddress({ openDialog }: { openDialog: any }) {
 
     const getSelectDistrict = async (e: any) => {
         if (e.target.value != 0) {
-            const arr: any = await fetch('https://provinces.open-api.vn/api/?depth=3');
-            const result = await arr.json();
-            if (result) {
-                const city = (document.getElementById('selectCity') as HTMLInputElement)?.value;
-                const data: any = result.filter((c: any, index: number) => c.name == city);
-                const arrWards = data[0].districts.filter((d: any, index: number) => d.name == e.target.value);
-                setWards(arrWards[0].wards);
+            const wards = await getWards(e.target.value.slice(0, e.target.value.indexOf('-')));
+            if (wards) {
+                setWards(wards)
             }
         }
     }
@@ -83,16 +80,18 @@ export default function FormAddress({ openDialog }: { openDialog: any }) {
             ward: data.get('ward'),
             detail: data.get('detail'),
         }
-        
+
+        console.log(address);
+
         const result = await createNewAddress(address);
-        if(result.EC == 0) {
+        if (result.EC == 0) {
             alert("Tao dia chi moi thanh cong")
             handleClose();
         }
     }
 
     React.useEffect(() => {
-        getAllCities();
+        handleGetCities();
     }, [cities.length, districts.length, wards.length]);
     return (
         <div>
@@ -130,14 +129,14 @@ export default function FormAddress({ openDialog }: { openDialog: any }) {
                                     padding: '12px',
                                     fontSize: '16px'
                                 }}
-                                type="text" placeholder='Họ và tên' name='name'/>
+                                type="text" placeholder='Họ và tên' name='name' />
                             <input
                                 style={{
                                     width: '100%',
                                     fontSize: '16px',
                                     padding: '12px',
                                 }}
-                                type="text" placeholder='Số điện thoại' name='phone'/>
+                                type="text" placeholder='Số điện thoại' name='phone' />
                         </Box>
                         <Box sx={{ display: 'flex', gap: '20px' }}>
                             <Box sx={{ minWidth: 160 }}>
@@ -152,12 +151,12 @@ export default function FormAddress({ openDialog }: { openDialog: any }) {
                                             name: 'city',
                                             id: 'selectCity',
                                         }}
-                                        onChange={(e) => getSelectCities(e)}
+                                        onChange={(e) => { getSelectCities(e) }}
                                     >
                                         <option value={0}>Chọn</option>
                                         {
                                             cities.map((c: any, index: number) => {
-                                                return <option value={c.name} key={c.code}>{c.name}</option>
+                                                return <option value={`${c.id}-${c.name}`} key={c.id}>{c.name}</option>
                                             })
                                         }
                                     </NativeSelect>
@@ -181,7 +180,7 @@ export default function FormAddress({ openDialog }: { openDialog: any }) {
                                         <option value={0}>Chọn</option>
                                         {
                                             districts.map((d: any, index: number) => {
-                                                return <option value={d.name} key={d.code}>{d.name}</option>
+                                                return <option value={`${d.id}-${d.name}`} key={d.id}>{d.name}</option>
                                             })
                                         }
                                     </NativeSelect>
@@ -204,7 +203,7 @@ export default function FormAddress({ openDialog }: { openDialog: any }) {
                                         <option value={0}>Chọn</option>
                                         {
                                             wards.map((w: any, index: number) => {
-                                                return <option value={w.name} key={w.code}>{w.name}</option>
+                                                return <option value={`${w.id}-${w.name}`} key={w.id}>{w.name}</option>
                                             })
                                         }
                                     </NativeSelect>
