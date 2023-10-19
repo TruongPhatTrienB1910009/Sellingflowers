@@ -5,6 +5,8 @@ import TableItemsCheckout from '@/components/TableItemsCheckout'
 import DialogAddress from '@/components/DialogAddress'
 import { getAllItemsInCart } from '@/services/cartService'
 import { getAddressById } from '@/services/accountService'
+import { caculateDeliveryFee } from '@/utils/api'
+import { VND } from '@/utils/VND'
 
 const ComponentAddress = ({ handleSelectAddress, selectedAddress }: { handleSelectAddress: any, selectedAddress: any }) => {
     const [openDialog, setOpenDialog] = useState(1);
@@ -69,7 +71,28 @@ const ComponentAddress = ({ handleSelectAddress, selectedAddress }: { handleSele
 }
 
 
-const ComponentCheckout = () => {
+const ComponentCheckout = ({selectedAddress, totalpriceItems}: {selectedAddress: any, totalpriceItems: any}) => {
+
+    const [address, setAddress] = useState<any>(null);
+    const [deliveryFee, setDeliveryFee] = useState<any>(0);
+
+    const handleGetAddressById = async () => {
+        if (selectedAddress > -1) {
+            const ad = await getAddressById(selectedAddress);
+            if (ad.EC == 0) {
+                setAddress(ad.DT);
+                const fee = await caculateDeliveryFee({address: ad.DT})
+                if(fee) {
+                    setDeliveryFee(fee.total_amount);
+                }
+            }
+        }
+    }
+
+    useEffect(() => {
+        handleGetAddressById();
+    }, [selectedAddress, totalpriceItems]);
+
     return (
         <>
             <Box sx={{
@@ -84,9 +107,9 @@ const ComponentCheckout = () => {
                     </div>
                     <div>
                         <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px' }}>
-                            <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng tiền hàng: 200.000.000 đ</span>
-                            <span style={{ fontSize: '16px', marginBottom: '6px' }}>Phí vận chuyển: </span>
-                            <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng tiền hàng: </span>
+                            <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng tiền hàng: {VND.format(totalpriceItems)}</span>
+                            <span style={{ fontSize: '16px', marginBottom: '6px' }}>Phí vận chuyển: {VND.format(deliveryFee)}</span>
+                            <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng thanh toán: {VND.format(totalpriceItems + deliveryFee)}</span>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
                             <Button sx={{ backgroundColor: '#228b22', color: '#fff', padding: '16px 42px', ':hover': { backgroundColor: '#228b22' } }}>
@@ -104,6 +127,7 @@ const ComponentCheckout = () => {
 const CheckOut = () => {
     const [listItemsInCart, setListItemsInCart] = React.useState<any>([]);
     const [selectedAddress, setSelectedAddress] = React.useState<any>(-1);
+    const [totalpriceItems, setTotalpriceItems] = React.useState<any>(0);
 
     const getAllProducts = async () => {
         if (localStorage.getItem('accesstoken')) {
@@ -119,6 +143,11 @@ const CheckOut = () => {
 
                     if (temp) {
                         setListItemsInCart(temp);
+                        const total = temp.reduce((accumulator: any, currentValue: any, currentIndex: any) => {
+                            return accumulator += currentValue.DetailBill.totalPriceItem
+                        }, 0)
+
+                        setTotalpriceItems(total);
                     }
                 }
             }
@@ -127,7 +156,6 @@ const CheckOut = () => {
 
     const handleSelectAddress = (id: number) => {
         setSelectedAddress(id);
-        console.log(id);
     }
 
     React.useEffect(() => {
@@ -138,7 +166,7 @@ const CheckOut = () => {
         <Container maxWidth='lg' sx={{ marginTop: '6px' }}>
             <ComponentAddress handleSelectAddress={handleSelectAddress} selectedAddress={selectedAddress} />
             <TableItemsCheckout listItemsInCart={listItemsInCart} />
-            <ComponentCheckout />
+            <ComponentCheckout  selectedAddress={selectedAddress} totalpriceItems={totalpriceItems}/>
         </Container>
     )
 }

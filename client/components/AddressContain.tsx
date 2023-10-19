@@ -15,7 +15,7 @@ const AddressContain = ({address, handleSelectAddress, handleClose}: {address: a
         </div>
         <div style={{fontSize: '14px'}}>
             <p>{address.detail}</p>
-            <p>{`${address.ward}, ${address.district}, ${address.city}`}</p>
+            <p>{`${address.ward.slice(address.ward.indexOf("-") + 1)}, ${address.district.slice(address.district.indexOf("-") + 1)}, ${address.city.slice(address.city.indexOf("-") + 1)}`}</p>
         </div>
         <div style={{
             marginTop: '10px',

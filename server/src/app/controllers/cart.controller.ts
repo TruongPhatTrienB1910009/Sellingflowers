@@ -176,8 +176,15 @@ const removeItemFromCart = async (req: IGetUserAuthInfoRequest, res: Response, n
 
 const updateTotalItems = async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
     try {
+        const product = await db.Product.findOne({
+            where: {
+                id: req.body.ProductId
+            }
+        })
+
         const result = await db.DetailBill.update({
-            totalItems: req.body.totalItems
+            totalItems: req.body.totalItems,
+            totalPriceItem: req.body.totalItems * product.price
         }, {
             where: {
                 BillId: req.body.BillId,

@@ -92,7 +92,7 @@ export default function TableItemsCheckout({ listItemsInCart }: any) {
                                                 {VND.format(row.price)}
                                             </TableCell>
                                             <TableCell align='center' className='inputBtnGroup'>
-                                                1
+                                                {row.DetailBill.totalItems}
                                             </TableCell>
                                             <TableCell align='right'>
                                                 {VND.format(row.price * row.DetailBill.totalItems)}

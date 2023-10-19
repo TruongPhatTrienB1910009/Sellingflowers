@@ -169,8 +169,14 @@ const removeItemFromCart = (req, res, next) => __awaiter(void 0, void 0, void 0,
 });
 const updateTotalItems = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const product = yield db.Product.findOne({
+            where: {
+                id: req.body.ProductId
+            }
+        });
         const result = yield db.DetailBill.update({
-            totalItems: req.body.totalItems
+            totalItems: req.body.totalItems,
+            totalPriceItem: req.body.totalItems * product.price
         }, {
             where: {
                 BillId: req.body.BillId,

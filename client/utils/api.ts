@@ -57,3 +57,46 @@ export const getWards = async (district: any) => {
         console.log(error);
     }
 }
+
+export const caculateDeliveryFee = async ({ address }: { address: any }) => {
+    console.log(address);
+    const { city, district, ward }: any = address;
+    console.log(city, district, ward);
+
+    const delivery = {
+        "shipment": {
+            "address_from": {
+                "district": "700100",
+                "city": "700000",
+                "ward": "8955"
+            },
+            "address_to": {
+                "district": `${district.slice(0, district.indexOf("-"))}`,
+                "city": `${city.slice(0, city.indexOf("-"))}`,
+                "ward": `${ward.slice(0, ward.indexOf("-"))}`
+            },
+            "parcel": {
+                "cod": null,
+                "amount": 2000000,
+                "width": 30,
+                "height": 100,
+                "length": 30,
+                "weight": 150
+            }
+        }
+    }
+
+    const response = (await axios({
+        method: 'POST',
+        url: "https://sandbox.goship.io/api/v2/rates",
+        data: delivery,
+        headers: {
+            'content-type': 'application/json',
+            'Acess-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + process.env.NEXT_PUBLIC_go_ship_token,
+            'Accept': "application/json",
+        }
+    })).data
+    
+    return response.data[0]
+}
