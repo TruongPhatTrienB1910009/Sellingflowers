@@ -35,7 +35,11 @@ export default function SignIn() {
         if (userSignIn && userSignIn.EC === 0) {
             dispatch(signIn(userSignIn.DT));
             localStorage.setItem('accesstoken', userSignIn.DT.accesstoken);
-            router.push('/');
+            if(userSignIn.DT.groupRoles.id == 3) {
+                router.push("/dashboard")
+            }else {
+                router.push("/");
+            }
         }
     };
 

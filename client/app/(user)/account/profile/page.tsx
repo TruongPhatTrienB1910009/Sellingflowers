@@ -13,6 +13,7 @@ const Profile = () => {
             const foundUser = await getAccount();
             if(foundUser.EC == 0) {
                 setUser(foundUser.DT);
+                console.log(foundUser.DT);
             }
         } catch (error) {
             console.log(error)
