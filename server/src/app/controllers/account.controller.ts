@@ -199,7 +199,44 @@ const deleteDeliveryAddress = async (req: UserRequest, res: Response, next: Next
     }
 }
 
+
+// account/receipts
+const getAllBillWaitting = async (req: UserRequest, res: Response, next: NextFunction) => {
+    try {
+        const user = await db.Account.findOne({
+            where: {
+                email: req.user.email,
+            }
+        })
+
+        if(user) {
+            const Bills = await db.Bill.findAll({
+                where: {
+                    AccountId: user.id,
+                    BillStatusId: 2
+                }
+            })
+
+            if(Bills) {
+                return res.status(200).json({
+                    EC: 0,
+                    EM: "OK",
+                    DT: Bills
+                })
+            }
+        }
+    } catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: "NOT OK",
+            DT: (error as Error).message
+        })
+    }
+}
+
+
 module.exports = {
     getAccount, updateAccount, createDeliveryAddress, 
-    getAllAddress, updateDeliveryAddress, getDetailAddress, deleteDeliveryAddress
+    getAllAddress, updateDeliveryAddress, getDetailAddress, deleteDeliveryAddress,
+    getAllBillWaitting
 }

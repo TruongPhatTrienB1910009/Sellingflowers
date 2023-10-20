@@ -13,7 +13,6 @@ const sequelize_1 = require("sequelize");
 const db = require('../models');
 const checkOut = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(req.body);
         const user = yield db.Account.findOne({ where: { email: req.user.email } });
         req.body.checkout = JSON.parse(req.body.checkout);
         const getBill = yield db.Bill.findOne({
@@ -32,7 +31,7 @@ const checkOut = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
             for (let i = 0; i < getDetailsBill.length; i++) {
                 totalPrice += getDetailsBill[i].totalPriceItem;
             }
-            yield getBill.update({ BillStatusId: 2, DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice });
+            yield getBill.update({ BillStatusId: 2, DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.deliveryfee });
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
@@ -50,7 +49,8 @@ const checkOut = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
                 AccountId: user.id,
                 BillStatusId: 2,
                 note: req.body.note,
-                DeliveryAddressId: req.body.DeliveryAddress
+                DeliveryAddressId: req.body.DeliveryAddress,
+                deliveryfee: req.body.deliveryfee
             });
             let totalPrice = 0;
             for (let i = 0; i < arrCheckout.length; i++) {
@@ -63,7 +63,7 @@ const checkOut = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
                 totalPrice += arrCheckout[i].totalPriceItem;
                 yield newDetail.save();
             }
-            yield newBill.update({ totalprice: totalPrice + req.body.deleveryfee });
+            yield newBill.update({ totalprice: totalPrice });
             const deleArr = arrCheckout.map((product, index) => {
                 return product.ProductId;
             });

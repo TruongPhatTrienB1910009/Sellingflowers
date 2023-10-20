@@ -26,7 +26,7 @@ module.exports = (sequelize, Model, DataTypes) => {
             type: DataTypes.BIGINT,
             defaultValue: 1
         },
-        deleveryfee: {
+        deliveryfee: {
             type: DataTypes.BIGINT,
         }
     }, {

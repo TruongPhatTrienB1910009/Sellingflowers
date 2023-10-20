@@ -8,7 +8,6 @@ interface UserRequest extends Request {
 
 const checkOut = async (req: UserRequest, res: Response, next: NextFunction) => {
     try {
-        console.log(req.body);
         const user = await db.Account.findOne({ where: { email: req.user.email } })
         req.body.checkout = JSON.parse(req.body.checkout);
         const getBill = await db.Bill.findOne({
@@ -29,7 +28,7 @@ const checkOut = async (req: UserRequest, res: Response, next: NextFunction) => 
             for(let i = 0; i < getDetailsBill.length; i++) {
                 totalPrice += getDetailsBill[i].totalPriceItem
             }
-            await getBill.update({BillStatusId: 2, DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice})
+            await getBill.update({BillStatusId: 2, DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.deliveryfee})
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
@@ -47,7 +46,8 @@ const checkOut = async (req: UserRequest, res: Response, next: NextFunction) => 
                 AccountId: user.id,
                 BillStatusId: 2,
                 note: req.body.note,
-                DeliveryAddressId: req.body.DeliveryAddress
+                DeliveryAddressId: req.body.DeliveryAddress,
+                deliveryfee: req.body.deliveryfee
             })
 
             let totalPrice = 0;
@@ -62,7 +62,7 @@ const checkOut = async (req: UserRequest, res: Response, next: NextFunction) => 
                 await newDetail.save();
             }
 
-            await newBill.update({ totalprice: totalPrice + req.body.deleveryfee })
+            await newBill.update({ totalprice: totalPrice })
 
             const deleArr = arrCheckout.map((product: any, index: number) => {
                 return product.ProductId

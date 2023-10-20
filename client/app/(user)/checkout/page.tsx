@@ -113,7 +113,7 @@ const ComponentCheckout = ({selectedAddress, totalpriceItems, handleCheckOut}: {
                             <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng thanh toán: {VND.format(totalpriceItems + deliveryFee)}</span>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
-                            <Button onClick={handleCheckOut} sx={{ backgroundColor: '#228b22', color: '#fff', padding: '16px 42px', ':hover': { backgroundColor: '#228b22' } }}>
+                            <Button onClick={() => {handleCheckOut(deliveryFee)}} sx={{ backgroundColor: '#228b22', color: '#fff', padding: '16px 42px', ':hover': { backgroundColor: '#228b22' } }}>
                                 Đặt Hàng
                             </Button>
                         </div>
@@ -159,13 +159,14 @@ const CheckOut = () => {
         setSelectedAddress(id);
     }
 
-    const handleCheckOut = async () => {
+    const handleCheckOut = async (deliveryFee: any) => {
         try {
             const checkout: any = sessionStorage.getItem('checkout');
             const DeliveryAddress: any = selectedAddress
             const result = await checkOut({
                 checkout: checkout,
-                DeliveryAddress: DeliveryAddress
+                DeliveryAddress: DeliveryAddress,
+                deliveryfee: deliveryFee,
             })
 
             if (result.EC == 0 ) {
