@@ -6,7 +6,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import Image from 'next/image';
-import { Typography } from '@mui/material';
+import { Collapse, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
@@ -15,17 +15,25 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { signIn, signOut } from '@/redux/features/auth-slice';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { ExpandLess, ExpandMore, StarBorder } from '@mui/icons-material';
+import DoubleArrowOutlinedIcon from '@mui/icons-material/DoubleArrowOutlined';
 
 export default function SubNav() {
-    const [selectedIndex, setSelectedIndex] = React.useState(3);
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
     const dispatch = useDispatch();
     const router = useRouter();
+    const [open, setOpen] = React.useState(true);
 
     const handleListItemClick = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>,
         index: number,
     ) => {
         setSelectedIndex(index);
+    };
+
+
+    const handleClick = () => {
+        setOpen(!open);
     };
 
     const handleSignOut = () => {
@@ -55,8 +63,8 @@ export default function SubNav() {
             <Divider />
             <List sx={{ paddingY: 0 }} component="nav" aria-label="secondary mailbox folder">
                 <ListItemButton
-                    selected={selectedIndex === 2}
-                    onClick={(event) => handleListItemClick(event, 2)}
+                    selected={selectedIndex === 0}
+                    onClick={(event) => handleListItemClick(event, 0)}
                     sx={{
                         padding: '16px'
                     }}
@@ -66,21 +74,37 @@ export default function SubNav() {
                     </ListItemIcon>
                     <ListItemText primary="Trang Chủ" />
                 </ListItemButton>
-                <ListItemButton
-                    selected={selectedIndex === 6}
-                    onClick={(event) => handleListItemClick(event, 6)}
-                    sx={{
-                        padding: '16px'
-                    }}
-                >
-                    <ListItemIcon >
+                <ListItemButton selected={selectedIndex === 1} onClick={(event) => handleListItemClick(event, 1)} sx={{
+                    padding: '16px'
+                }}>
+                    <ListItemIcon>
                         <BookmarkBorderIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Đơn Hàng" />
+                    <ListItemText primary="Hóa Đơn" />
+                    {open ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        <ListItemButton sx={{ pl: 4, paddingY: '12px' }}>
+                            <ListItemIcon>
+                                <DoubleArrowOutlinedIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Tất cả" />
+                        </ListItemButton>
+                        <ListItemButton sx={{ pl: 4, paddingY: '12px' }}>
+                            <ListItemIcon>
+                                <DoubleArrowOutlinedIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Chờ xác nhận" />
+                        </ListItemButton>
+                    </List>
+                </Collapse>
                 <ListItemButton
-                    selected={selectedIndex === 3}
-                    onClick={(event) => handleListItemClick(event, 3)}
+                    selected={selectedIndex === 2}
+                    onClick={(event) => {
+                        handleListItemClick(event, 2)
+                        router.push("/dashboard/products")
+                    }}
                     sx={{
                         padding: '16px'
                     }}
@@ -91,8 +115,8 @@ export default function SubNav() {
                     <ListItemText primary="Sản Phẩm" />
                 </ListItemButton>
                 <ListItemButton
-                    selected={selectedIndex === 4}
-                    onClick={(event) => handleListItemClick(event, 4)}
+                    selected={selectedIndex === 3}
+                    onClick={(event) => handleListItemClick(event, 3)}
                     sx={{
                         padding: '16px'
                     }}
@@ -103,7 +127,7 @@ export default function SubNav() {
                     <ListItemText primary="Khách Hàng" />
                 </ListItemButton>
                 <ListItemButton
-                    selected={selectedIndex === 5}
+                    selected={selectedIndex === 4}
                     onClick={handleSignOut}
                     sx={{
                         padding: '16px'
