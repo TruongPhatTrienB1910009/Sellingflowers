@@ -24,3 +24,12 @@ export const getAddressById = async (id: any) => {
     const result = (await axios.get(`/account/address/${id}`)).data
     return result;
 }
+
+export const getAllBillByType = async (type: any) => {
+    try {
+        const result = (await axios.get(`/account/receipts/${type}`)).data
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}

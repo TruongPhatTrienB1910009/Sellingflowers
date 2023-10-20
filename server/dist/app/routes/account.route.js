@@ -16,6 +16,6 @@ router.route("/address/:id")
     .get(accountController.getDetailAddress)
     .patch(accountController.updateDeliveryAddress)
     .delete(accountController.deleteDeliveryAddress);
-router.route("/receipts/")
-    .get(accountController.getAllBillWaitting);
+router.route("/receipts/:type")
+    .get(accountController.getAllBillByType);
 module.exports = router;

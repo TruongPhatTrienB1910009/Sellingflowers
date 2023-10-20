@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { Op } from "sequelize";
 const db = require('../models');
 
 interface UserRequest extends Request  {
@@ -128,6 +129,7 @@ const createDeliveryAddress = async (req: UserRequest, res: Response, next: Next
 
 const getDetailAddress = async (req: UserRequest, res: Response, next: NextFunction) => {
     try {
+
         const address = await db.DeliveryAddress.findOne({
             where: {
                 id: req.params.id
@@ -201,8 +203,10 @@ const deleteDeliveryAddress = async (req: UserRequest, res: Response, next: Next
 
 
 // account/receipts
-const getAllBillWaitting = async (req: UserRequest, res: Response, next: NextFunction) => {
+
+const getAllBillByType = async (req: UserRequest, res: Response, next: NextFunction) => {
     try {
+
         const user = await db.Account.findOne({
             where: {
                 email: req.user.email,
@@ -210,12 +214,103 @@ const getAllBillWaitting = async (req: UserRequest, res: Response, next: NextFun
         })
 
         if(user) {
-            const Bills = await db.Bill.findAll({
-                where: {
-                    AccountId: user.id,
-                    BillStatusId: 2
-                }
-            })
+            let Bills = null;
+            if(Number(req.params.type) == 0) {
+                Bills = await db.Bill.findAll({
+                    where: {
+                        BillStatusId: {
+                            [Op.notIn]: [1] 
+                        }
+                    },
+                    include: [
+                        {
+                            model: db.Product,
+                        },
+                        {
+                            model: db.BillStatus
+                        },
+                        {model: db.DeliveryAddress}
+                    ]
+                })
+            } else if (Number(req.params.type) == 1) {
+                Bills = await db.Bill.findAll({
+                    where: {
+                        BillStatusId: 2
+                    },
+                    include: [
+                        {
+                            model: db.Product,
+                        },
+                        {
+                            model: db.BillStatus
+                        },
+                        {model: db.DeliveryAddress}
+                    ]
+                })
+            } else if (Number(req.params.type) == 2) {
+                Bills = await db.Bill.findAll({
+                    where: {
+                        BillStatusId: 3
+                    },
+                    include: [
+                        {
+                            model: db.Product,
+                        },
+                        {
+                            model: db.BillStatus
+                        },
+                        {model: db.DeliveryAddress}
+                    ]
+                })
+            } else if (Number(req.params.type) == 3) {
+                Bills = await db.Bill.findAll({
+                    where: {
+                        BillStatusId: {
+                            [Op.notIn]: [1]
+                        },
+                        state: true
+                    },
+                    include: [
+                        {
+                            model: db.Product,
+                        },
+                        {
+                            model: db.BillStatus
+                        },
+                        {model: db.DeliveryAddress}
+                    ]
+                })
+            } else if (Number(req.params.type) == 4) {
+                Bills = await db.Bill.findAll({
+                    where: {
+                        BillStatusId: 5
+                    },
+                    include: [
+                        {
+                            model: db.Product,
+                        },
+                        {
+                            model: db.BillStatus
+                        },
+                        {model: db.DeliveryAddress}
+                    ]
+                })
+            } else if(Number(req.params.type) == 5) {
+                Bills = await db.Bill.findAll({
+                    where: {
+                        BillStatusId: 4
+                    },
+                    include: [
+                        {
+                            model: db.Product,
+                        },
+                        {
+                            model: db.BillStatus
+                        },
+                        {model: db.DeliveryAddress}
+                    ]
+                })
+            }
 
             if(Bills) {
                 return res.status(200).json({
@@ -238,5 +333,5 @@ const getAllBillWaitting = async (req: UserRequest, res: Response, next: NextFun
 module.exports = {
     getAccount, updateAccount, createDeliveryAddress, 
     getAllAddress, updateDeliveryAddress, getDetailAddress, deleteDeliveryAddress,
-    getAllBillWaitting
+    getAllBillByType
 }

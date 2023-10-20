@@ -2,8 +2,8 @@
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import BillWaiting from '@/components/BillWaiting';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -23,8 +23,8 @@ function CustomTabPanel(props: TabPanelProps) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 2 }}>
-                    <Typography>{children}</Typography>
+                <Box>
+                    {children}
                 </Box>
             )}
         </div>
@@ -45,28 +45,30 @@ export default function Receipts() {
         setValue(newValue);
     };
 
+    const labels = ["Tất Cả", "Chờ Xác Nhận", "Đã Xác Nhận", "Đã Thanh Toán", "Đã Nhận Hàng", "Đã Hủy"]
+
     return (
         <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs textColor="secondary" indicatorColor="secondary" value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="Chờ Xác Nhận" {...a11yProps(0)} />
-                    <Tab label="Đã Xác Nhận" {...a11yProps(1)} />
-                    <Tab label="Đã Thanh Toán" {...a11yProps(2)} />
-                    <Tab label="Đã Nhận Hàng" {...a11yProps(3)} />
+                <Tabs sx={{ width: '100%' }} centered textColor="secondary" indicatorColor="secondary" value={value} onChange={handleChange} aria-label="basic tabs example">
+                    {
+                        labels.map((label: any, index: number) => {
+                            return (
+                                <Tab key={label} sx={{ width: '16.6%' }} label={`${label}`} {...a11yProps(index)} />
+                            )
+                        })
+                    }
                 </Tabs>
             </Box>
-            <CustomTabPanel value={value} index={0}>
-                Chờ Xác Nhận
-            </CustomTabPanel>
-            <CustomTabPanel value={value} index={1}>
-                Đã Xác Nhận
-            </CustomTabPanel>
-            <CustomTabPanel value={value} index={2}>
-                Item Three
-            </CustomTabPanel>
-            <CustomTabPanel value={value} index={3}>
-                Item Four
-            </CustomTabPanel>
+            {
+                labels.map((label: any, index: number) => {
+                    return (
+                        <CustomTabPanel key={label} value={value} index={index}>
+                            <BillWaiting type={index} />
+                        </CustomTabPanel>
+                    )
+                })
+            }
         </Box>
     );
 }

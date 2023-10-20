@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const sequelize_1 = require("sequelize");
 const db = require('../models');
 // account/profile
 const getAccount = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -186,7 +187,7 @@ const deleteDeliveryAddress = (req, res, next) => __awaiter(void 0, void 0, void
     }
 });
 // account/receipts
-const getAllBillWaitting = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllBillByType = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield db.Account.findOne({
             where: {
@@ -194,12 +195,108 @@ const getAllBillWaitting = (req, res, next) => __awaiter(void 0, void 0, void 0,
             }
         });
         if (user) {
-            const Bills = yield db.Bill.findAll({
-                where: {
-                    AccountId: user.id,
-                    BillStatusId: 2
-                }
-            });
+            let Bills = null;
+            if (Number(req.params.type) == 0) {
+                Bills = yield db.Bill.findAll({
+                    where: {
+                        BillStatusId: {
+                            [sequelize_1.Op.notIn]: [1]
+                        }
+                    },
+                    include: [
+                        {
+                            model: db.Product,
+                        },
+                        {
+                            model: db.BillStatus
+                        },
+                        { model: db.DeliveryAddress }
+                    ]
+                });
+            }
+            else if (Number(req.params.type) == 1) {
+                Bills = yield db.Bill.findAll({
+                    where: {
+                        BillStatusId: 2
+                    },
+                    include: [
+                        {
+                            model: db.Product,
+                        },
+                        {
+                            model: db.BillStatus
+                        },
+                        { model: db.DeliveryAddress }
+                    ]
+                });
+            }
+            else if (Number(req.params.type) == 2) {
+                Bills = yield db.Bill.findAll({
+                    where: {
+                        BillStatusId: 3
+                    },
+                    include: [
+                        {
+                            model: db.Product,
+                        },
+                        {
+                            model: db.BillStatus
+                        },
+                        { model: db.DeliveryAddress }
+                    ]
+                });
+            }
+            else if (Number(req.params.type) == 3) {
+                Bills = yield db.Bill.findAll({
+                    where: {
+                        BillStatusId: {
+                            [sequelize_1.Op.notIn]: [1]
+                        },
+                        state: true
+                    },
+                    include: [
+                        {
+                            model: db.Product,
+                        },
+                        {
+                            model: db.BillStatus
+                        },
+                        { model: db.DeliveryAddress }
+                    ]
+                });
+            }
+            else if (Number(req.params.type) == 4) {
+                Bills = yield db.Bill.findAll({
+                    where: {
+                        BillStatusId: 5
+                    },
+                    include: [
+                        {
+                            model: db.Product,
+                        },
+                        {
+                            model: db.BillStatus
+                        },
+                        { model: db.DeliveryAddress }
+                    ]
+                });
+            }
+            else if (Number(req.params.type) == 5) {
+                Bills = yield db.Bill.findAll({
+                    where: {
+                        BillStatusId: 4
+                    },
+                    include: [
+                        {
+                            model: db.Product,
+                        },
+                        {
+                            model: db.BillStatus
+                        },
+                        { model: db.DeliveryAddress }
+                    ]
+                });
+            }
             if (Bills) {
                 return res.status(200).json({
                     EC: 0,
@@ -220,5 +317,5 @@ const getAllBillWaitting = (req, res, next) => __awaiter(void 0, void 0, void 0,
 module.exports = {
     getAccount, updateAccount, createDeliveryAddress,
     getAllAddress, updateDeliveryAddress, getDetailAddress, deleteDeliveryAddress,
-    getAllBillWaitting
+    getAllBillByType
 };
