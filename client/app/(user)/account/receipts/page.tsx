@@ -49,7 +49,7 @@ export default function Receipts() {
 
     return (
         <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: '#fff'}}>
                 <Tabs sx={{ width: '100%' }} centered textColor="secondary" indicatorColor="secondary" value={value} onChange={handleChange} aria-label="basic tabs example">
                     {
                         labels.map((label: any, index: number) => {

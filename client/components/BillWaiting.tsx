@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react'
 const BillContainer = ({Bill}: {Bill: any}) => {
     return (
         <Box sx={{
-            border: '2px solid #ccc',
+            backgroundColor: '#fff',
             marginY: '12px',
             padding: '10px'
         }}>

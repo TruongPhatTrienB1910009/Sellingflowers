@@ -6,7 +6,7 @@ const AddressContain = ({address, handleSelectAddress, handleClose}: {address: a
 
   return (
     <Box component={"div"} sx={{
-        padding: '12px',
+        padding: '20px',
         minWidth: '400px'
     }}>
         <div style={{display: 'flex', alignItems: 'center', marginBottom: '8px'}}>

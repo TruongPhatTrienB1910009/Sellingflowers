@@ -26,7 +26,10 @@ const FormInfo = ({ user }: { user: any }) => {
         const result = await updateProfile(address);
 
         if(result.EC == 0) {
-            console.log(result.DT);
+            alert("Lưu thông tin thành công")
+            setTimeout(() => {
+                location.reload();
+            }, 1000)
         }
     }
 

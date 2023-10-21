@@ -23,7 +23,7 @@ const Address = () => {
 
     return (
         <Box>
-            <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between'}}>
+            <div style={{ marginBottom: '10px', display: 'flex', justifyContent: 'space-between', backgroundColor: '#fff', padding: '10px 20px'}}>
                 <div>
                     <h2 style={{ marginBottom: '8px' }}>Địa Chỉ Của Tôi</h2>
                     <p>Quản lý địa chỉ giao hàng</p>
@@ -46,7 +46,6 @@ const Address = () => {
                     </Button>
                 </div>
             </div>
-            <hr />
             <Box>
                 <FormAddress openDialog={openDialog}/>
                 <ListAddress listAddress={listAddress} />

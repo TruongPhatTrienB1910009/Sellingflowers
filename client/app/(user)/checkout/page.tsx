@@ -8,6 +8,7 @@ import { getAddressById } from '@/services/accountService'
 import { caculateDeliveryFee } from '@/utils/api'
 import { VND } from '@/utils/VND'
 import { checkOut } from '@/services/checkoutService'
+import { useRouter } from 'next/navigation'
 
 const ComponentAddress = ({ handleSelectAddress, selectedAddress }: { handleSelectAddress: any, selectedAddress: any }) => {
     const [openDialog, setOpenDialog] = useState(1);
@@ -130,6 +131,8 @@ const CheckOut = () => {
     const [selectedAddress, setSelectedAddress] = React.useState<any>(-1);
     const [totalpriceItems, setTotalpriceItems] = React.useState<any>(0);
 
+    const router = useRouter();
+
     const getAllProducts = async () => {
         if (localStorage.getItem('accesstoken')) {
             const items = await getAllItemsInCart();
@@ -171,6 +174,7 @@ const CheckOut = () => {
 
             if (result.EC == 0 ) {
                 alert("thành công")
+                router.push("/account/receipts")
             }
         } catch (error) {
             console.log(error)

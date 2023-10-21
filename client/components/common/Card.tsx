@@ -11,6 +11,7 @@ import { IconButton } from '@mui/material';
 import { addItemToCart } from '@/services/cartService';
 import CustomizedSnackbars from './Snackbar';
 import { useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 
 interface CardProps {
@@ -21,21 +22,23 @@ const MediaCard: React.FC<CardProps> = ({ item }) => {
     const childRef = useRef<any>(null);
     const [message, setMessage] = useState<any>("");
     const [stateMessage, setStateMessage] = useState<any>("success");
+    const router = useRouter();
 
     const handleAddItemToCart = async (e: any) => {
         try {
             e.preventDefault();
-            console.log(item.id)
             const data = await addItemToCart({
                 "ProductId": item.id,
                 "totalItems": 1,
             })
 
             if (data.EC == 0) {
-                setMessage(data.EM);
+                setMessage("Thêm sản phẩm thành công");
                 childRef.current!.handleOpen();
+                setTimeout(() => {
+                    location.reload();
+                }, 3000)
             } else {
-                setMessage(data.EM);
                 setStateMessage("error")
             }
         } catch (error) {

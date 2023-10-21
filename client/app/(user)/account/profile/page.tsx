@@ -13,7 +13,6 @@ const Profile = () => {
             const foundUser = await getAccount();
             if(foundUser.EC == 0) {
                 setUser(foundUser.DT);
-                console.log(foundUser.DT);
             }
         } catch (error) {
             console.log(error)
@@ -26,12 +25,11 @@ const Profile = () => {
 
     return (
         <Box>
-            <div style={{marginBottom: '20px'}}>
+            <div style={{marginBottom: '10px', backgroundColor: '#fff', padding: '10px 20px'}}>
                 <h2 style={{marginBottom: '8px'}}>Hồ Sơ Của Tôi</h2>
                 <p>Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
             </div>
-            <hr />
-            <Box>
+            <Box sx={{backgroundColor: '#fff', padding: '20px'}}>
                 <FormInfo user={user}/>
             </Box>
         </Box>
