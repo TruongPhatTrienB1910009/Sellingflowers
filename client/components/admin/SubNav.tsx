@@ -16,13 +16,17 @@ import { signIn, signOut } from '@/redux/features/auth-slice';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { ExpandLess, ExpandMore, StarBorder } from '@mui/icons-material';
-import DoubleArrowOutlinedIcon from '@mui/icons-material/DoubleArrowOutlined';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import InventoryIcon from '@mui/icons-material/Inventory';
 
 export default function SubNav() {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const dispatch = useDispatch();
     const router = useRouter();
-    const [open, setOpen] = React.useState(true);
+    const [openBill, setOpenBill] = React.useState(true);
+    const [openProducts, setOpenProducts] = React.useState(true);
 
     const handleListItemClick = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -33,7 +37,7 @@ export default function SubNav() {
 
 
     const handleClick = () => {
-        setOpen(!open);
+        setOpenBill(!open);
     };
 
     const handleSignOut = () => {
@@ -74,37 +78,40 @@ export default function SubNav() {
                     </ListItemIcon>
                     <ListItemText primary="Trang Chủ" />
                 </ListItemButton>
-                <ListItemButton selected={selectedIndex === 1} onClick={(event) => handleListItemClick(event, 1)} sx={{
+                <ListItemButton onClick={() => {setOpenBill(!openBill)}} sx={{
                     padding: '16px'
                 }}>
                     <ListItemIcon>
                         <BookmarkBorderIcon />
                     </ListItemIcon>
                     <ListItemText primary="Hóa Đơn" />
-                    {open ? <ExpandLess /> : <ExpandMore />}
+                    {openBill ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
-                <Collapse in={open} timeout="auto" unmountOnExit>
+                <Collapse in={openBill} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 4, paddingY: '12px' }}>
+                        <ListItemButton selected={selectedIndex === 1} 
+                                onClick={(event) => {
+                                    handleListItemClick(event, 1) 
+                                    router.push("/dashboard/receipts/list")
+                                }} 
+                                sx={{ pl: 4, paddingY: '12px' }}>
                             <ListItemIcon>
-                                <DoubleArrowOutlinedIcon />
+                                <ReceiptLongIcon />
                             </ListItemIcon>
-                            <ListItemText primary="Tất cả" />
+                            <ListItemText primary="Danh sách hóa đơn" />
                         </ListItemButton>
                         <ListItemButton sx={{ pl: 4, paddingY: '12px' }}>
                             <ListItemIcon>
-                                <DoubleArrowOutlinedIcon />
+                                <HourglassEmptyIcon />
                             </ListItemIcon>
                             <ListItemText primary="Chờ xác nhận" />
                         </ListItemButton>
                     </List>
                 </Collapse>
+
+
                 <ListItemButton
-                    selected={selectedIndex === 2}
-                    onClick={(event) => {
-                        handleListItemClick(event, 2)
-                        router.push("/dashboard/products")
-                    }}
+                    onClick={() => {setOpenProducts(!openProducts)}}
                     sx={{
                         padding: '16px'
                     }}
@@ -113,7 +120,31 @@ export default function SubNav() {
                         <ProductionQuantityLimitsIcon />
                     </ListItemIcon>
                     <ListItemText primary="Sản Phẩm" />
+                    {openProducts ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
+                <Collapse in={openProducts} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        <ListItemButton
+                            selected={selectedIndex === 2}
+                            onClick={(event) => {
+                                handleListItemClick(event, 2)
+                                router.push("/dashboard/products/list")
+                            }}
+                            sx={{ pl: 4, paddingY: '12px' }}>
+                            <ListItemIcon>
+                                <InventoryIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Danh sách sản phẩm" />
+                        </ListItemButton>
+                        <ListItemButton sx={{ pl: 4, paddingY: '12px' }}>
+                            <ListItemIcon>
+                                <AppRegistrationIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Tạo phiếu nhập" />
+                        </ListItemButton>
+                    </List>
+                </Collapse>
+
                 <ListItemButton
                     selected={selectedIndex === 3}
                     onClick={(event) => handleListItemClick(event, 3)}
