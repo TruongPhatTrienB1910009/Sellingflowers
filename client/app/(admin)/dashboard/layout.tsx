@@ -16,7 +16,7 @@ export default function AdminLayout({
             <Box sx={{display: 'flex', flexDirection: 'column', width: '100%'}}>
                 <AppBarAdmin />
                 <Container maxWidth="xl" sx={{'@media (min-width: 600px)': {
-                    paddingX: '16px'
+                    padding: '6px'
                 }}}>
                     {children}
                 </Container>
