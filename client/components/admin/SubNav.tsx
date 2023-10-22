@@ -20,6 +20,7 @@ import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import AllInboxIcon from '@mui/icons-material/AllInbox';
 
 export default function SubNav() {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -144,6 +145,15 @@ export default function SubNav() {
                                 <AppRegistrationIcon />
                             </ListItemIcon>
                             <ListItemText primary="Tạo phiếu nhập" />
+                        </ListItemButton>
+                        <ListItemButton selected={selectedIndex === 6} onClick={(event) => {
+                            handleListItemClick(event, 6) 
+                            router.push("/dashboard/products/supplier")
+                        }} sx={{ pl: 4, paddingY: '12px' }}>
+                            <ListItemIcon>
+                                <AllInboxIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Nhà cung cấp" />
                         </ListItemButton>
                     </List>
                 </Collapse>

@@ -56,6 +56,45 @@ const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         });
     }
 });
+// Supplier
+const getAllSuppliers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const suppliers = yield db.Supplier.findAll();
+        if (suppliers) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: suppliers
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EM: 'Product created failed',
+            EC: -1,
+            DT: error.message
+        });
+    }
+});
+const createSupplier = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const supplier = yield db.Supplier.create(req.body);
+        if (supplier) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: supplier
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EM: 'Product created failed',
+            EC: -1,
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    createProduct, upload
+    createProduct, upload, createSupplier, getAllSuppliers
 };

@@ -4,7 +4,8 @@ const multer = require('multer');
 const path = require('path');
 
 interface fileRequest extends Request {
-    file: any
+    file: any,
+    user: any
 }
 
 const Storage = multer.diskStorage({
@@ -59,6 +60,48 @@ const createProduct = async (req: fileRequest, res: Response, next: NextFunction
     }
 }
 
+
+// Supplier
+
+const getAllSuppliers = async (req: fileRequest, res: Response, next: NextFunction) => {
+    try {
+        const suppliers = await db.Supplier.findAll();
+
+        if(suppliers) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: suppliers
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            EM: 'Product created failed',
+            EC: -1,
+            DT: (error as Error).message
+        });
+    }
+}
+
+const createSupplier = async (req: fileRequest, res: Response, next: NextFunction) => {
+    try {
+        const supplier = await db.Supplier.create(req.body);
+        if (supplier) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: supplier
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            EM: 'Product created failed',
+            EC: -1,
+            DT: (error as Error).message
+        });
+    }
+}
+
 module.exports = {
-    createProduct, upload
+    createProduct, upload, createSupplier, getAllSuppliers
 }

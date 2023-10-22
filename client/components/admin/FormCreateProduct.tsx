@@ -30,7 +30,7 @@ const FormCreateProduct = () => {
                         </Box>
                         <Box className="containInput">
                             <label htmlFor="name">Giá tiền nhập vào:</label>
-                            <input id='name' name='name' type="text" />
+                            <input id='name' name='name' type="number" />
                         </Box>
                     </Box>
                 </Box>
@@ -96,7 +96,7 @@ const FormCreateProduct = () => {
                     }}>
                         <Box className="containInput">
                             <label htmlFor="price">Giá bán ra:</label>
-                            <input id='price' name='price' type="text" />
+                            <input id='price' name='price' type="number" />
                         </Box>
                         <Box className="containInput">
                             <label htmlFor="img">Hình ảnh:</label>
