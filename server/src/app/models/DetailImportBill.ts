@@ -3,7 +3,7 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
         public ImportBillId?: number;
         public ProductId?: number;
         public total?: number;
-        public price?: number;
+        public priceItem?: number;
         public totalPrice?: number;
     }
 
@@ -25,7 +25,7 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
         total: {
             type: DataTypes.BIGINT,
         },
-        price: {
+        priceItem: {
             type: DataTypes.BIGINT,
         },
         totalPrice: {

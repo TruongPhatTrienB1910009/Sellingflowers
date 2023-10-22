@@ -1,0 +1,25 @@
+.containInput {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.containInput label {
+    margin-left: '10px';
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.containInput input {
+    padding: 10px;
+    font-size: 14px;
+}
+
+.containInput textarea {
+    padding: 10px;
+    font-size: 14px;
+}
+
+.containInput input:focus-visible {
+    border: none;
+}

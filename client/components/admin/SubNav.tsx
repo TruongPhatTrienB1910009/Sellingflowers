@@ -136,7 +136,10 @@ export default function SubNav() {
                             </ListItemIcon>
                             <ListItemText primary="Danh sách sản phẩm" />
                         </ListItemButton>
-                        <ListItemButton sx={{ pl: 4, paddingY: '12px' }}>
+                        <ListItemButton selected={selectedIndex === 5} onClick={(event) => {
+                            handleListItemClick(event, 5) 
+                            router.push("/dashboard/products/importbill")
+                        }} sx={{ pl: 4, paddingY: '12px' }}>
                             <ListItemIcon>
                                 <AppRegistrationIcon />
                             </ListItemIcon>

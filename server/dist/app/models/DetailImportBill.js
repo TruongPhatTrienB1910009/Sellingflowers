@@ -20,7 +20,7 @@ module.exports = (sequelize, Model, DataTypes) => {
         total: {
             type: DataTypes.BIGINT,
         },
-        price: {
+        priceItem: {
             type: DataTypes.BIGINT,
         },
         totalPrice: {
