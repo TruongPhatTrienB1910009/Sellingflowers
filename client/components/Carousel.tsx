@@ -1,31 +1,82 @@
-import Carousel from 'react-bootstrap/Carousel'
-import "@/styles/common/CarouselBanner.css"
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import MediaCard from "./common/Card";
+import "@/styles/common/CarouselBanner.css";
 
-function CarouselComponent() {
+function CarouselComponent({ listProducts }: { listProducts: any }) {
     return (
-        <Carousel fade>
-            <Carousel.Item>
-                <img
-                    style={{
-                        width: '100%',
-                        height: '100%'
-                    }}
-                    className="d-block w-100"
-                    src="https://vuoncayviet.com/data/aditems/93/vuon-cay-viet-banner-new.jpg"
-                    alt="First slide"
-                />
-            </Carousel.Item>
-            <Carousel.Item>
-                <img
-                    style={{
-                        width: '100%',
-                        height: '100%'
-                    }}
-                    className="d-block w-100"
-                    src="https://www.nylon.com.sg/wp-content/uploads/2020/05/indoor-plants-banner.jpg"
-                    alt="Third slide"
-                />
-            </Carousel.Item>
+        <Carousel
+            additionalTransfrom={0}
+            arrows
+            autoPlaySpeed={3000}
+            centerMode={false}
+            className=""
+            containerClass="container"
+            dotListClass=""
+            draggable
+            focusOnSelect={false}
+            infinite
+            itemClass=""
+            keyBoardControl
+            minimumTouchDrag={80}
+            partialVisible
+            pauseOnHover
+            renderArrowsWhenDisabled={false}
+            renderButtonGroupOutside={false}
+            renderDotsOutside={false}
+            responsive={{
+                desktop: {
+                    breakpoint: {
+                        max: 3000,
+                        min: 1024
+                    },
+                    items: 3,
+                    partialVisibilityGutter: 40
+                },
+                mobile: {
+                    breakpoint: {
+                        max: 464,
+                        min: 0
+                    },
+                    items: 1,
+                    partialVisibilityGutter: 30
+                },
+                tablet: {
+                    breakpoint: {
+                        max: 1024,
+                        min: 464
+                    },
+                    items: 2,
+                    partialVisibilityGutter: 30
+                }
+            }}
+            rewind={false}
+            rewindWithAnimation={false}
+            rtl={false}
+            shouldResetAutoplay
+            showDots={false}
+            sliderClass=""
+            slidesToSlide={1}
+            swipeable
+        >
+            <div className="slider">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTdvuww0JDC7nFRxiFL6yFiAxRJgM-1tvJTxA&usqp=CAU" alt="movie" />
+            </div>
+            <div className="slider">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTdvuww0JDC7nFRxiFL6yFiAxRJgM-1tvJTxA&usqp=CAU" alt="movie" />
+            </div>
+            <div className="slider">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTdvuww0JDC7nFRxiFL6yFiAxRJgM-1tvJTxA&usqp=CAU" alt="movie" />
+            </div>
+            <div className="slider">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTdvuww0JDC7nFRxiFL6yFiAxRJgM-1tvJTxA&usqp=CAU" alt="movie" />
+            </div>
+            <div className="slider">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTdvuww0JDC7nFRxiFL6yFiAxRJgM-1tvJTxA&usqp=CAU" alt="movie" />
+            </div>
+            <div className="slider">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTdvuww0JDC7nFRxiFL6yFiAxRJgM-1tvJTxA&usqp=CAU" alt="movie" />
+            </div>
         </Carousel>
     );
 }

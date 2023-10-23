@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation';
 
 
 interface CardProps {
-    item: any;
+    item?: any;
 }
 
 const MediaCard: React.FC<CardProps> = ({ item }) => {

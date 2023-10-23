@@ -1,7 +1,6 @@
 import '@/styles/globals.css'
 import type { Metadata } from 'next'
 import ScopedCssBaseline from '@mui/material/ScopedCssBaseline';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { ReduxProvider } from '@/redux/provider';
 
 export const metadata: Metadata = {
