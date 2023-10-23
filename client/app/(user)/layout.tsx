@@ -14,6 +14,7 @@ export default function UserLayout({
 }) {
   const dispatch = useDispatch();
   const router = useRouter();
+
   const checkAutoSignIn = async () => {
     if (localStorage.getItem("accesstoken")) {
       const data = await handleAutoSignIn({ token: localStorage.getItem("accesstoken") as string });

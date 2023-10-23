@@ -8,6 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box } from '@mui/material';
+import { createSupplier } from '@/services/admin/adminProductsService';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -31,8 +32,20 @@ export default function DialigAddSupplier({ openDialog }: { openDialog: any }) {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+        try {
+            const result = await createSupplier({
+                name: data.get('name'),
+                email: data.get('email'),
+                phone: data.get('phone'),
+                address: data.get('address'),
+            })
 
-        console.log(data.get('name'));
+            if(result.EC == 0) {
+                alert('Thêm nhà cung cấp thành công');
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     React.useEffect(() => {

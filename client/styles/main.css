@@ -1,0 +1,8 @@
+.mainImg{
+    width: 100%;
+    min-height: 60vh;
+    margin-top: 10px;
+    background-image: url("https://vuoncayviet.com/data/aditems/93/vuon-cay-viet-banner-new.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}

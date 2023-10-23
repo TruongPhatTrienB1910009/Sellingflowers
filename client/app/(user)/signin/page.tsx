@@ -36,9 +36,11 @@ export default function SignIn() {
             dispatch(signIn(userSignIn.DT));
             localStorage.setItem('accesstoken', userSignIn.DT.accesstoken);
             if(userSignIn.DT.groupRoles.id == 3) {
-                router.push("/dashboard")
+                // router.push("/dashboard")
+                location.href = "http://localhost:3001/dashboard"
             }else {
-                router.push("/");
+                // router.push("/");
+                location.href = "http://localhost:3001/"
             }
         }
     };
