@@ -11,4 +11,6 @@ router.route("/")
 router.route("/supplier")
     .get(adminProductController.getAllSuppliers)
     .post(adminProductController.createSupplier);
+router.route("/supplier/:id")
+    .get(adminProductController.getSupplierById);
 module.exports = router;

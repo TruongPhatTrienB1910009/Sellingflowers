@@ -95,6 +95,29 @@ const createSupplier = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         });
     }
 });
+const getSupplierById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const supplier = yield db.Supplier.findOne({
+            where: {
+                id: req.params.id,
+            }
+        });
+        if (supplier) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: supplier
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EM: 'NOT OK',
+            EC: -1,
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    createProduct, upload, createSupplier, getAllSuppliers
+    createProduct, upload, createSupplier, getAllSuppliers, getSupplierById
 };

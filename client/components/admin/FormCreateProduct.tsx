@@ -1,9 +1,20 @@
 "use client"
 import { Box, Button } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "@/styles/admin/FormCreateProduct.css";
+import SupplierComponent from './SupplierComponent';
 
 const FormCreateProduct = () => {
+    const [supplierId, setSupplierId] = useState(null);
+
+    const getSupplierId = (id: any) => {
+        setSupplierId(id);
+    }
+
+    useEffect(() => {
+
+    }, [])
+
     return (
         <Box sx={{
             display: 'flex',
@@ -106,8 +117,7 @@ const FormCreateProduct = () => {
                 </Box>
 
                 <Box>
-                    <h3>Thông tin nhà cung cấp</h3>
-
+                    <SupplierComponent getSupplierId={getSupplierId} supplierId={supplierId}/>
                 </Box>
 
                 <Box>
@@ -134,15 +144,6 @@ const FormCreateProduct = () => {
                     display: 'flex',
                     justifyContent: 'flex-end',
                 }}>
-                    <Button sx={{
-                        backgroundColor: 'blue',
-                        marginRight: '10px',
-                        padding: '10px',
-                        color: '#fff',
-                        ':hover': {
-                            backgroundColor: 'blue',
-                        }
-                    }}>Xóa Tất Cả</Button>
                     <Button sx={{
                         backgroundColor: 'blue',
                         padding: '10px',

@@ -93,7 +93,6 @@ const page = () => {
             <Box>
               <CarouselComponent listProducts={listProducts}/>
             </Box>
-          {/* <WrapperCards listItems={listProducts} /> */}
         </Box>
       </Box>
 
@@ -107,11 +106,20 @@ const page = () => {
               textAlign: 'justify',
               marginBottom: '16px'
             }}>
-              Chúng tôi luôn đổi mới và cập nhật xu hướng liên tục để mang đến trải nghiệm tuyệt vời cho khách hàng, đến với Geen. bạn dễ dàng tìm được các loại hoa tươi hoặc cây cảnh phù hợp với nhu cầu của bản thân vì chúng tôi cung cấp đa dạng các chủng loại và kích thước nhằm mang đến những lựa chọn tuyệt vời cho khách hàng.
+              Nếu có bất kì vấn đề nào cần giải đáp, bạn có thể liên lạc với chúng tôi bằng các hình thức dưới đây. Chúng tôi luôn luôn lắng nghe các vấn đề của khách hàng để đưa ra cách giải quyết tốt nhất.
+            </Box>
+            <Box className="Contacts__Content">
+              <Box className="Contacts__Info">
+                <h4>Cửa Hàng Hoa Tươi Và Cây Cảnh Green.</h4>
+                <Typography>
+                  
+                </Typography>
+              </Box>
+              <Box className="map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3928.841454377115!2d105.76804037459512!3d10.029938972519753!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0895a51d60719%3A0x9d76b0035f6d53d0!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBD4bqnbiBUaMah!5e0!3m2!1svi!2s!4v1698073898735!5m2!1svi!2s" style={{width: '100%', minHeight: '400px', border: '1px solid #ccc', borderRadius: '10px'}} loading="lazy"></iframe>
+              </Box>
             </Box>
           </Container>
-
-          <WrapperCards listItems={listProducts} />
         </Box>
       </Box>
     </Box>
