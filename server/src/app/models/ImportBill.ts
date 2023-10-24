@@ -12,6 +12,9 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
         },
         note: {
             type: DataTypes.TEXT,
+        },
+        total: {
+            type: DataTypes.BIGINT,
         }
     }, {
         sequelize: sequelize,

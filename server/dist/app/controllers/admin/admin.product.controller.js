@@ -35,7 +35,6 @@ const upload = multer({
 }).single('img');
 const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(req.file.path);
         const info = Object.assign({ img: req.file.path }, req.body);
         const product = yield db.Product.create(info);
         yield product.save();

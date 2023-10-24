@@ -10,6 +10,9 @@ module.exports = (sequelize, Model, DataTypes) => {
         },
         note: {
             type: DataTypes.TEXT,
+        },
+        total: {
+            type: DataTypes.BIGINT,
         }
     }, {
         sequelize: sequelize,

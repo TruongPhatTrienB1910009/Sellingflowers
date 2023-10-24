@@ -35,7 +35,6 @@ const upload = multer({
 
 const createProduct = async (req: fileRequest, res: Response, next: NextFunction) => {
     try {
-        console.log(req.file.path)
         const info = {
             img: req.file.path,
             ...req.body
