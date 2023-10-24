@@ -17,6 +17,7 @@ router.route("/supplier/:id")
 
 router.route("/categories")
     .get(adminCategoriesController.getAllCategories)
+    .post(adminCategoriesController.createNewCategory)
 
 router.route("/categories/typeproducts")
     .get(adminCategoriesController.getAllTypeProducts)

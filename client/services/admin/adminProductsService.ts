@@ -14,3 +14,13 @@ export const getSupplierById = async (id: any) => {
     const result = (await axios.get(`/admin/products/supplier/${id}`)).data;
     return result;
 }
+
+export const getAllCategories = async () => {
+    const result = (await axios.get(`/admin/products/categories`)).data;
+    return result;
+}
+
+export const getAllTypeProducts = async () => {
+    const result = (await axios.get(`/admin/products/categories/typeproducts`)).data;
+    return result;
+}

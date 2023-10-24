@@ -15,7 +15,8 @@ router.route("/supplier")
 router.route("/supplier/:id")
     .get(adminProductController.getSupplierById);
 router.route("/categories")
-    .get(adminCategoriesController.getAllCategories);
+    .get(adminCategoriesController.getAllCategories)
+    .post(adminCategoriesController.createNewCategory);
 router.route("/categories/typeproducts")
     .get(adminCategoriesController.getAllTypeProducts)
     .post(adminCategoriesController.createNewTypeProducts);
