@@ -49,14 +49,14 @@ const createNewCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         });
     }
 });
-const getAllTypeProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllTypeCategories = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const typeProducts = yield db.TypeProduct.findAll({});
-        if (typeProducts) {
+        const typeCategories = yield db.TypeCategories.findAll({});
+        if (typeCategories) {
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
-                DT: typeProducts
+                DT: typeCategories
             });
         }
     }
@@ -69,9 +69,9 @@ const getAllTypeProducts = (req, res, next) => __awaiter(void 0, void 0, void 0,
         });
     }
 });
-const createNewTypeProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const createNewTypeCategories = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield db.TypeProduct.create(req.body);
+        const result = yield db.TypeCategories.create(req.body);
         if (result) {
             return res.status(200).json({
                 EC: 0,
@@ -89,5 +89,5 @@ const createNewTypeProducts = (req, res, next) => __awaiter(void 0, void 0, void
     }
 });
 module.exports = {
-    getAllCategories, getAllTypeProducts, createNewTypeProducts, createNewCategory
+    getAllCategories, getAllTypeCategories, createNewTypeCategories, createNewCategory
 };

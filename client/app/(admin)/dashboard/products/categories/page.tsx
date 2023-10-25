@@ -2,19 +2,33 @@
 import { Box, Button } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import TableCaterories from '@/components/admin/TableCategories';
-import { getAllCategories } from '@/services/admin/adminProductsService';
+import { getAllCategories, getAllTypeCategories } from '@/services/admin/adminProductsService';
+import AddIcon from '@mui/icons-material/Add';
+import TableTypeCaterories from '@/components/admin/TableTypeCategories';
 
 const page = () => {
   const [openTableCategories, setOpenTableCategories] = useState(false);
-  const [openTableTypeProducts, setOpenTableTypeProducts] = useState(false);
+  const [openTableTypeCategories, setOpenTableTypeCategories] = useState(false);
 
   const [listcategories, setListcategories] = useState<any>([]);
+  const [listTypeCategories, setListTypeCategories] = useState<any>([]);
 
   const handleGetAllCategories = async () => {
     try {
       const result = await getAllCategories();
-      if(result.EC == 0) {
+      if (result.EC == 0) {
         setListcategories(result.DT);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleGetAllTypesCategories = async () => {
+    try {
+      const typecategories = await getAllTypeCategories();
+      if(typecategories.EC == 0) {
+        setListTypeCategories(typecategories.DT);
       }
     } catch (error) {
       console.log(error);
@@ -23,7 +37,8 @@ const page = () => {
 
   useEffect(() => {
     handleGetAllCategories();
-  }, listcategories.length)
+    handleGetAllTypesCategories();
+  }, [listcategories.length, listTypeCategories.length]);
 
   return (
     <Box>
@@ -33,8 +48,8 @@ const page = () => {
         marginBottom: '6px',
         borderRadius: '2px',
       }}>
-        <h4>Danh mục và Phân loại sản phẩm</h4>
-        <Box sx={{ padding: '10px', backgroundColor: '#fff'}}>
+        <h4>Danh mục và Ngành hàng</h4>
+        <Box sx={{ padding: '10px', backgroundColor: '#fff' }}>
           <Button sx={{
             backgroundColor: 'blue',
             color: '#fff',
@@ -46,7 +61,7 @@ const page = () => {
           }}
             onClick={() => {
               setOpenTableCategories(true);
-              setOpenTableTypeProducts(false);
+              setOpenTableTypeCategories(false);
             }}
           >
             Danh mục sản phẩm
@@ -60,17 +75,61 @@ const page = () => {
             }
           }}
             onClick={() => {
-              setOpenTableTypeProducts(false);
-              setOpenTableCategories(true);
+              setOpenTableTypeCategories(true);
+              setOpenTableCategories(false);
             }}
           >
-            <span>Các loại sản phẩm</span>
+            <span>Các ngành hàng</span>
           </Button>
         </Box>
       </Box>
       <Box>
         {
-          (openTableCategories) && (<TableCaterories listcategories={listcategories}/>)
+          (openTableCategories) && (
+            <Box>
+              <TableCaterories listcategories={listcategories} />
+              <Box sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                marginTop: '6px'
+              }}>
+                <Button sx={{
+                  backgroundColor: 'blue',
+                  color: 'white',
+                  padding: '12px',
+                  ':hover': {
+                    backgroundColor: 'blue',
+                  }
+                }}>
+                  <AddIcon />Thêm Danh Mục Mới
+                </Button>
+              </Box>
+            </Box>
+          )
+        }
+
+        {
+          (openTableTypeCategories) && (
+            <Box>
+              <TableTypeCaterories listTypeCategories={listTypeCategories} />
+              <Box sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                marginTop: '6px'
+              }}>
+                <Button sx={{
+                  backgroundColor: 'blue',
+                  color: 'white',
+                  padding: '12px',
+                  ':hover': {
+                    backgroundColor: 'blue',
+                  }
+                }}>
+                  <AddIcon />Thêm Ngành Hàng Mới
+                </Button>
+              </Box>
+            </Box>
+          )
         }
       </Box>
     </Box>

@@ -9,7 +9,7 @@ db.Account = require('../models/Account')(db.sequelize, Model, DataTypes);
 db.Group_account = require('../models/Group_Account')(db.sequelize, Model, DataTypes);
 db.Role = require('../models/Roles')(db.sequelize, Model, DataTypes);
 db.Group_role = require('../models/Group_role')(db.sequelize, Model, DataTypes);
-db.TypeProduct = require('../models/TypeProduct')(db.sequelize, Model, DataTypes);
+db.TypeCategories = require('../models/TypeCategories')(db.sequelize, Model, DataTypes);
 db.Root = require('../models/Root')(db.sequelize, Model, DataTypes);
 db.Categories = require('../models/Categories')(db.sequelize, Model, DataTypes);
 db.Bill = require('../models/Bill')(db.sequelize, Model, DataTypes);
@@ -39,8 +39,8 @@ db.Group_account.belongsToMany(db.Role, { through: 'Group_roles', foreignKey: 'R
 db.Role.belongsToMany(db.Group_account, { through: 'Group_roles', foreignKey: 'GroupAccountId' })
 
 // TypeProduct - Categories
-db.Categories.hasMany(db.TypeProduct, { foreignKey: 'CategoryId', onDelete: 'cascade' })
-db.TypeProduct.belongsTo(db.Categories)
+db.TypeCategories.hasMany(db.Categories, { onDelete: 'cascade' })
+db.Categories.belongsTo(db.TypeCategories)
 
 // Product - Categories
 db.Categories.hasMany(db.Product, { foreignKey: 'CategoryId', onDelete: 'cascade' })

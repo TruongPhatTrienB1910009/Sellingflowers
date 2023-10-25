@@ -44,14 +44,14 @@ const createNewCategory = async (req: adminRequest, res: Response, next: NextFun
     }
 }
 
-const getAllTypeProducts = async (req: adminRequest, res: Response, next: NextFunction) => {
+const getAllTypeCategories = async (req: adminRequest, res: Response, next: NextFunction) => {
     try {
-        const typeProducts = await db.TypeProduct.findAll({});
-        if(typeProducts) {
+        const typeCategories = await db.TypeCategories.findAll({});
+        if(typeCategories) {
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
-                DT: typeProducts
+                DT: typeCategories
             })
         }
     } catch (error) {
@@ -64,9 +64,9 @@ const getAllTypeProducts = async (req: adminRequest, res: Response, next: NextFu
     }
 }
 
-const createNewTypeProducts = async (req: adminRequest, res: Response, next: NextFunction) => {
+const createNewTypeCategories = async (req: adminRequest, res: Response, next: NextFunction) => {
     try {
-        const result = await db.TypeProduct.create(req.body);
+        const result = await db.TypeCategories.create(req.body);
         if(result) {
             return res.status(200).json({
                 EC: 0,
@@ -84,5 +84,5 @@ const createNewTypeProducts = async (req: adminRequest, res: Response, next: Nex
 }
 
 module.exports = {
-    getAllCategories, getAllTypeProducts, createNewTypeProducts, createNewCategory
+    getAllCategories, getAllTypeCategories, createNewTypeCategories, createNewCategory
 }

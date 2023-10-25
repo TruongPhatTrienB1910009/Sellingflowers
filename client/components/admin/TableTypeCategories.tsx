@@ -9,14 +9,12 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, ButtonGroup, Checkbox, IconButton, Tooltip } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import FindInPageIcon from '@mui/icons-material/FindInPage';
-import { VND } from '@/utils/VND';
 import '@/styles/common/tableItems.css'
 
 interface Column {
-    id: 'name' | 'description' | 'type' | 'actions';
+    id: 'name' | 'description' | 'actions';
     label: string;
     minWidth?: number;
     align?: 'right' | 'left' | 'center';
@@ -24,17 +22,10 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-    { id: 'name', label: 'Tên Danh Mục', minWidth: 170 },
+    { id: 'name', label: 'Tên Ngành Hàng', minWidth: 170 },
     {
         id: 'description',
         label: 'Mô Tả',
-        minWidth: 170,
-        align: 'center',
-        format: (value: number) => value.toLocaleString('en-US'),
-    },
-    {
-        id: 'type',
-        label: 'Ngành Hàng',
         minWidth: 170,
         align: 'center',
         format: (value: number) => value.toLocaleString('en-US'),
@@ -49,7 +40,7 @@ const columns: readonly Column[] = [
 ];
 
 
-export default function TableCaterories({ listcategories }: any) {
+export default function TableTypeCaterories({ listTypeCategories }: any) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -62,10 +53,10 @@ export default function TableCaterories({ listcategories }: any) {
         setPage(0);
     };
 
-    
+
 
     return (
-        (listcategories) ? (
+        (listTypeCategories) ? (
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
                     <Table stickyHeader aria-label="sticky table">
@@ -83,7 +74,7 @@ export default function TableCaterories({ listcategories }: any) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {listcategories
+                            {listTypeCategories
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row: any, index: number) => {
                                     return (
@@ -93,9 +84,6 @@ export default function TableCaterories({ listcategories }: any) {
                                             </TableCell>
                                             <TableCell>
                                                 {row.description}
-                                            </TableCell>
-                                            <TableCell>
-                                                Hi
                                             </TableCell>
                                             <TableCell align='center'>
                                                 <Tooltip title="Chỉnh Sửa" placement="top">
@@ -118,7 +106,7 @@ export default function TableCaterories({ listcategories }: any) {
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"
-                    count={listcategories.length}
+                    count={listTypeCategories.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}

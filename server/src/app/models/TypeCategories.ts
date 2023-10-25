@@ -1,10 +1,10 @@
 module.exports = (sequelize: any, Model: any, DataTypes: any) => {
-    class TypeProduct extends Model {
+    class TypeCategories extends Model {
         public id?: number;
         public name?: string;
     }
 
-    TypeProduct.init({
+    TypeCategories.init({
         id: {
             type: DataTypes.BIGINT,
             autoIncrement: true,
@@ -18,8 +18,8 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
         }
     }, {
         sequelize: sequelize,
-        modelName: 'TypeProduct',
+        modelName: 'TypeCategories',
     })
 
-    return TypeProduct;
+    return TypeCategories;
 }

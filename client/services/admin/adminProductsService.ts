@@ -20,7 +20,7 @@ export const getAllCategories = async () => {
     return result;
 }
 
-export const getAllTypeProducts = async () => {
-    const result = (await axios.get(`/admin/products/categories/typeproducts`)).data;
+export const getAllTypeCategories = async () => {
+    const result = (await axios.get(`/admin/products/categories/typecategories`)).data;
     return result;
 }

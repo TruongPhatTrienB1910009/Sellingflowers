@@ -163,7 +163,7 @@ export default function SubNav() {
                             <ListItemIcon>
                                 <CategoryIcon />
                             </ListItemIcon>
-                            <ListItemText primary="Danh mục và Loại" />
+                            <ListItemText primary="Danh mục & Ngành hàng" />
                         </ListItemButton>
                     </List>
                 </Collapse>
