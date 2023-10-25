@@ -19,6 +19,9 @@ router.route("/categories")
     .get(adminCategoriesController.getAllCategories)
     .post(adminCategoriesController.createNewCategory)
 
+router.route("/categories/:id")
+    .delete(adminCategoriesController.deleteCategory)
+
 router.route("/categories/typecategories")
     .get(adminCategoriesController.getAllTypeCategories)
     .post(adminCategoriesController.createNewTypeCategories)

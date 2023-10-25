@@ -2,7 +2,7 @@
 import { Box, Button } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import TableCaterories from '@/components/admin/TableCategories';
-import { getAllCategories, getAllTypeCategories } from '@/services/admin/adminProductsService';
+import { deleteCategory, getAllCategories, getAllTypeCategories } from '@/services/admin/adminProductsService';
 import AddIcon from '@mui/icons-material/Add';
 import TableTypeCaterories from '@/components/admin/TableTypeCategories';
 
@@ -29,6 +29,19 @@ const page = () => {
       const typecategories = await getAllTypeCategories();
       if(typecategories.EC == 0) {
         setListTypeCategories(typecategories.DT);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleDeleteCategory = async (id: any) => {
+    try {
+      console.log(id);
+      const category = await deleteCategory(id);
+      if(category.EC == 0) {
+        alert("Xóa danh mục thành công");
+        handleGetAllCategories();
       }
     } catch (error) {
       console.log(error);
@@ -87,7 +100,7 @@ const page = () => {
         {
           (openTableCategories) && (
             <Box>
-              <TableCaterories listcategories={listcategories} />
+              <TableCaterories handleDeleteCategory={handleDeleteCategory} listcategories={listcategories} />
               <Box sx={{
                 display: 'flex',
                 justifyContent: 'flex-end',

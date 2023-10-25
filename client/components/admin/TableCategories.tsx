@@ -49,7 +49,7 @@ const columns: readonly Column[] = [
 ];
 
 
-export default function TableCaterories({ listcategories }: any) {
+export default function TableCaterories({handleDeleteCategory, listcategories }: any) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -104,7 +104,7 @@ export default function TableCaterories({ listcategories }: any) {
                                                     </IconButton>
                                                 </Tooltip>
                                                 <Tooltip title="Xóa" placement="top">
-                                                    <IconButton>
+                                                    <IconButton onClick={() => {handleDeleteCategory(row.id)}}>
                                                         <DeleteIcon />
                                                     </IconButton>
                                                 </Tooltip>

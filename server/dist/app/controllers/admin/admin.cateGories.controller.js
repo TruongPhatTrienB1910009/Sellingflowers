@@ -88,6 +88,30 @@ const createNewTypeCategories = (req, res, next) => __awaiter(void 0, void 0, vo
         });
     }
 });
+const deleteCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield db.Categories.destroy({
+            where: {
+                id: req.params.id
+            }
+        });
+        if (result) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: result
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    getAllCategories, getAllTypeCategories, createNewTypeCategories, createNewCategory
+    getAllCategories, getAllTypeCategories, createNewTypeCategories, createNewCategory, deleteCategory
 };

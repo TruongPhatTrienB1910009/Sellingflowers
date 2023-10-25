@@ -8,7 +8,7 @@ interface adminRequest extends Request {
 const getAllCategories = async (req: adminRequest, res: Response, next: NextFunction) => {
     try {
         const categories = await db.Categories.findAll({});
-        if(categories) {
+        if (categories) {
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
@@ -28,7 +28,7 @@ const getAllCategories = async (req: adminRequest, res: Response, next: NextFunc
 const createNewCategory = async (req: adminRequest, res: Response, next: NextFunction) => {
     try {
         const newCategory = await db.Categories.create(req.body);
-        if(newCategory) {
+        if (newCategory) {
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
@@ -47,7 +47,7 @@ const createNewCategory = async (req: adminRequest, res: Response, next: NextFun
 const getAllTypeCategories = async (req: adminRequest, res: Response, next: NextFunction) => {
     try {
         const typeCategories = await db.TypeCategories.findAll({});
-        if(typeCategories) {
+        if (typeCategories) {
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
@@ -67,7 +67,7 @@ const getAllTypeCategories = async (req: adminRequest, res: Response, next: Next
 const createNewTypeCategories = async (req: adminRequest, res: Response, next: NextFunction) => {
     try {
         const result = await db.TypeCategories.create(req.body);
-        if(result) {
+        if (result) {
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
@@ -83,6 +83,30 @@ const createNewTypeCategories = async (req: adminRequest, res: Response, next: N
     }
 }
 
+const deleteCategory = async (req: adminRequest, res: Response, next: NextFunction) => {
+    try {
+        const result = await db.Categories.destroy({
+            where: {
+                id: req.params.id
+            }
+        });
+        if (result) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: result
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: (error as Error).message
+        })
+    }
+}
+
 module.exports = {
-    getAllCategories, getAllTypeCategories, createNewTypeCategories, createNewCategory
+    getAllCategories, getAllTypeCategories, createNewTypeCategories, createNewCategory, deleteCategory
 }

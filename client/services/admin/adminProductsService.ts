@@ -20,6 +20,13 @@ export const getAllCategories = async () => {
     return result;
 }
 
+export const deleteCategory = async (id: any) => {
+    console.log(id)
+    const result = (await axios.delete(`/admin/products/categories/${id}`)).data;
+    console.log(result);
+    return result;
+}
+
 export const getAllTypeCategories = async () => {
     const result = (await axios.get(`/admin/products/categories/typecategories`)).data;
     return result;
