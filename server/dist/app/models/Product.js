@@ -33,10 +33,6 @@ module.exports = (sequelize, Model, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        fengshui: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-        },
         takecare: {
             type: DataTypes.STRING
         },

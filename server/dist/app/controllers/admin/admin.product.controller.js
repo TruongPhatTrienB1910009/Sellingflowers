@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const db = require('../../models');
+const db = require("../../models");
 const multer = require('multer');
 const path = require('path');
 const Storage = multer.diskStorage({
@@ -35,19 +35,61 @@ const upload = multer({
 }).single('img');
 const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const info = Object.assign({ img: req.file.path }, req.body);
-        const product = yield db.Product.create(info);
+        // lấy Nguồn gốc
+        const { country, area } = req.body;
+        // lấy thông tin sản phẩm
+        const img = req.file.path;
+        const { name, size, description, price, characteristic, use, takecare } = req.body;
+        // Details ImportBill
+        const { totalItems, priceItem } = req.body;
+        // lấy subblier
+        const { SupplierId } = req.body;
+        // lấy danh mục
+        const { CategoryId } = req.body;
+        // Tạo nguồn gốc
+        const root = yield db.Root.create({ country: country, area: area });
+        yield root.save();
+        // Tạo sản phẩm
+        const product = yield db.Product.create({
+            name: name,
+            size: size,
+            description: description,
+            price: price,
+            characteristic: characteristic,
+            use: use,
+            takecare: takecare,
+            img: img,
+            inventory: totalItems,
+            CategoryId: CategoryId,
+            RootId: root.id
+        });
         yield product.save();
-        if (product.id) {
-            return res.status(200).json({
-                EM: 'Product created',
-                EC: 0,
-                DT: product
+        // Tạo phiếu nhập sản phẩm
+        const importBill = yield db.ImportBill.create({
+            SupplierId: SupplierId,
+            total: totalItems * priceItem
+        });
+        yield importBill.save();
+        if (importBill) {
+            // Tạo detailImportBill
+            const details = yield db.DetailImportBill.create({
+                ImportBillId: importBill.id,
+                ProductId: product.id,
+                priceItem: priceItem,
+                totalItems: totalItems,
+                totalPrice: totalItems * priceItem
             });
+            yield details.save();
+            if (details) {
+                return res.status(200).json({
+                    EM: 'Product created',
+                    EC: 0,
+                    DT: importBill
+                });
+            }
         }
     }
     catch (error) {
-        console.log(error);
         return res.status(500).json({
             EM: 'Product created failed',
             EC: -1,

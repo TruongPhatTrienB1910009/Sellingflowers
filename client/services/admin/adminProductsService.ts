@@ -1,5 +1,10 @@
 import axios from "../axios";
 
+export const createProduct = async (data: any) => {
+    const result = (await axios.post(`/admin/products`, data, { headers: { "Content-Type": "multipart/form-data" } })).data;
+    return result;
+}
+
 export const getAllSuppliers = async () => {
     const result = (await axios.get("/admin/products/supplier")).data;
     return result;

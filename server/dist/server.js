@@ -25,6 +25,7 @@ const billRoute = require('./app/routes/bill.route');
 const checkoutRoute = require('./app/routes/checkout.route');
 // router admin
 const adminProductRoute = require('./app/routes/admin/admin.product.route');
+const adminUserRoute = require('./app/routes/admin/admin.user.route');
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -38,6 +39,7 @@ app.use('/bill', checkUserJWT, billRoute);
 app.use('/checkout', checkUserJWT, checkoutRoute);
 // handle router admin
 app.use('/admin/products', checkUserJWT, checkAdmin, adminProductRoute);
+app.use('/admin/users', checkUserJWT, checkAdmin, adminUserRoute);
 const runServer = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield db.sequelize.sync();

@@ -17,7 +17,7 @@ module.exports = (sequelize, Model, DataTypes) => {
                 key: 'id',
             }
         },
-        total: {
+        totalItems: {
             type: DataTypes.BIGINT,
         },
         priceItem: {

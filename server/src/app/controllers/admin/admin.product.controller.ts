@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-const db = require('../../models');
+const db = require("../../models");
 const multer = require('multer');
 const path = require('path');
 
@@ -33,24 +33,73 @@ const upload = multer({
     }
 }).single('img')
 
+
+
 const createProduct = async (req: fileRequest, res: Response, next: NextFunction) => {
     try {
-        const info = {
-            img: req.file.path,
-            ...req.body
-        }
-        const product = await db.Product.create(info);
-        await product.save();
-        if(product.id) {
-            return res.status(200).json({
-                EM: 'Product created',
-                EC: 0,
-                DT: product
-            })
-        }
+        // lấy Nguồn gốc
+        const {country, area} = req.body;
 
+        // lấy thông tin sản phẩm
+        const img = req.file.path;
+        const {name, size, description, price, characteristic, use, takecare} = req.body;
+
+        // Details ImportBill
+        const {totalItems, priceItem} = req.body;
+
+        // lấy subblier
+        const {SupplierId} = req.body;
+
+        // lấy danh mục
+        const {CategoryId} = req.body;
+
+        // Tạo nguồn gốc
+        const root = await db.Root.create({country: country, area: area});
+        await root.save();
+
+        // Tạo sản phẩm
+        const product = await db.Product.create({
+            name: name,
+            size: size,
+            description: description,
+            price: price,
+            characteristic: characteristic,
+            use: use,
+            takecare: takecare,
+            img: img,
+            inventory: totalItems,
+            CategoryId: CategoryId,
+            RootId: root.id
+        })
+        await product.save();
+
+        // Tạo phiếu nhập sản phẩm
+        const importBill = await db.ImportBill.create({
+            SupplierId: SupplierId,
+            total: totalItems * priceItem
+        })
+        await importBill.save();
+
+        if(importBill) {
+            // Tạo detailImportBill
+            const details = await db.DetailImportBill.create({
+                ImportBillId: importBill.id,
+                ProductId: product.id,
+                priceItem: priceItem,
+                totalItems: totalItems,
+                totalPrice: totalItems * priceItem
+            })
+            await details.save();
+
+            if(details) {
+                return res.status(200).json({
+                    EM: 'Product created',
+                    EC: 0,
+                    DT: importBill
+                })
+            }
+        }
     } catch (error) {
-        console.log(error)
         return res.status(500).json({
             EM: 'Product created failed',
             EC: -1,
