@@ -94,8 +94,8 @@ export default function TableCaterories({handleDeleteCategory, listcategories }:
                                             <TableCell>
                                                 {row.description}
                                             </TableCell>
-                                            <TableCell>
-                                                Hi
+                                            <TableCell align='center'>
+                                                {row.TypeCategory.name}
                                             </TableCell>
                                             <TableCell align='center'>
                                                 <Tooltip title="Chỉnh Sửa" placement="top">

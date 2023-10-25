@@ -7,7 +7,11 @@ interface adminRequest extends Request {
 
 const getAllCategories = async (req: adminRequest, res: Response, next: NextFunction) => {
     try {
-        const categories = await db.Categories.findAll({});
+        const categories = await db.Categories.findAll({
+            include: {
+                model: db.TypeCategories
+            }
+        });
         if (categories) {
             return res.status(200).json({
                 EC: 0,

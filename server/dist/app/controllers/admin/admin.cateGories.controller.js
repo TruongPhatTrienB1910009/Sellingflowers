@@ -12,7 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const db = require('../../models');
 const getAllCategories = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const categories = yield db.Categories.findAll({});
+        const categories = yield db.Categories.findAll({
+            include: {
+                model: db.TypeCategories
+            }
+        });
         if (categories) {
             return res.status(200).json({
                 EC: 0,

@@ -6,11 +6,13 @@ import { deleteCategory, getAllCategories, getAllTypeCategories } from '@/servic
 import AddIcon from '@mui/icons-material/Add';
 import TableTypeCaterories from '@/components/admin/TableTypeCategories';
 import DialogAddTypeCategories from '@/components/admin/DialogAddTypeCategories';
+import DialogAddCategories from '@/components/admin/DialogAddCategories';
 
 const page = () => {
   const [openTableCategories, setOpenTableCategories] = useState(false);
   const [openTableTypeCategories, setOpenTableTypeCategories] = useState(false);
   const [openDialogType, setOpenDialogType] = useState(-1);
+  const [openDialogCategory, setOpenDialogCategory] = useState(-1);
 
   const [listcategories, setListcategories] = useState<any>([]);
   const [listTypeCategories, setListTypeCategories] = useState<any>([]);
@@ -93,6 +95,7 @@ const page = () => {
             onClick={() => {
               setOpenTableTypeCategories(true);
               setOpenTableCategories(false);
+              setOpenDialogCategory(-1);
             }}
           >
             <span>Các ngành hàng</span>
@@ -103,7 +106,10 @@ const page = () => {
         {
           (openTableCategories) && (
             <Box>
-              <TableCaterories handleDeleteCategory={handleDeleteCategory} listcategories={listcategories} />
+              <TableCaterories 
+                handleDeleteCategory={handleDeleteCategory} 
+                listcategories={listcategories}
+              />
               <Box sx={{
                 display: 'flex',
                 justifyContent: 'flex-end',
@@ -116,10 +122,13 @@ const page = () => {
                   ':hover': {
                     backgroundColor: 'blue',
                   }
-                }}>
+                }}
+                  onClick={() => {setOpenDialogCategory(openDialogCategory + 1)}}
+                >
                   <AddIcon />Thêm Danh Mục Mới
                 </Button>
               </Box>
+              <DialogAddCategories handleGetAllCategories={handleGetAllCategories} listTypeCategories={listTypeCategories} openDialogCategory={openDialogCategory}/>
             </Box>
           )
         }
@@ -147,7 +156,10 @@ const page = () => {
                   <AddIcon />Thêm Ngành Hàng Mới
                 </Button>
               </Box>
-              <DialogAddTypeCategories handleGetAllTypesCategories={handleGetAllTypesCategories} openDialogType={openDialogType}/>
+              <DialogAddTypeCategories 
+                handleGetAllTypesCategories={handleGetAllTypesCategories} 
+                openDialogType={openDialogType}
+              />
             </Box>
           )
         }
