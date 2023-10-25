@@ -5,10 +5,12 @@ import TableCaterories from '@/components/admin/TableCategories';
 import { deleteCategory, getAllCategories, getAllTypeCategories } from '@/services/admin/adminProductsService';
 import AddIcon from '@mui/icons-material/Add';
 import TableTypeCaterories from '@/components/admin/TableTypeCategories';
+import DialogAddTypeCategories from '@/components/admin/DialogAddTypeCategories';
 
 const page = () => {
   const [openTableCategories, setOpenTableCategories] = useState(false);
   const [openTableTypeCategories, setOpenTableTypeCategories] = useState(false);
+  const [openDialogType, setOpenDialogType] = useState(-1);
 
   const [listcategories, setListcategories] = useState<any>([]);
   const [listTypeCategories, setListTypeCategories] = useState<any>([]);
@@ -75,6 +77,7 @@ const page = () => {
             onClick={() => {
               setOpenTableCategories(true);
               setOpenTableTypeCategories(false);
+              setOpenDialogType(-1);
             }}
           >
             Danh mục sản phẩm
@@ -137,10 +140,14 @@ const page = () => {
                   ':hover': {
                     backgroundColor: 'blue',
                   }
-                }}>
+                }}
+
+                  onClick={() => {setOpenDialogType(openDialogType + 1)}}
+                >
                   <AddIcon />Thêm Ngành Hàng Mới
                 </Button>
               </Box>
+              <DialogAddTypeCategories handleGetAllTypesCategories={handleGetAllTypesCategories} openDialogType={openDialogType}/>
             </Box>
           )
         }

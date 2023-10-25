@@ -20,14 +20,22 @@ export const getAllCategories = async () => {
     return result;
 }
 
+export const createCategory = async (data: any) => {
+    const result = (await axios.post(`/admin/products/categories`, data)).data;
+    return result;
+}
+
 export const deleteCategory = async (id: any) => {
-    console.log(id)
     const result = (await axios.delete(`/admin/products/categories/${id}`)).data;
-    console.log(result);
     return result;
 }
 
 export const getAllTypeCategories = async () => {
     const result = (await axios.get(`/admin/products/categories/typecategories`)).data;
+    return result;
+}
+
+export const createTypeCategory = async (data: any) => {
+    const result = (await axios.post(`/admin/products/categories/typecategories`, data)).data;
     return result;
 }
