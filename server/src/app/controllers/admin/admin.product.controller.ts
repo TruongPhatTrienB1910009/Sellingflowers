@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { Op } from "sequelize";
 const db = require("../../models");
 const multer = require('multer');
 const path = require('path');
@@ -101,7 +102,65 @@ const createProduct = async (req: fileRequest, res: Response, next: NextFunction
         }
     } catch (error) {
         return res.status(500).json({
-            EM: 'Product created failed',
+            EM: 'NOT OK',
+            EC: -1,
+            DT: (error as Error).message
+        });
+    }
+}
+
+const createImportBillMultipleProducts = async (req: fileRequest, res: Response, next: NextFunction) => {
+    try {
+        console.log(req.body);
+        const {listItems, listTotalItems, listPriceItem, supplierId} = req.body;
+
+        console.log(listItems);
+        // lấy danh sách sản phẩm
+        const products = await db.Product.findAll({
+            where: {
+                id: {
+                    [Op.in]: listItems
+                }
+            }
+        })
+
+        // tạo importbill
+        const importbill = await db.ImportBill.create({
+            SupplierId: supplierId
+        })
+
+        await importbill.save();
+
+        if(importbill) {
+            let i = 0;
+            let total = 0;
+            for(i; i < products.length; i++) {
+                const detailImportBill = await db.DetailImportBill.create({
+                    totalItems: listTotalItems[i],
+                    priceItem: listPriceItem[i],
+                    totalPrice: listTotalItems[i] * listPriceItem[i],
+                    ImportBillId: importbill.id,
+                    ProductId: products[i].id
+                })
+                await detailImportBill.save();
+                await products[i].update({ inventory: listTotalItems[i] +  products[i].inventory});
+                total += listTotalItems[i] * listPriceItem[i];
+            }
+
+            if(total > 0) {
+                await importbill.update({total: total});
+            }
+
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: importbill
+            })
+        }
+
+    } catch (error) {
+        return res.status(500).json({
+            EM: 'NOT OK',
             EC: -1,
             DT: (error as Error).message
         });
@@ -124,7 +183,7 @@ const getAllSuppliers = async (req: fileRequest, res: Response, next: NextFuncti
         }
     } catch (error) {
         return res.status(500).json({
-            EM: 'Product created failed',
+            EM: 'NOT OK',
             EC: -1,
             DT: (error as Error).message
         });
@@ -143,7 +202,7 @@ const createSupplier = async (req: fileRequest, res: Response, next: NextFunctio
         }
     } catch (error) {
         return res.status(500).json({
-            EM: 'Product created failed',
+            EM: 'NOT OK',
             EC: -1,
             DT: (error as Error).message
         });
@@ -175,5 +234,5 @@ const getSupplierById = async (req: fileRequest, res: Response, next: NextFuncti
 }
 
 module.exports = {
-    createProduct, upload, createSupplier, getAllSuppliers, getSupplierById
+    createProduct, upload, createSupplier, getAllSuppliers, getSupplierById, createImportBillMultipleProducts
 }

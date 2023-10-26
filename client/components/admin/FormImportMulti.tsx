@@ -12,6 +12,7 @@ import { Box, Button, Checkbox } from '@mui/material';
 import { VND } from '@/utils/VND';
 import '@/styles/common/tableItems.css'
 import SupplierComponent from './SupplierComponent';
+import { createMultipleImportBill } from '@/services/admin/adminProductsService';
 
 interface Column {
     id: 'name' | 'total' | 'price' | 'inventory';
@@ -28,18 +29,16 @@ const columns: readonly Column[] = [
         label: 'Số lượng nhập',
         minWidth: 100,
         align: 'center',
-        format: (value: number) => value.toLocaleString('en-US'),
     },
     {
         id: 'price',
         label: 'Giá nhập',
         minWidth: 170,
         align: 'center',
-        format: (value: number) => value.toLocaleString('en-US'),
     },
 ];
 
-const SupplierComponnetForMulti = ({supplierId, getSupplierId}: any) => {
+const SupplierComponnetForMulti = ({ supplierId, getSupplierId }: any) => {
     return (
         <Box sx={{
             padding: '10px',
@@ -72,9 +71,36 @@ export default function FormImportMulti({ listUpdate }: any) {
         setPage(0);
     };
 
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        try {
+            event.preventDefault();
+            const form = new FormData(event.currentTarget);
+
+            let listTotalItems: any = [];
+            let listPriceItem: any = [];
+
+            const listItems = listUpdate.map((item: any, index: number) => {
+                listTotalItems.push(Number(form.get(`totalItems-${index + 1}`)));
+                listPriceItem.push(Number(form.get(`priceItem-${index + 1}`)));
+                return item.id;
+            })
+
+            const data = JSON.stringify({
+                listItems: listItems,
+                listTotalItems: listTotalItems,
+                listPriceItem: listPriceItem,
+                supplierId: supplierId
+            })
+
+            await createMultipleImportBill(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     return (
-        <Box>
+        <Box component={"form"} onSubmit={handleSubmit}>
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
                     <Table stickyHeader aria-label="sticky table">
@@ -109,10 +135,10 @@ export default function FormImportMulti({ listUpdate }: any) {
                                                 </Box>
                                             </TableCell>
                                             <TableCell align='center'>
-                                                <input style={{ padding: '8px', fontSize: '14px' }} type="number" />
+                                                <input style={{ padding: '8px', fontSize: '14px' }} type="number" name={`totalItems-${index + 1}`}/>
                                             </TableCell>
                                             <TableCell align='center'>
-                                                <input style={{ padding: '8px', fontSize: '14px' }} type="number" />
+                                                <input style={{ padding: '8px', fontSize: '14px' }} type="number" name={`priceItem-${index + 1}`}/>
                                             </TableCell>
                                         </TableRow>
                                     );
@@ -131,9 +157,30 @@ export default function FormImportMulti({ listUpdate }: any) {
                 />
             </Paper>
 
-            <SupplierComponnetForMulti supplierId={supplierId} getSupplierId={getSupplierId}/>
+            <SupplierComponnetForMulti supplierId={supplierId} getSupplierId={getSupplierId} />
 
-            
+            <Box sx={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'flex-end',
+            }}>
+                <Button
+                    type='submit'
+                    sx={{
+                        padding: '10px',
+                        backgroundColor: 'blue',
+                        color: 'white',
+                        marginTop: '10px',
+                        ':hover' : {
+                            backgroundColor: 'blue',
+                            color: 'white',
+                        }
+                    }}
+                >
+                    Lưu thay đổi
+                </Button>
+            </Box>
+
         </Box>
     );
 }

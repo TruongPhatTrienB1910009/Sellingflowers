@@ -6,6 +6,9 @@ const adminCategoriesController = require("../../controllers/admin/admin.categor
 router.route("/")
     .post(adminProductController.upload, adminProductController.createProduct)
 
+router.route("/importbill")
+    .post(adminProductController.createImportBillMultipleProducts)
+
 router.route("/supplier")
     .get(adminProductController.getAllSuppliers)
     .post(adminProductController.createSupplier)

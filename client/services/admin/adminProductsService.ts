@@ -5,6 +5,11 @@ export const createProduct = async (data: any) => {
     return result;
 }
 
+export const createMultipleImportBill = async (data: any) => {
+    const result = (await axios.post(`/admin/products/importbill`, data)).data;
+    return result;
+}
+
 export const getAllSuppliers = async () => {
     const result = (await axios.get("/admin/products/supplier")).data;
     return result;

@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const sequelize_1 = require("sequelize");
 const db = require("../../models");
 const multer = require('multer');
 const path = require('path');
@@ -91,7 +92,58 @@ const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     }
     catch (error) {
         return res.status(500).json({
-            EM: 'Product created failed',
+            EM: 'NOT OK',
+            EC: -1,
+            DT: error.message
+        });
+    }
+});
+const createImportBillMultipleProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log(req.body);
+        const { listItems, listTotalItems, listPriceItem, supplierId } = req.body;
+        console.log(listItems);
+        // lấy danh sách sản phẩm
+        const products = yield db.Product.findAll({
+            where: {
+                id: {
+                    [sequelize_1.Op.in]: listItems
+                }
+            }
+        });
+        // tạo importbill
+        const importbill = yield db.ImportBill.create({
+            SupplierId: supplierId
+        });
+        yield importbill.save();
+        if (importbill) {
+            let i = 0;
+            let total = 0;
+            for (i; i < products.length; i++) {
+                const detailImportBill = yield db.DetailImportBill.create({
+                    totalItems: listTotalItems[i],
+                    priceItem: listPriceItem[i],
+                    totalPrice: listTotalItems[i] * listPriceItem[i],
+                    ImportBillId: importbill.id,
+                    ProductId: products[i].id
+                });
+                yield detailImportBill.save();
+                yield products[i].update({ inventory: listTotalItems[i] + products[i].inventory });
+                total += listTotalItems[i] * listPriceItem[i];
+            }
+            if (total > 0) {
+                yield importbill.update({ total: total });
+            }
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: importbill
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EM: 'NOT OK',
             EC: -1,
             DT: error.message
         });
@@ -111,7 +163,7 @@ const getAllSuppliers = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     }
     catch (error) {
         return res.status(500).json({
-            EM: 'Product created failed',
+            EM: 'NOT OK',
             EC: -1,
             DT: error.message
         });
@@ -130,7 +182,7 @@ const createSupplier = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
     }
     catch (error) {
         return res.status(500).json({
-            EM: 'Product created failed',
+            EM: 'NOT OK',
             EC: -1,
             DT: error.message
         });
@@ -160,5 +212,5 @@ const getSupplierById = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     }
 });
 module.exports = {
-    createProduct, upload, createSupplier, getAllSuppliers, getSupplierById
+    createProduct, upload, createSupplier, getAllSuppliers, getSupplierById, createImportBillMultipleProducts
 };
