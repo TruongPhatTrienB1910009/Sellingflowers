@@ -19,7 +19,7 @@ const AdminProducts = () => {
 
   useEffect(() => {
     handleGetAllProducts();
-  }, [])
+  }, [listproducts.length])
 
   return (
     <Box>
@@ -31,7 +31,7 @@ const AdminProducts = () => {
       }}>
         <h4>Danh sách sản phẩm</h4>
       </Box>
-      <TableProducts listproducts={listproducts}/>
+      <TableProducts listproducts={listproducts} handleGetAllProducts={handleGetAllProducts}/>
     </Box>
   )
 }

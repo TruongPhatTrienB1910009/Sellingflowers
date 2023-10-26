@@ -9,6 +9,8 @@ const adminProductController = require("../../controllers/admin/admin.product.co
 const adminCategoriesController = require("../../controllers/admin/admin.categories.controller");
 router.route("/")
     .post(adminProductController.upload, adminProductController.createProduct);
+router.route("/:id")
+    .delete(adminProductController.deleteProduct);
 router.route("/importbill")
     .post(adminProductController.createImportBillMultipleProducts);
 router.route("/supplier")

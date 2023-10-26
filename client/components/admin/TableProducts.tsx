@@ -14,6 +14,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import { VND } from '@/utils/VND';
 import '@/styles/common/tableItems.css'
+import { deleteProduct } from '@/services/admin/adminProductsService';
 
 interface Column {
     id: 'name' | 'code' | 'population' | 'size' | 'density';
@@ -50,7 +51,7 @@ const columns: readonly Column[] = [
 ];
 
 
-export default function TableProducts({ listproducts }: any) {
+export default function TableProducts({ listproducts, handleGetAllProducts }: any) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -62,6 +63,18 @@ export default function TableProducts({ listproducts }: any) {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+
+    const handleDeleteProduct = async (id: any) => {
+        try {
+            const result = await deleteProduct(id);
+            if(result.EC == 0) {
+                alert("Xóa sản phẩm thành công");
+                handleGetAllProducts();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         (listproducts) ? (
@@ -97,7 +110,7 @@ export default function TableProducts({ listproducts }: any) {
                                                 {VND.format(row.price)}
                                             </TableCell>
                                             <TableCell align='center' className='inputBtnGroup'>
-                                                10
+                                                {row.inventory}
                                             </TableCell>
                                             <TableCell align='center'>
                                                 <Tooltip title="Xem Chi Tiết" placement="top">
@@ -111,7 +124,7 @@ export default function TableProducts({ listproducts }: any) {
                                                     </IconButton>
                                                 </Tooltip>
                                                 <Tooltip title="Xóa" placement="top">
-                                                    <IconButton>
+                                                    <IconButton onClick={() => {handleDeleteProduct(row.id)}}>
                                                         <DeleteIcon />
                                                     </IconButton>
                                                 </Tooltip>

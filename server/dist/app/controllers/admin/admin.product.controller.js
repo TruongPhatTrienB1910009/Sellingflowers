@@ -149,6 +149,27 @@ const createImportBillMultipleProducts = (req, res, next) => __awaiter(void 0, v
         });
     }
 });
+const deleteProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield db.Product.destroy({
+            where: {
+                id: req.params.id
+            }
+        });
+        return res.status(200).json({
+            EC: 0,
+            EM: 'OK',
+            DT: result
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            EM: 'NOT OK',
+            EC: -1,
+            DT: error.message
+        });
+    }
+});
 // Supplier
 const getAllSuppliers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -212,5 +233,5 @@ const getSupplierById = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     }
 });
 module.exports = {
-    createProduct, upload, createSupplier, getAllSuppliers, getSupplierById, createImportBillMultipleProducts
+    createProduct, upload, createSupplier, getAllSuppliers, getSupplierById, createImportBillMultipleProducts, deleteProduct
 };

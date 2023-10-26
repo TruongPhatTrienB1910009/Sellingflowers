@@ -5,6 +5,11 @@ export const createProduct = async (data: any) => {
     return result;
 }
 
+export const deleteProduct = async (id: any) => {
+    const result = (await axios.delete(`/admin/products/${id}`)).data;
+    return result;
+}
+
 export const createMultipleImportBill = async (data: any) => {
     const result = (await axios.post(`/admin/products/importbill`, data)).data;
     return result;
