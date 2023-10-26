@@ -30,11 +30,6 @@ export const getSupplierById = async (id: any) => {
     return result;
 }
 
-export const getAllCategories = async () => {
-    const result = (await axios.get(`/admin/products/categories`)).data;
-    return result;
-}
-
 export const createCategory = async (data: any) => {
     const result = (await axios.post(`/admin/products/categories`, data)).data;
     return result;
@@ -42,11 +37,6 @@ export const createCategory = async (data: any) => {
 
 export const deleteCategory = async (id: any) => {
     const result = (await axios.delete(`/admin/products/categories/${id}`)).data;
-    return result;
-}
-
-export const getAllTypeCategories = async () => {
-    const result = (await axios.get(`/admin/products/categories/typecategories`)).data;
     return result;
 }
 

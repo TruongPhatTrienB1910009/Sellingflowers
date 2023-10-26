@@ -3,7 +3,8 @@ import { Box, Button } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import "@/styles/admin/FormCreateProduct.css";
 import SupplierComponent from './SupplierComponent';
-import { createProduct, getAllCategories } from '@/services/admin/adminProductsService';
+import { createProduct } from '@/services/admin/adminProductsService';
+import { getAllCategories } from '@/services/homeService';
 
 const FormCreateProduct = () => {
     const [supplierId, setSupplierId] = useState<any>(null);

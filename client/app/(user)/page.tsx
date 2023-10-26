@@ -3,7 +3,6 @@ import { Box, Container, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import "@/styles/main.css";
 import { getAllProducts } from '@/services/productService';
-import WrapperCards from '@/components/common/WrapperCards';
 import CarouselComponent from '@/components/Carousel';
 
 const page = () => {
@@ -29,7 +28,7 @@ const page = () => {
   return (
     <Box sx={{ width: '100%' }}>
       <Box className="mainImg"></Box>
-      <Box className="boxIntroduce">
+      <Box id="Introduce" className="boxIntroduce">
         <Box className="heading">
           <h3>Giới Thiệu</h3>
         </Box>
@@ -77,6 +76,7 @@ const page = () => {
           </Container>
         </Box>
       </Box>
+      
       <Box id="Products">
         <Box className="heading">
           <h3>Sản Phẩm</h3>

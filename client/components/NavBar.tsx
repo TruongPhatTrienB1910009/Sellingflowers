@@ -29,6 +29,7 @@ import { signOut } from '@/redux/features/auth-slice';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { getAllItemsInCart } from '@/services/cartService';
+import CategoriesDropdown from './CategoriesDropdown';
 
 interface Props {
     window?: () => Window;
@@ -170,13 +171,6 @@ export default function DrawerAppBar(props: Props) {
                                     ) : (
                                         <>
                                             <li className='navLink'>
-                                                <Link href="/">
-                                                    <Button sx={{ color: '#fff' }}>
-                                                        Thông báo
-                                                    </Button>
-                                                </Link>
-                                            </li>
-                                            <li className='navLink'>
                                                 <Link href="/signin">
                                                     <Button sx={{ color: '#fff' }}>
                                                         Đăng nhập
@@ -199,39 +193,28 @@ export default function DrawerAppBar(props: Props) {
                     <Toolbar className='toolBar_2'>
                         <ul className='navItemsLink'>
                             <li className='navSubLink'>
-                                <Link href="/">
+                                <Link href="#Introduce">
                                     <Button sx={{ color: '#fff' }}>
-                                        Tất cả
+                                        Giới Thiệu
                                     </Button>
                                 </Link>
                             </li>
                             <li className='navSubLink'>
-                                <Link href="/categories/san-vuon">
+                                <Link href="#Products">
                                     <Button sx={{ color: '#fff' }}>
-                                        Sân vườn
+                                        Sản Phẩm
                                     </Button>
                                 </Link>
                             </li>
                             <li className='navSubLink'>
-                                <Link href="/categories/trong-nha">
+                                <Link href="#Contacts">
                                     <Button sx={{ color: '#fff' }}>
-                                        Trong nhà
+                                        Liên Hệ
                                     </Button>
                                 </Link>
                             </li>
                             <li className='navSubLink'>
-                                <Link href="/categories/de-ban">
-                                    <Button sx={{ color: '#fff' }}>
-                                        Để bàn
-                                    </Button>
-                                </Link>
-                            </li>
-                            <li className='navSubLink'>
-                                <Link href="/categories/thuy-sinh">
-                                    <Button sx={{ color: '#fff' }}>
-                                        Thủy sinh
-                                    </Button>
-                                </Link>
+                                <CategoriesDropdown />
                             </li>
                         </ul>
                     </Toolbar>

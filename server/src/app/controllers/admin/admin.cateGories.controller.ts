@@ -5,30 +5,6 @@ interface adminRequest extends Request {
     user: any
 }
 
-const getAllCategories = async (req: adminRequest, res: Response, next: NextFunction) => {
-    try {
-        const categories = await db.Categories.findAll({
-            include: {
-                model: db.TypeCategories
-            }
-        });
-        if (categories) {
-            return res.status(200).json({
-                EC: 0,
-                EM: 'OK',
-                DT: categories
-            })
-        }
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            EC: -1,
-            EM: 'NOT OK',
-            DT: (error as Error).message
-        })
-    }
-}
-
 const createNewCategory = async (req: adminRequest, res: Response, next: NextFunction) => {
     try {
         const newCategory = await db.Categories.create(req.body);
@@ -40,26 +16,6 @@ const createNewCategory = async (req: adminRequest, res: Response, next: NextFun
             })
         }
     } catch (error) {
-        return res.status(500).json({
-            EC: -1,
-            EM: 'NOT OK',
-            DT: (error as Error).message
-        })
-    }
-}
-
-const getAllTypeCategories = async (req: adminRequest, res: Response, next: NextFunction) => {
-    try {
-        const typeCategories = await db.TypeCategories.findAll({});
-        if (typeCategories) {
-            return res.status(200).json({
-                EC: 0,
-                EM: 'OK',
-                DT: typeCategories
-            })
-        }
-    } catch (error) {
-        console.log(error);
         return res.status(500).json({
             EC: -1,
             EM: 'NOT OK',
@@ -112,5 +68,5 @@ const deleteCategory = async (req: adminRequest, res: Response, next: NextFuncti
 }
 
 module.exports = {
-    getAllCategories, getAllTypeCategories, createNewTypeCategories, createNewCategory, deleteCategory
+    createNewTypeCategories, createNewCategory, deleteCategory
 }

@@ -10,5 +10,11 @@ router.route("/signin")
 
 router.route("/checkuser")
     .post(homeController.checkUserByToken);
-    
+
+router.route("/categories")
+    .get(homeController.getAllCategories)
+
+router.route("/categories/typecategories")
+    .get(homeController.getAllTypeCategories)
+
 module.exports = router;

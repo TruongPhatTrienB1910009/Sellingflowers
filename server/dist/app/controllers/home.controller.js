@@ -91,6 +91,50 @@ const checkUserByToken = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         });
     }
 });
+const getAllCategories = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const categories = yield db.Categories.findAll({
+            include: {
+                model: db.TypeCategories
+            }
+        });
+        if (categories) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: categories
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
+const getAllTypeCategories = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const typeCategories = yield db.TypeCategories.findAll({});
+        if (typeCategories) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: typeCategories
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    signUp, signIn, checkUserByToken
+    signUp, signIn, checkUserByToken, getAllCategories, getAllTypeCategories
 };

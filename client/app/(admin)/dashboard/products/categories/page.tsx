@@ -2,11 +2,12 @@
 import { Box, Button } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import TableCaterories from '@/components/admin/TableCategories';
-import { deleteCategory, getAllCategories, getAllTypeCategories } from '@/services/admin/adminProductsService';
+import { deleteCategory } from '@/services/admin/adminProductsService';
 import AddIcon from '@mui/icons-material/Add';
 import TableTypeCaterories from '@/components/admin/TableTypeCategories';
 import DialogAddTypeCategories from '@/components/admin/DialogAddTypeCategories';
 import DialogAddCategories from '@/components/admin/DialogAddCategories';
+import { getAllCategories, getAllTypeCategories } from '@/services/homeService';
 
 const page = () => {
   const [openTableCategories, setOpenTableCategories] = useState(false);

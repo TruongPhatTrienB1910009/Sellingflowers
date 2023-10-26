@@ -14,3 +14,13 @@ export const handleAutoSignIn = async (token: any) => {
     const data = (await axios.post('/checkuser', token)).data;
     return data;
 }
+
+export const getAllCategories = async () => {
+    const result = (await axios.get(`/categories`)).data;
+    return result;
+}
+
+export const getAllTypeCategories = async () => {
+    const result = (await axios.get(`/categories/typecategories`)).data;
+    return result;
+}

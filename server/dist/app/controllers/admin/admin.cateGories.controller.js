@@ -10,30 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const db = require('../../models');
-const getAllCategories = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const categories = yield db.Categories.findAll({
-            include: {
-                model: db.TypeCategories
-            }
-        });
-        if (categories) {
-            return res.status(200).json({
-                EC: 0,
-                EM: 'OK',
-                DT: categories
-            });
-        }
-    }
-    catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            EC: -1,
-            EM: 'NOT OK',
-            DT: error.message
-        });
-    }
-});
 const createNewCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const newCategory = yield db.Categories.create(req.body);
@@ -46,26 +22,6 @@ const createNewCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         }
     }
     catch (error) {
-        return res.status(500).json({
-            EC: -1,
-            EM: 'NOT OK',
-            DT: error.message
-        });
-    }
-});
-const getAllTypeCategories = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const typeCategories = yield db.TypeCategories.findAll({});
-        if (typeCategories) {
-            return res.status(200).json({
-                EC: 0,
-                EM: 'OK',
-                DT: typeCategories
-            });
-        }
-    }
-    catch (error) {
-        console.log(error);
         return res.status(500).json({
             EC: -1,
             EM: 'NOT OK',
@@ -117,5 +73,5 @@ const deleteCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 module.exports = {
-    getAllCategories, getAllTypeCategories, createNewTypeCategories, createNewCategory, deleteCategory
+    createNewTypeCategories, createNewCategory, deleteCategory
 };
