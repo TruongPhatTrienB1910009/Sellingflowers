@@ -74,7 +74,16 @@ const SupplierComponent = ({ supplierId, getSupplierId }: { supplierId: any, get
                         <Button onClick={() => {
                             console.log(openDialog)
                             setOpenDialog(openDialog + 1)
-                        }}>
+                        }}
+                            sx={{
+                                backgroundColor: 'blue',
+                                color: 'white',
+                                ':hover': {
+                                    backgroundColor: 'blue',
+                                    color: 'white',
+                                }
+                            }}
+                        >
                             Chọn nhà cung cấp
                         </Button>
                     </Box>
