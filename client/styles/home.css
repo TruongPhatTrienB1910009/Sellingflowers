@@ -1,7 +1,7 @@
 .homeLayout {
     display: grid;
-    grid-template-columns: 2fr 10fr;
-    grid-column-gap: 14px;
+    grid-template-columns: 3fr 13fr;
+    grid-column-gap: 10px;
     margin-top: 8px;
     overflow: hidden;
 }
@@ -35,8 +35,6 @@
     cursor: pointer;
 }
 
-.formSizeOfTrees {
-}
 
 .formControl {
     padding: 6px 10px;

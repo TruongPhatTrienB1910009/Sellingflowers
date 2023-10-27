@@ -193,21 +193,21 @@ export default function DrawerAppBar(props: Props) {
                     <Toolbar className='toolBar_2'>
                         <ul className='navItemsLink'>
                             <li className='navSubLink'>
-                                <Link href="#Introduce">
+                                <Link href="http://localhost:3001/#Introduce">
                                     <Button sx={{ color: '#fff' }}>
                                         Giới Thiệu
                                     </Button>
                                 </Link>
                             </li>
                             <li className='navSubLink'>
-                                <Link href="#Products">
+                                <Link href="http://localhost:3001/#Products">
                                     <Button sx={{ color: '#fff' }}>
                                         Sản Phẩm
                                     </Button>
                                 </Link>
                             </li>
                             <li className='navSubLink'>
-                                <Link href="#Contacts">
+                                <Link href="http://localhost:3001/#Contacts">
                                     <Button sx={{ color: '#fff' }}>
                                         Liên Hệ
                                     </Button>
