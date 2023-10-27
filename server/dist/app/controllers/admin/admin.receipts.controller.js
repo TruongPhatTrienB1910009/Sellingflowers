@@ -9,13 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const db = require('../models');
-const getBillById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const db = require('../../models');
+const getAllReceipts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const bill = yield db.Bill.findOne({
-            where: {
-                id: req.params.id
-            },
+        const receipts = yield db.Bill.findAll({
             include: [
                 { model: db.Product },
                 { model: db.Account },
@@ -24,11 +21,11 @@ const getBillById = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
                 { model: db.BillStatus },
             ]
         });
-        if (bill) {
+        if (receipts) {
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
-                DT: bill
+                DT: receipts
             });
         }
     }
@@ -41,5 +38,5 @@ const getBillById = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 module.exports = {
-    getBillById
+    getAllReceipts
 };

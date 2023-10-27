@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const Router = express_1.default.Router();
-const billController = require("../controllers/bill.controller");
-Router.route('/:id')
-    .get(billController.getBillById);
-module.exports = Router;
+const router = express_1.default.Router();
+const receiptsController = require("../../controllers/admin/admin.receipts.controller");
+router.route("/")
+    .get(receiptsController.getAllReceipts);
+module.exports = router;

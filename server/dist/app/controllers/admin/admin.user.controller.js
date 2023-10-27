@@ -36,6 +36,49 @@ const getAllUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         });
     }
 });
+const getDetailsUserByAdmin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield db.Account.findOne({
+            where: {
+                id: req.params.id
+            }
+        });
+        if (user) {
+            const receipts = yield db.Bill.findAll({
+                where: {
+                    BillStatusId: {
+                        [sequelize_1.Op.notIn]: [1]
+                    },
+                    AccountId: user.id
+                },
+                include: [
+                    { model: db.Product },
+                    { model: db.Account },
+                    { model: db.DeliveryAddress },
+                    { model: db.Checkout },
+                    { model: db.BillStatus },
+                ]
+            });
+            if (receipts) {
+                return res.status(200).json({
+                    EC: 0,
+                    EM: 'OK',
+                    DT: {
+                        user: user,
+                        receipts: receipts
+                    }
+                });
+            }
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    getAllUsers
+    getAllUsers, getDetailsUserByAdmin
 };

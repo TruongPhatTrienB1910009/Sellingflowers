@@ -1,16 +1,13 @@
 import { NextFunction, Request, Response } from "express";
-const db = require('../models');
+const db = require('../../models');
 
-interface IGetUserAuthInfoRequest extends Request {
+interface adminRequest extends Request {
     user: any
 }
 
-const getBillById = async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
+const getAllReceipts = async (req: adminRequest, res: Response, next: NextFunction) => {
     try {
-        const bill = await db.Bill.findOne({
-            where: {
-                id: req.params.id
-            }, 
+        const receipts = await db.Bill.findAll({
             include: [
                 {model: db.Product},
                 {model: db.Account},
@@ -20,11 +17,11 @@ const getBillById = async (req: IGetUserAuthInfoRequest, res: Response, next: Ne
             ]
         })
 
-        if(bill) {
+        if(receipts) {
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
-                DT: bill
+                DT: receipts
             })
         }
     } catch (error) {
@@ -36,7 +33,6 @@ const getBillById = async (req: IGetUserAuthInfoRequest, res: Response, next: Ne
     }
 }
 
-
 module.exports = {
-    getBillById
+    getAllReceipts
 }

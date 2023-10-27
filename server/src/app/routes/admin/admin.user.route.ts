@@ -5,4 +5,8 @@ const adminUserController = require('../../controllers/admin/admin.user.controll
 router.route("/")
     .get(adminUserController.getAllUsers)
 
+
+router.route("/:id")
+    .get(adminUserController.getDetailsUserByAdmin)
+
 module.exports = router
