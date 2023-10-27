@@ -170,7 +170,10 @@ export default function SubNav() {
 
                 <ListItemButton
                     selected={selectedIndex === 3}
-                    onClick={(event) => handleListItemClick(event, 3)}
+                    onClick={(event) => {
+                        handleListItemClick(event, 3)
+                        router.push("/dashboard/users")
+                    }}
                     sx={{
                         padding: '16px'
                     }}
