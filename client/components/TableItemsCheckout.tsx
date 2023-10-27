@@ -60,7 +60,7 @@ export default function TableItemsCheckout({ listItemsInCart }: any) {
 
     return (
         (listItemsInCart) ? (
-            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+            <Paper sx={{ width: '100%', overflow: 'hidden' , borderRadius: '0px'}}>
                 <TableContainer sx={{ maxHeight: 440 }}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
@@ -83,7 +83,7 @@ export default function TableItemsCheckout({ listItemsInCart }: any) {
                                     return (
                                         <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                                             <TableCell sx={{display: 'flex', alignItems: 'center'}}>
-                                                <img style={{ height: 'auto', maxWidth: '50px' }} src={row?.img.slice(row?.img.indexOf('images'))} alt="" />
+                                                <img style={{ height: 'auto', maxWidth: '50px' }} src={`/${row?.img.slice(row?.img.indexOf('images'))}`} alt="" />
                                                 <span style={{marginLeft: '30px'}}>
                                                  {row.name}
                                                 </span>

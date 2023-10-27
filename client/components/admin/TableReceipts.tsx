@@ -12,6 +12,7 @@ import { Box, IconButton, Tooltip } from '@mui/material';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import { VND } from '@/utils/VND';
 import '@/styles/common/tableItems.css'
+import Link from 'next/link';
 
 interface Column {
     id: 'id' | 'products' | 'total' | 'status' | 'billstatus' | 'actions';
@@ -128,9 +129,11 @@ export default function TableReceipts({ listReceipts }: any) {
                                             </TableCell>
                                             <TableCell align='center'>
                                                 <Tooltip title="Xem Chi Tiết" placement="top">
-                                                    <IconButton>
-                                                        <FindInPageIcon />
-                                                    </IconButton>
+                                                    <Link href={`/dashboard/receipts/details/${row.id}`}>
+                                                        <IconButton>
+                                                            <FindInPageIcon />
+                                                        </IconButton>
+                                                    </Link>
                                                 </Tooltip>
                                             </TableCell>
                                         </TableRow>
