@@ -12,6 +12,7 @@ import { addItemToCart } from '@/services/cartService';
 import CustomizedSnackbars from './Snackbar';
 import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { VND } from '@/utils/VND';
 
 
 interface CardProps {
@@ -53,11 +54,15 @@ const MediaCard: React.FC<CardProps> = ({ item }) => {
                 <CardMedia
                     component="img"
                     sx={{ maxHeight: "auto" }}
-                    image={item?.img.slice(item?.img.indexOf('images'))}
+                    image={`/${item?.img.slice(item?.img.indexOf('images'))}`}
                     title="green iguana"
                 />
                 <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
+                    <Typography gutterBottom component="div" sx={{
+                        color: "#228b22",
+                        fontSize: '16px',
+                        marginBottom: '10px'
+                    }}>
                         {item?.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
@@ -66,8 +71,8 @@ const MediaCard: React.FC<CardProps> = ({ item }) => {
                 </CardContent>
                 <CardActions className='cardAts'>
                     <div>
-                        <Button size="small">Giá {item?.price}</Button>
-                        <Button size="small">Còn {item?.inventory} SP</Button>
+                        <Button size="small">Giá {VND.format(item?.price)}</Button>
+                        <Button size="small">(Còn {item?.inventory} SP)</Button>
                     </div>
                     <IconButton onClick={handleAddItemToCart} sx={{ color: "#228b22" }} aria-label="add to shopping cart">
                         <AddShoppingCartIcon />

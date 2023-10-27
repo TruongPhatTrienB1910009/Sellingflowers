@@ -1,13 +1,9 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
-import InboxIcon from '@mui/icons-material/Inbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
 import { getAllCategories, getAllTypeCategories } from '@/services/homeService';
 import Link from 'next/link';
 
@@ -20,7 +16,6 @@ export default function NavCategories() {
             const categories = await getAllCategories();
             if (categories.EC == 0) {
                 setListCategories(categories.DT);
-                console.log(categories.DT);
             }
         } catch (error) {
             console.log(error);
@@ -32,7 +27,6 @@ export default function NavCategories() {
             const typeCategories = await getAllTypeCategories();
             if (typeCategories.EC == 0) {
                 setListTypeCategories(typeCategories.DT);
-                console.log(typeCategories.DT)
             }
         } catch (error) {
             console.log(error);

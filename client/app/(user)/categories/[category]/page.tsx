@@ -1,15 +1,20 @@
 'use client';
 import { useDispatch } from "react-redux";
 import { signIn, signOut } from "@/redux/features/auth-slice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { handleAutoSignIn } from "@/services/homeService";
 import { useRouter } from "next/navigation";
 import "@/styles/home.css";
 import NavCategories from "@/components/NavCategories";
+import { getAllProducts } from "@/services/productService";
+import WrapperCards from "@/components/common/WrapperCards";
 
-export default function Category() {
+export default function Category({ params }: { params: { category: string } }) {
     const dispatch = useDispatch();
     const router = useRouter();
+    const [listItems, setListItems] = useState<any[]>([]);
+
+    console.log(decodeURIComponent(params.category))
 
     const checkUser = async () => {
         const token = localStorage.getItem("accesstoken");
@@ -25,7 +30,27 @@ export default function Category() {
         }
     }
 
+    const handleGetAllProducts = async () => {
+        try {
+            const products = await getAllProducts();
+            if(products.EC == 0) {
+                const filter = (products.DT.map((product: any, index: number) => {
+                    if(product.Category.name == decodeURIComponent(params.category)) {
+                        return product;
+                    }
+                })).filter((item: any, index: number) => item != undefined);
+
+                if(filter) {
+                    setListItems(filter)
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
+        handleGetAllProducts();
         checkUser();
     }, [])
     return (
@@ -36,7 +61,7 @@ export default function Category() {
                 </div>
             </div>
             <div className="rightLayout">
-                {/* <WrapperCards listItems={listItems} /> */}
+                <WrapperCards listItems={listItems} />
             </div>
         </div>
     )
