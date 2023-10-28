@@ -8,7 +8,6 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box } from '@mui/material';
-import { createSupplier } from '@/services/admin/adminProductsService';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -21,7 +20,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function DialogUpdateSupplier({ openDialogUpdate, Supplier }: { openDialogUpdate: any, Supplier: any }) {
     const [open, setOpen] = React.useState(false);
-    console.log(Supplier)
 
     const [newSupplier, setNewSupplier] = React.useState({
         name: Supplier?.name,
@@ -80,6 +78,10 @@ export default function DialogUpdateSupplier({ openDialogUpdate, Supplier }: { o
     React.useEffect(() => {
         if (openDialogUpdate > -1) {
             handleClickOpen();
+        }
+
+        if(Supplier != null) {
+            setNewSupplier({...Supplier})
         }
     }, [openDialogUpdate])
 
