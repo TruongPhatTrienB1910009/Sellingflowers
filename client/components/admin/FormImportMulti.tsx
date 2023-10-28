@@ -92,7 +92,10 @@ export default function FormImportMulti({ listUpdate }: any) {
                 supplierId: supplierId
             })
 
-            await createMultipleImportBill(data);
+            const result = await createMultipleImportBill(data);
+            if(result.EC == 0) {
+                location.href = "http://localhost:3001/dashboard/products/list"
+            }
         } catch (error) {
             console.log(error);
         }
