@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import DialigAddSupplier from '@/components/admin/DialogAddSupplier';
 import ListSupplier from '@/components/admin/ListSupplier';
 import { getAllSuppliers } from '@/services/admin/adminProductsService';
+import DialogUpdateSupplier from '@/components/admin/update/DialogUpdateSupplier';
 
 const Supplier = () => {
     const [openDialog, setOpenDialog] = useState(-1);

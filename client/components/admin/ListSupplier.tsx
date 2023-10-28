@@ -14,6 +14,8 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import { VND } from '@/utils/VND';
 import '@/styles/common/tableItems.css'
+import DialogUpdateSupplier from './update/DialogUpdateSupplier';
+import { getSupplierById } from '@/services/admin/adminProductsService';
 
 interface Column {
     id: 'name' | 'code' | 'population' | 'size' | 'density';
@@ -53,6 +55,8 @@ const columns: readonly Column[] = [
 export default function ListSupplier({ listSuppliers }: any) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [openDialogUpdate, setOpenDialogUpdate] = React.useState(-1);
+    const [Supplier, setSupplier] = React.useState(null);
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -62,6 +66,24 @@ export default function ListSupplier({ listSuppliers }: any) {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+
+    const handleGetSupplierById = async (id: any) => {
+        try {
+            const result = await getSupplierById(id);
+            if(result.EC == 0) {
+                setSupplier(result.DT);
+                if(Supplier != null) {
+                    setOpenDialogUpdate(openDialogUpdate + 1);
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    React.useEffect(() => {
+
+    }, [])
 
     return (
         (listSuppliers) ? (
@@ -101,7 +123,7 @@ export default function ListSupplier({ listSuppliers }: any) {
                                             </TableCell>
                                             <TableCell align='center'>
                                                 <Tooltip title="Chỉnh Sửa" placement="top">
-                                                    <IconButton>
+                                                    <IconButton onClick={() => {handleGetSupplierById(row.id)}}>
                                                         <BorderColorIcon />
                                                     </IconButton>
                                                 </Tooltip>
@@ -126,6 +148,8 @@ export default function ListSupplier({ listSuppliers }: any) {
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
+
+                <DialogUpdateSupplier Supplier={Supplier} openDialogUpdate={openDialogUpdate} />
             </Paper>
         ) : ''
     );
