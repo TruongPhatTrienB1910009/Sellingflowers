@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const sequelize_1 = require("sequelize");
 const db = require('../../models');
 const getAllReceipts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -19,7 +20,12 @@ const getAllReceipts = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                 { model: db.DeliveryAddress },
                 { model: db.Checkout },
                 { model: db.BillStatus },
-            ]
+            ],
+            where: {
+                BillStatusId: {
+                    [sequelize_1.Op.notIn]: [1]
+                }
+            }
         });
         if (receipts) {
             return res.status(200).json({

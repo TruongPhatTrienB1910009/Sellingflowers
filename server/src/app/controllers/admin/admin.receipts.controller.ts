@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { Op } from "sequelize";
 const db = require('../../models');
 
 interface adminRequest extends Request {
@@ -14,7 +15,12 @@ const getAllReceipts = async (req: adminRequest, res: Response, next: NextFuncti
                 {model: db.DeliveryAddress},
                 {model: db.Checkout},
                 {model: db.BillStatus},
-            ]
+            ],
+            where: {
+                BillStatusId: {
+                    [Op.notIn]: [1]
+                }
+            }
         })
 
         if(receipts) {
