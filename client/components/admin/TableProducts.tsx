@@ -122,9 +122,11 @@ export default function TableProducts({ listproducts, handleGetAllProducts }: an
                                                     </Link>
                                                 </Tooltip>
                                                 <Tooltip title="Chỉnh Sửa" placement="top">
-                                                    <IconButton>
-                                                        <BorderColorIcon />
-                                                    </IconButton>
+                                                    <Link href={`/dashboard/products/edit/${row.id}`}>
+                                                        <IconButton>
+                                                            <BorderColorIcon />
+                                                        </IconButton>
+                                                    </Link>
                                                 </Tooltip>
                                                 <Tooltip title="Xóa" placement="top">
                                                     <IconButton onClick={() => { handleDeleteProduct(row.id) }}>
