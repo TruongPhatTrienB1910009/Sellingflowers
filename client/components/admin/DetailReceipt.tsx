@@ -2,9 +2,21 @@ import { Box, Button } from '@mui/material'
 import React from 'react'
 import TableItemsCheckout from '../TableItemsCheckout'
 import { VND } from '@/utils/VND'
+import { updateStatusReceipt } from '@/services/admin/adminReceiptsService'
 
 const DetailReceipt = ({ receipt }: any) => {
-    console.log(receipt)
+    
+    const handleUpdateBillStatus = async ({id}: any) => {
+        try {
+            const result = await updateStatusReceipt({ BillStatusId: 3, id: id})
+            if(result.EC == 0) {
+                location.reload()
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <Box>
             {
@@ -59,19 +71,25 @@ const DetailReceipt = ({ receipt }: any) => {
                                 display: 'flex',
                                 justifyContent: 'flex-end'
                             }}>
-                                <Button
-                                    sx={{
-                                        backgroundColor: 'blue',
-                                        color: 'white',
-                                        padding: '10px',
-                                        ':hover': {
-                                            backgroundColor: 'blue',
-                                            color: 'white',
-                                        }
-                                    }}
-                                >
-                                    Xác nhận hóa đơn
-                                </Button>
+                                {
+                                    (receipt.BillStatusId == 2) ? (
+                                        <Button
+                                            sx={{
+                                                backgroundColor: 'blue',
+                                                color: 'white',
+                                                padding: '10px',
+                                                ':hover': {
+                                                    backgroundColor: 'blue',
+                                                    color: 'white',
+                                                }
+                                            }}
+
+                                            onClick={() => {handleUpdateBillStatus({id: receipt.id})}}
+                                        >
+                                            Xác nhận hóa đơn
+                                        </Button>
+                                    ) : ''
+                                }
 
                                 <Button
                                     sx={{

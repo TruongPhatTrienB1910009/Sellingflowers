@@ -37,6 +37,31 @@ const getAllReceipts = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         });
     }
 });
+const updateStatusReceipt = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log(req.body.BillStatusId);
+        console.log(req.params.id);
+        const receipt = yield db.Bill.update({ BillStatusId: req.body.BillStatusId }, {
+            where: {
+                id: req.params.id,
+            }
+        });
+        if (receipt) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: receipt
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    getAllReceipts
+    getAllReceipts, updateStatusReceipt
 };

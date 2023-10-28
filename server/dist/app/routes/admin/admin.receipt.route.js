@@ -8,4 +8,6 @@ const router = express_1.default.Router();
 const receiptsController = require("../../controllers/admin/admin.receipts.controller");
 router.route("/")
     .get(receiptsController.getAllReceipts);
+router.route("/status/:id")
+    .post(receiptsController.updateStatusReceipt);
 module.exports = router;
