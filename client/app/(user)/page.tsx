@@ -4,6 +4,9 @@ import React, { useEffect, useState } from 'react'
 import "@/styles/main.css";
 import { getAllProducts } from '@/services/productService';
 import CarouselComponent from '@/components/Carousel';
+import FmdGoodIcon from '@mui/icons-material/FmdGood';
+import EmailIcon from '@mui/icons-material/Email';
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 
 const page = () => {
   const [listProducts, setListProducts] = useState([]);
@@ -110,9 +113,15 @@ const page = () => {
             </Box>
             <Box className="Contacts__Content">
               <Box className="Contacts__Info">
-                <h4>Cửa Hàng Hoa Tươi Và Cây Cảnh Green.</h4>
-                <Typography>
-                  
+                <h4 style={{marginBottom: '10px'}}>Cửa Hàng Hoa Tươi Và Cây Cảnh Green.</h4>
+                <Typography sx={{display: 'flex', marginBottom: '10px'}}>
+                  <FmdGoodIcon sx={{marginRight: '10px'}} /> Đường 3/2, P. Xuân Khánh, Q. Ninh Kiều, TP. Cần Thơ.
+                </Typography>
+                <Typography sx={{display: 'flex', marginBottom: '10px'}}>
+                  <EmailIcon sx={{marginRight: '10px'}} /> Trienb1910009@student.ctu.edu.vn
+                </Typography>
+                <Typography sx={{display: 'flex'}}>
+                  <LocalPhoneIcon sx={{marginRight: '10px'}} /> 0787899778
                 </Typography>
               </Box>
               <Box className="map">
