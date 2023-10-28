@@ -70,7 +70,10 @@ export default function SubNav() {
             <List sx={{ paddingY: 0 }} component="nav" aria-label="secondary mailbox folder">
                 <ListItemButton
                     selected={selectedIndex === 0}
-                    onClick={(event) => handleListItemClick(event, 0)}
+                    onClick={(event) => {
+                        handleListItemClick(event, 0)
+                        router.push("/dashboard")
+                    }}
                     sx={{
                         padding: '16px'
                     }}
@@ -102,12 +105,12 @@ export default function SubNav() {
                             </ListItemIcon>
                             <ListItemText primary="Danh sách hóa đơn" />
                         </ListItemButton>
-                        <ListItemButton sx={{ pl: 4, paddingY: '12px' }}>
+                        {/* <ListItemButton sx={{ pl: 4, paddingY: '12px' }}>
                             <ListItemIcon>
                                 <HourglassEmptyIcon />
                             </ListItemIcon>
                             <ListItemText primary="Chờ xác nhận" />
-                        </ListItemButton>
+                        </ListItemButton> */}
                     </List>
                 </Collapse>
 

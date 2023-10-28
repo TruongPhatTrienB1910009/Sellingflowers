@@ -16,9 +16,7 @@ const WrapperCards: React.FC<proplist> = ({ listItems }) => {
                     listItems.map((item: any, index: number) => {
                         return (
                             <Grid key={index} item xs={12} md={4} sm={6} lg={3}>
-                                <Link href={`/products/${item.id}`}>
-                                    <CardComponent item={item} />
-                                </Link>
+                                <CardComponent item={item} />
                             </Grid>
                         )
                     })

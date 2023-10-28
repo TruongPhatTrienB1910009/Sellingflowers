@@ -30,7 +30,7 @@ export default function SignUp() {
         };
         const newUser = await handleSignUp(user);
         if (newUser) {
-            router.push('/buyer/signin');
+            router.push('/signin');
         }
     };
 

@@ -4,6 +4,8 @@ import MediaCard from "./common/Card";
 import "@/styles/common/CarouselBanner.css";
 
 function CarouselComponent({ listProducts }: { listProducts: any }) {
+    console.log(listProducts)
+
     return (
         <Carousel
             additionalTransfrom={0}
@@ -59,7 +61,7 @@ function CarouselComponent({ listProducts }: { listProducts: any }) {
             slidesToSlide={1}
             swipeable
         >
-            <div className="slider">
+            {/* <div className="slider">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTdvuww0JDC7nFRxiFL6yFiAxRJgM-1tvJTxA&usqp=CAU" alt="movie" />
             </div>
             <div className="slider">
@@ -76,7 +78,19 @@ function CarouselComponent({ listProducts }: { listProducts: any }) {
             </div>
             <div className="slider">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTdvuww0JDC7nFRxiFL6yFiAxRJgM-1tvJTxA&usqp=CAU" alt="movie" />
-            </div>
+            </div> */}
+
+            {
+                listProducts.map((product: any, index: number) => {
+                    return (
+                        <div style={{
+                            margin: '0 6px'
+                        }} key={index}>
+                            <MediaCard item={product}  />
+                        </div>
+                    )
+                })
+            }
         </Carousel>
     );
 }
