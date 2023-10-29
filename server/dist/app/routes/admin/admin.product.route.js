@@ -10,6 +10,7 @@ const adminCategoriesController = require("../../controllers/admin/admin.categor
 router.route("/")
     .post(adminProductController.upload, adminProductController.createProduct);
 router.route("/:id")
+    .patch(adminProductController.upload, adminProductController.updateProduct)
     .delete(adminProductController.deleteProduct);
 router.route("/importbill")
     .post(adminProductController.createImportBillMultipleProducts);
@@ -17,6 +18,7 @@ router.route("/supplier")
     .get(adminProductController.getAllSuppliers)
     .post(adminProductController.createSupplier);
 router.route("/supplier/:id")
+    .patch(adminProductController.upload, adminProductController.updateSupplier)
     .get(adminProductController.getSupplierById);
 router.route("/categories")
     .post(adminCategoriesController.createNewCategory);

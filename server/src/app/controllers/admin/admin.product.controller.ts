@@ -109,6 +109,31 @@ const createProduct = async (req: fileRequest, res: Response, next: NextFunction
     }
 }
 
+const updateProduct = async (req: fileRequest, res: Response, next: NextFunction) => {
+    try {
+        console.log(req.body.name);
+        const product = await db.Product.update ({...req.body}, {
+            where: {
+                id: req.params.id
+            }
+        })
+
+        if(product) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: product
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            EM: 'NOT OK',
+            EC: -1,
+            DT: (error as Error).message
+        });
+    }
+}
+
 const createImportBillMultipleProducts = async (req: fileRequest, res: Response, next: NextFunction) => {
     try {
         console.log(req.body);
@@ -256,6 +281,32 @@ const getSupplierById = async (req: fileRequest, res: Response, next: NextFuncti
     }
 }
 
+const updateSupplier = async (req: fileRequest, res: Response, next: NextFunction) => {
+    try {
+        console.log({...req.body})
+        const result = await db.Supplier.update({...req.body}, {
+            where: {
+                id: req.params.id
+            }
+        });
+
+        if(result) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: result
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            EM: 'NOT OK',
+            EC: -1,
+            DT: (error as Error).message
+        });
+    }
+}
+
 module.exports = {
-    createProduct, upload, createSupplier, getAllSuppliers, getSupplierById, createImportBillMultipleProducts, deleteProduct
+    createProduct, upload, createSupplier, getAllSuppliers, getSupplierById, createImportBillMultipleProducts, deleteProduct,
+    updateProduct, updateSupplier
 }

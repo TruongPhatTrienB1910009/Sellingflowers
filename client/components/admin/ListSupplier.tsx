@@ -72,9 +72,7 @@ export default function ListSupplier({ listSuppliers }: any) {
             const result = await getSupplierById(id);
             if(result.EC == 0) {
                 setSupplier(result.DT);
-                if(Supplier != null) {
-                    setOpenDialogUpdate(openDialogUpdate + 1);
-                }
+                setOpenDialogUpdate(openDialogUpdate + 1);
             }
         } catch (error) {
             console.log(error);

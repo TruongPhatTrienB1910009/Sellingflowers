@@ -98,6 +98,30 @@ const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         });
     }
 });
+const updateProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log(req.body.name);
+        const product = yield db.Product.update(Object.assign({}, req.body), {
+            where: {
+                id: req.params.id
+            }
+        });
+        if (product) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: product
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EM: 'NOT OK',
+            EC: -1,
+            DT: error.message
+        });
+    }
+});
 const createImportBillMultipleProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         console.log(req.body);
@@ -232,6 +256,31 @@ const getSupplierById = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         });
     }
 });
+const updateSupplier = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log(Object.assign({}, req.body));
+        const result = yield db.Supplier.update(Object.assign({}, req.body), {
+            where: {
+                id: req.params.id
+            }
+        });
+        if (result) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: result
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EM: 'NOT OK',
+            EC: -1,
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    createProduct, upload, createSupplier, getAllSuppliers, getSupplierById, createImportBillMultipleProducts, deleteProduct
+    createProduct, upload, createSupplier, getAllSuppliers, getSupplierById, createImportBillMultipleProducts, deleteProduct,
+    updateProduct, updateSupplier
 };

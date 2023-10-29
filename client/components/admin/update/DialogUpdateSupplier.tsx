@@ -8,6 +8,8 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box } from '@mui/material';
+import { updateSupplier } from '@/services/admin/adminProductsService';
+import { useRouter } from 'next/navigation';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -20,6 +22,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function DialogUpdateSupplier({ openDialogUpdate, Supplier }: { openDialogUpdate: any, Supplier: any }) {
     const [open, setOpen] = React.useState(false);
+    const router = useRouter()
 
     const [newSupplier, setNewSupplier] = React.useState({
         name: Supplier?.name,
@@ -55,21 +58,12 @@ export default function DialogUpdateSupplier({ openDialogUpdate, Supplier }: { o
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log(data.get('name'))
-        console.log(data.get('email'))
-        console.log(data.get('phone'))
-        console.log(data.get('address'))
         try {
-            // const result = await createSupplier({
-            //     name: data.get('name'),
-            //     email: data.get('email'),
-            //     phone: data.get('phone'),
-            //     address: data.get('address'),
-            // })
-
-            // if (result.EC == 0) {
-            //     alert('Thêm nhà cung cấp thành công');
-            // }
+            const result = await updateSupplier(Supplier.id, data);
+            if(result.EC == 0) {
+                alert("Cập nhật thành công");
+                location.reload();
+            }
         } catch (error) {
             console.log(error);
         }

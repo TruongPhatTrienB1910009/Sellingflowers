@@ -7,6 +7,7 @@ router.route("/")
     .post(adminProductController.upload, adminProductController.createProduct)
 
 router.route("/:id")
+    .patch(adminProductController.upload, adminProductController.updateProduct)
     .delete(adminProductController.deleteProduct)
 
 router.route("/importbill")
@@ -17,6 +18,7 @@ router.route("/supplier")
     .post(adminProductController.createSupplier)
 
 router.route("/supplier/:id")
+    .patch(adminProductController.upload, adminProductController.updateSupplier)
     .get(adminProductController.getSupplierById)
 
 

@@ -6,11 +6,14 @@ import Link from 'next/link';
 import { Box, Button } from '@mui/material';
 import { getAllCategories } from '@/services/homeService';
 import "@/styles/admin/FormCreateProduct.css";
+import { updateProduct } from '@/services/admin/adminProductsService';
+import { useRouter } from 'next/navigation';
 
 const page = ({ params }: { params: { id: number } }) => {
 
     const [dataProduct, setDataProduct] = useState<any>(null)
     const [listCategories, setListCategories] = useState<any>([]);
+    const router = useRouter()
 
     const handleChangeValue = (e: any, data: any) => {
         switch (data.key) {
@@ -73,20 +76,24 @@ const page = ({ params }: { params: { id: number } }) => {
         try {
             event.preventDefault();
             const data = new FormData(event.currentTarget);
-            const newData = {
-                name: data.get('name'),
-                description: data.get('description'),
-                size: data.get('size'),
-                characteristic: data.get('characteristic'),
-                use: data.get('use'),
-                takecare: data.get('takecare'),
-                price: data.get('price'),
-                CategoryId: data.get('CategoryId'),
-                area: data.get('area'),
-                country: data.get('country'),
+            // const newData = {
+            //     name: data.get('name'),
+            //     description: data.get('description'),
+            //     size: data.get('size'),
+            //     characteristic: data.get('characteristic'),
+            //     use: data.get('use'),
+            //     takecare: data.get('takecare'),
+            //     price: data.get('price'),
+            //     CategoryId: data.get('CategoryId'),
+            //     area: data.get('area'),
+            //     country: data.get('country'),
+            // }
+            const id = params.id;
+            const result = await updateProduct(id, data);
+            if(result) {
+                alert("Cập nhật thành công");
+                router.push(`/dashboard/products/details/${id}`);
             }
-
-            console.log(newData);
 
         } catch (error) {
             console.log(error);
