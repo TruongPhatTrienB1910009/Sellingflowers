@@ -23,7 +23,7 @@ export default function Breadcrumb({slide} : {slide: string}) {
                     href="/products"
                     sx={{display: 'flex', fontSize: '16px', fontWeight: '600'}}
                 >
-                    <ProductionQuantityLimitsIcon sx={{marginRight: '6px', width: '20px'}} /> Sản Phẩm
+                    Sản Phẩm
                 </Link>
                 <Typography sx={{display: 'flex', fontSize: '16px', fontWeight: '600'}} color="text.primary"> {slide}</Typography>
             </Breadcrumbs>

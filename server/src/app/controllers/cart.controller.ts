@@ -130,7 +130,7 @@ const getAllItemsInCart = async (req: IGetUserAuthInfoRequest, res: Response, ne
         } else {
             return res.status(200).json({
                 EM: 'NOT OK',
-                EC: -1,
+                EC: 0,
                 DT: 'NO ITEMS'
             })
         }

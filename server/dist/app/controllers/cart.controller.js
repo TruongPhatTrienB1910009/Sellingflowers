@@ -127,7 +127,7 @@ const getAllItemsInCart = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         else {
             return res.status(200).json({
                 EM: 'NOT OK',
-                EC: -1,
+                EC: 0,
                 DT: 'NO ITEMS'
             });
         }

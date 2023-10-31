@@ -30,6 +30,8 @@ import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { getAllItemsInCart } from '@/services/cartService';
 import CategoriesDropdown from './CategoriesDropdown';
+import { getAllProducts } from '@/services/productService';
+import SearchResult from './common/SearchResult';
 
 interface Props {
     window?: () => Window;
@@ -46,6 +48,42 @@ export default function DrawerAppBar(props: Props) {
     const router = useRouter();
 
     const [listItemsInCart, setListItemsInCart] = React.useState<any>([]);
+    const [listProducts, setListProducts] = React.useState<any>([]);
+    const [listSearch, setListSearch] = React.useState<any>([]);
+    const [openResult, setOpenResult] = React.useState<any>(false);
+
+    const handleGetAllProducts = async () => {
+        try {
+            const data: any = await getAllProducts();
+            if (data.EC == 0) {
+                setListProducts(data.DT);
+                console.log(data.DT)
+            }
+        } catch (error) {
+            alert(error);
+        }
+    }
+
+    const handleChangeValue = async (e: any) => {
+        console.log(e.target.value);
+        if(e.target.value != '') {
+            setOpenResult(true);
+        } else {
+            setOpenResult(false);
+        }
+
+        if (listProducts && e.target.value !== '') {
+            const data: any = listProducts.filter((product: any, index: number) => {
+                if (product.name.toLowerCase().includes(e.target.value.toLowerCase())) {
+                    return product.name.toLowerCase();
+                }
+            })
+
+            if(data) {
+                setListSearch(data);
+            }
+        }
+    }
 
     const handleSignOut = () => {
         localStorage.removeItem('accesstoken');
@@ -53,17 +91,18 @@ export default function DrawerAppBar(props: Props) {
         router.push('/');
     }
 
-    const getAllProducts = async () => {
+    const getAllProductsInCart = async () => {
         if (localStorage.getItem('accesstoken')) {
-            const items = await getAllItemsInCart();
-            if(items) {
+            const items: any = await getAllItemsInCart();
+            if (items.EC == 0) {
                 setListItemsInCart(items.DT.Products);
             }
         }
     }
 
     React.useEffect(() => {
-        getAllProducts();
+        getAllProductsInCart();
+        handleGetAllProducts();
     }, [listItemsInCart?.length]);
 
     const handleDrawerToggle = () => {
@@ -126,7 +165,9 @@ export default function DrawerAppBar(props: Props) {
                                 <StyledInputBase
                                     placeholder="Tìm kiếm…"
                                     inputProps={{ 'aria-label': 'search' }}
+                                    onChange={handleChangeValue}
                                 />
+                                {(openResult) && <SearchResult result={listSearch}/>}
                             </Search>
                         </Typography>
 
@@ -141,10 +182,10 @@ export default function DrawerAppBar(props: Props) {
                                                 </span>
                                                 <div className='navCart'>
                                                     <NestedListItems listItemsInCart={listItemsInCart} />
-                                                    <span style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                                    <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                                         {
                                                             (listItemsInCart?.length > 2) ? (
-                                                                <p style={{marginRight: '40px', fontSize: '0.875rem', color: 'rgba(0, 0, 0, 0.6)'}}>còn {listItemsInCart?.length - 2} sản phẩm khác</p>
+                                                                <p style={{ marginRight: '40px', fontSize: '0.875rem', color: 'rgba(0, 0, 0, 0.6)' }}>còn {listItemsInCart?.length - 2} sản phẩm khác</p>
                                                             ) : ''
                                                         }
                                                         <button onClick={() => { router.push('/cart') }}>Xem giỏ hàng</button>
