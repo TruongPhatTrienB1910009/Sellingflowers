@@ -14,6 +14,7 @@ import FindInPageIcon from '@mui/icons-material/FindInPage';
 import { VND } from '@/utils/VND';
 import '@/styles/common/tableItems.css'
 import { deleteProduct } from '@/services/admin/adminProductsService';
+import Link from 'next/link';
 
 interface Column {
     id: 'name' | 'email' | 'phone' | 'gender' | 'actions';
@@ -65,18 +66,6 @@ export default function TableUsers({ listUsers, handleGetAllProducts }: any) {
         setPage(0);
     };
 
-    const handleDeleteProduct = async (id: any) => {
-        try {
-            const result = await deleteProduct(id);
-            if (result.EC == 0) {
-                alert("Xóa sản phẩm thành công");
-                handleGetAllProducts();
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     return (
         (listUsers) ? (
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -116,11 +105,13 @@ export default function TableUsers({ listUsers, handleGetAllProducts }: any) {
                                                 }
                                             </TableCell>
                                             <TableCell align='center'>
-                                                <Tooltip title="Xem Chi Tiết" placement="top">
-                                                    <IconButton>
-                                                        <FindInPageIcon />
-                                                    </IconButton>
-                                                </Tooltip>
+                                                <Link href={`/dashboard/users/${row.id}`}>
+                                                    <Tooltip title="Xem Chi Tiết" placement="top">
+                                                        <IconButton>
+                                                            <FindInPageIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                </Link>
                                             </TableCell>
                                         </TableRow>
                                     );
