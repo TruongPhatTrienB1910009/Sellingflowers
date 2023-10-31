@@ -9,7 +9,7 @@ const SearchResult = ({ result }: { result: any }) => {
                 (result.length > 0) ? (
                     result.map((value: any, index: number) => {
                         return (
-                            <Link href={`/products/${value.id}`} sx={{textDecoration: 'none'}}>
+                            <Link key={value.id} href={`/products/${value.id}`} sx={{textDecoration: 'none'}}>
                                 <Box sx={{
                                     padding: '8px 48px', fontSize: '16px',
                                     color: 'white',

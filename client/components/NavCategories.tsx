@@ -6,6 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import { getAllCategories, getAllTypeCategories } from '@/services/homeService';
 import Link from 'next/link';
+import Filter from './common/Filter';
 
 export default function NavCategories() {
     const [listCategories, setListCategories] = React.useState<any[]>([]);
@@ -77,7 +78,7 @@ export default function NavCategories() {
                     })
                 }
             </nav>
-            <Divider />
+            <Filter />
         </Box>
     );
 }
