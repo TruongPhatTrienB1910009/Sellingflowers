@@ -8,6 +8,7 @@ import "@/styles/home.css";
 import NavCategories from "@/components/NavCategories";
 import { getAllProducts } from "@/services/productService";
 import WrapperCards from "@/components/common/WrapperCards";
+import Breadcrumb from "@/components/common/BreadCrums";
 
 export default function Category({ params }: { params: { category: string } }) {
     const dispatch = useDispatch();
@@ -61,6 +62,8 @@ export default function Category({ params }: { params: { category: string } }) {
                 </div>
             </div>
             <div className="rightLayout">
+                <Breadcrumb slide={decodeURIComponent(params.category)}/>
+                <hr style={{margin: '10px 0px', color: '#228b22'}} />
                 <WrapperCards listItems={listItems} />
             </div>
         </div>
