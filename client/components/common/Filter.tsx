@@ -8,26 +8,21 @@ import SortIcon from '@mui/icons-material/Sort';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Box, Button } from '@mui/material';
-import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function Filter() {
+export default function Filter({handleSortProducts}: any) {
     const [open, setOpen] = React.useState(true);
-    const [sortType, setSortType] = React.useState("");
-    const searchParams = useSearchParams();
-
-    const sortBy = searchParams.get("sortBy");
-
-    const router = useRouter();
 
     const handleClick = () => {
         setOpen(!open);
     };
 
     const handleUpdateState = (state: string) => {
+        console.log(state);
         const url = new URL(window.location.href);
         url.searchParams.set("sortBy", state);
         window.history.pushState({}, '', url);
+        handleSortProducts();
+        console.log("hi", state);
     }
 
     const getValueSelect = (e: any) => {
@@ -35,6 +30,7 @@ export default function Filter() {
         url.searchParams.set('order', e.target.value);
         url.searchParams.set('sortBy', 'price');
         window.history.pushState({}, '', url);
+        handleSortProducts();
     }
 
     const handleSubmitRangePrice = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -47,12 +43,9 @@ export default function Filter() {
             url.searchParams.set('maxPrice', max);
             url.searchParams.set('minPrice', min);
             window.history.pushState({}, '', url);
+            handleSortProducts();
         }
     }
-
-    React.useEffect(() => {
-        console.log(sortBy);
-    }, [sortBy?.[0]]);
 
     return (
         <List
@@ -89,11 +82,13 @@ export default function Filter() {
                         <select style={{
                             width: '100%',
                             fontSize: '16px',
-                            border: '1px solid #228b22',
                             padding: '4px 0px',
+                            border: 'none',
+                            backgroundColor: 'transparent',
+                            borderBottom: '2px solid black'
                         }} onChange={(e: any) => getValueSelect(e)} name="price" id="price">
-                            <option value="asc">Giá: Từ thấp đến cao</option>
-                            <option value="desc">Giá: Từ cao đến thấp</option>
+                            <option value="desc">Giá: Từ thấp đến cao</option>
+                            <option value="asc">Giá: Từ cao đến thấp</option>
                         </select>
                     </ListItemButton>
                 </List>

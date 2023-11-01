@@ -70,6 +70,7 @@ const getProductById = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
 const sortProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { sortBy, order } = req.body;
+        console.log("req.body", req.body);
         let products = [];
         switch (sortBy) {
             case 'sales':

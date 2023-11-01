@@ -62,6 +62,7 @@ const getProductById = async (req: Request, res: Response, next: NextFunction) =
 const sortProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { sortBy, order } = req.body;
+        console.log("req.body", req.body);
         let products = [];
         switch (sortBy) {
             case 'sales':
