@@ -8,4 +8,7 @@ Router.route('/')
 Router.route('/:id')
     .get(productController.getProductById)
 
+Router.route('/sort')
+    .post(productController.sortProducts)
+
 module.exports = Router;
