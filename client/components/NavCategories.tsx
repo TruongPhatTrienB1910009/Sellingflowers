@@ -8,7 +8,7 @@ import { getAllCategories, getAllTypeCategories } from '@/services/homeService';
 import Link from 'next/link';
 import Filter from './common/Filter';
 
-export default function NavCategories({handleSortProducts}: any) {
+export default function NavCategories({handleSortProducts, handleFilterProducts, handleGetAllProducts}: any) {
     const [listCategories, setListCategories] = React.useState<any[]>([]);
     const [listTypeCategories, setListTypeCategories] = React.useState<any[]>([]);
 
@@ -78,7 +78,7 @@ export default function NavCategories({handleSortProducts}: any) {
                     })
                 }
             </nav>
-            <Filter handleSortProducts={handleSortProducts}/>
+            <Filter handleGetAllProducts={handleGetAllProducts} handleFilterProducts={handleFilterProducts} handleSortProducts={handleSortProducts}/>
         </Box>
     );
 }

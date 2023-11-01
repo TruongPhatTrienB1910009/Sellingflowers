@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { Op } from "sequelize";
 const db = require('../models');
 
 const getAllProducts = async (req: Request, res: Response, next: NextFunction) => {
@@ -90,7 +91,7 @@ const sortProducts = async (req: Request, res: Response, next: NextFunction) => 
                 break;
         }
 
-        if(products) {
+        if (products) {
             return res.status(200).json({
                 EM: 'OK',
                 EC: 0,
@@ -106,6 +107,41 @@ const sortProducts = async (req: Request, res: Response, next: NextFunction) => 
     }
 }
 
+const filterProducts = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { minPrice, maxPrice } = req.body;
+        const products = await db.Product.findAll({
+            where: {
+                price: {
+                    [Op.between]: [minPrice, maxPrice]
+                }
+            },
+            include: [
+                {
+                    model: db.Root
+                },
+                {
+                    model: db.Categories
+                }
+            ]
+        })
+
+        if (products) {
+            return res.status(200).json({
+                EM: 'OK',
+                EC: 0,
+                DT: products
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            EM: 'NOT OK',
+            EC: -1,
+            DT: (error as Error).message
+        });
+    }
+}
+
 module.exports = {
-    getAllProducts, getProductById, sortProducts
+    getAllProducts, getProductById, sortProducts, filterProducts
 }

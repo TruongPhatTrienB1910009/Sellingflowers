@@ -14,3 +14,8 @@ export const sortProducts = async (data: any) => {
     const result = (await axios.post(`/products/sort`, data)).data;
     return result;
 }
+
+export const filterProducts = async (data: any) => {
+    const result = (await axios.post(`/products/filter`, data)).data;
+    return result;
+}

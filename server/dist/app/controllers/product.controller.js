@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const sequelize_1 = require("sequelize");
 const db = require('../models');
 const getAllProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -113,6 +114,40 @@ const sortProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         });
     }
 });
+const filterProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { minPrice, maxPrice } = req.body;
+        const products = yield db.Product.findAll({
+            where: {
+                price: {
+                    [sequelize_1.Op.between]: [minPrice, maxPrice]
+                }
+            },
+            include: [
+                {
+                    model: db.Root
+                },
+                {
+                    model: db.Categories
+                }
+            ]
+        });
+        if (products) {
+            return res.status(200).json({
+                EM: 'OK',
+                EC: 0,
+                DT: products
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EM: 'NOT OK',
+            EC: -1,
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    getAllProducts, getProductById, sortProducts
+    getAllProducts, getProductById, sortProducts, filterProducts
 };

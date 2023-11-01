@@ -9,7 +9,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Box, Button } from '@mui/material';
 
-export default function Filter({handleSortProducts}: any) {
+export default function Filter({ handleSortProducts, handleFilterProducts, handleGetAllProducts }: any) {
     const [open, setOpen] = React.useState(true);
 
     const handleClick = () => {
@@ -17,12 +17,10 @@ export default function Filter({handleSortProducts}: any) {
     };
 
     const handleUpdateState = (state: string) => {
-        console.log(state);
         const url = new URL(window.location.href);
         url.searchParams.set("sortBy", state);
         window.history.pushState({}, '', url);
         handleSortProducts();
-        console.log("hi", state);
     }
 
     const getValueSelect = (e: any) => {
@@ -30,6 +28,7 @@ export default function Filter({handleSortProducts}: any) {
         url.searchParams.set('order', e.target.value);
         url.searchParams.set('sortBy', 'price');
         window.history.pushState({}, '', url);
+        handleGetAllProducts();
         handleSortProducts();
     }
 
@@ -43,8 +42,18 @@ export default function Filter({handleSortProducts}: any) {
             url.searchParams.set('maxPrice', max);
             url.searchParams.set('minPrice', min);
             window.history.pushState({}, '', url);
-            handleSortProducts();
+            handleFilterProducts();
         }
+    }
+
+    const clearState = () => {
+        // Clear all query parameters
+        window.history.replaceState({}, document.title, window.location.pathname);
+
+        // Clear any hash fragment
+        window.location.hash = '';
+
+        handleGetAllProducts();
     }
 
     return (
@@ -87,8 +96,8 @@ export default function Filter({handleSortProducts}: any) {
                             backgroundColor: 'transparent',
                             borderBottom: '2px solid black'
                         }} onChange={(e: any) => getValueSelect(e)} name="price" id="price">
-                            <option value="desc">Giá: Từ thấp đến cao</option>
-                            <option value="asc">Giá: Từ cao đến thấp</option>
+                            <option value="asc">Giá: Từ thấp đến cao</option>
+                            <option value="desc">Giá: Từ cao đến thấp</option>
                         </select>
                     </ListItemButton>
                 </List>
@@ -137,7 +146,9 @@ export default function Filter({handleSortProducts}: any) {
                                 backgroundColor: 'red',
                                 color: '#fff',
                             }
-                        }}>XÓA TẤT CẢ</Button>
+                        }}
+                            onClick={() => clearState()}
+                        >XÓA TẤT CẢ</Button>
                     </Box>
                 </List>
             </Collapse>

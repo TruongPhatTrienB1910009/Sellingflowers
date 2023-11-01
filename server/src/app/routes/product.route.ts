@@ -11,4 +11,7 @@ Router.route('/:id')
 Router.route('/sort')
     .post(productController.sortProducts)
 
+Router.route('/filter')
+    .post(productController.filterProducts)
+
 module.exports = Router;
