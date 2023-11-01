@@ -4,17 +4,55 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
-import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import SortIcon from '@mui/icons-material/Sort';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function Filter() {
     const [open, setOpen] = React.useState(true);
+    const [sortType, setSortType] = React.useState("");
+    const searchParams = useSearchParams();
+
+    const sortBy = searchParams.get("sortBy");
+
+    const router = useRouter();
 
     const handleClick = () => {
         setOpen(!open);
     };
+
+    const handleUpdateState = (state: string) => {
+        const url = new URL(window.location.href);
+        url.searchParams.set("sortBy", state);
+        window.history.pushState({}, '', url);
+    }
+
+    const getValueSelect = (e: any) => {
+        const url = new URL(window.location.href);
+        url.searchParams.set('order', e.target.value);
+        url.searchParams.set('sortBy', 'price');
+        window.history.pushState({}, '', url);
+    }
+
+    const handleSubmitRangePrice = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const form = new FormData(event.currentTarget);
+        if (form.get('minPrice') && form.get('maxPrice')) {
+            const max: any = form.get('maxPrice');
+            const min: any = form.get('minPrice');
+            const url = new URL(window.location.href);
+            url.searchParams.set('maxPrice', max);
+            url.searchParams.set('minPrice', min);
+            window.history.pushState({}, '', url);
+        }
+    }
+
+    React.useEffect(() => {
+        console.log(sortBy);
+    }, [sortBy?.[0]]);
 
     return (
         <List
@@ -30,18 +68,18 @@ export default function Filter() {
                 }
             }} onClick={handleClick}>
                 <ListItemIcon>
-                    <FilterAltOutlinedIcon sx={{ color: 'white' }} />
+                    <SortIcon sx={{ color: 'white' }} />
                 </ListItemIcon>
-                <ListItemText primary="Bộ Lọc" />
+                <ListItemText primary="Sắp Xếp" />
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
+                <List onClick={() => handleUpdateState("sales")} component="div" disablePadding>
                     <ListItemButton sx={{ pl: 4 }}>
                         <ListItemText primary="Bán chạy nhất" />
                     </ListItemButton>
                 </List>
-                <List component="div" disablePadding>
+                <List onClick={() => handleUpdateState("ctime")} component="div" disablePadding>
                     <ListItemButton sx={{ pl: 4 }}>
                         <ListItemText primary="Mới nhất" />
                     </ListItemButton>
@@ -53,23 +91,59 @@ export default function Filter() {
                             fontSize: '16px',
                             border: '1px solid #228b22',
                             padding: '4px 0px',
-                        }} name="price" id="price">
+                        }} onChange={(e: any) => getValueSelect(e)} name="price" id="price">
                             <option value="asc">Giá: Từ thấp đến cao</option>
-                            <option value="saab">Giá: Từ cao đến thấp</option>
+                            <option value="desc">Giá: Từ cao đến thấp</option>
                         </select>
                     </ListItemButton>
                 </List>
                 <List component="div" disablePadding>
-                    <ListItemButton sx={{
+                    <Box onSubmit={handleSubmitRangePrice} component={"form"} sx={{
                         display: "flex",
                         flexDirection: "column",
-                        pl: 4,
-                        justifyContent: 'flex-start',
+                        padding: '8px 16px',
+                        paddingLeft: '32px',
                     }}>
-                        <ListItemText sx={{width: '100%'}} primary="Khoảng giá:" />
-                        <input style={{ padding: '6px', width: '100%', marginBottom: '6px' }} placeholder='Từ' type="text" />
-                        <input style={{ padding: '6px', width: '100%' }} placeholder='Đến' type="text" />
-                    </ListItemButton>
+                        <ListItemText sx={{ width: '100%' }} primary="Khoảng giá:" />
+                        <input name='minPrice' style={{ padding: '6px', width: '100%', marginBottom: '6px' }} placeholder='Từ' type="number" />
+                        <input name='maxPrice' style={{ padding: '6px', width: '100%' }} placeholder='Đến' type="number" />
+                        <Button
+                            sx={{
+                                backgroundColor: '#228b22',
+                                color: '#fff',
+                                padding: '4px 10px',
+                                width: '100%',
+                                marginTop: '4px',
+                                ':hover': {
+                                    backgroundColor: '#228b22',
+                                    color: '#fff',
+                                }
+                            }}
+                            type='submit'
+                        >Áp Dụng</Button>
+                    </Box>
+                </List>
+                <List component="div" disablePadding>
+                    <Box sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: 'center',
+                        paddingBottom: '10px',
+                        marginTop: '6px',
+                        padding: '8px 16px',
+                        paddingLeft: '32px',
+                    }}>
+                        <Button sx={{
+                            backgroundColor: 'red',
+                            color: '#fff',
+                            padding: '8px 18px',
+                            width: '100%',
+                            ':hover': {
+                                backgroundColor: 'red',
+                                color: '#fff',
+                            }
+                        }}>XÓA TẤT CẢ</Button>
+                    </Box>
                 </List>
             </Collapse>
         </List>
