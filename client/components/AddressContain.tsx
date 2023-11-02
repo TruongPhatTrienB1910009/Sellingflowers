@@ -2,10 +2,23 @@
 import { Box } from '@mui/material'
 import React, { useState } from 'react'
 import FormUpdateAddress from './common/FormUpdateAddress';
+import { deleteAddress } from '@/services/accountService';
 
-const AddressContain = ({ address, handleSelectAddress, handleClose }: { address: any, handleSelectAddress?: any, handleClose?: any }) => {
+const AddressContain = ({ handleGetAllAddress, address, handleSelectAddress, handleClose }: {handleGetAllAddress: any, address: any, handleSelectAddress?: any, handleClose?: any }) => {
 
     const [openDialog, setOpenDialog] = useState(-1);
+
+    const handleDeleteAddress = async (id: number) => {
+        try {
+            const result = await deleteAddress(id);
+            if(result.EC == 0) {
+                alert("Xóa địa chỉ thành công");
+                handleGetAllAddress();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <Box component={"div"} sx={{
@@ -50,12 +63,14 @@ const AddressContain = ({ address, handleSelectAddress, handleClose }: { address
 
                 <button style={{
                     padding: '4px 10px'
-                }}>
+                }}
+                    onClick={(e: any) => {handleDeleteAddress(address.id)}}
+                >
                     Xóa
                 </button>
             </div>
             
-            <FormUpdateAddress address={address} openDialog={openDialog}/>
+            <FormUpdateAddress handleGetAllAddress={handleGetAllAddress} address={address} openDialog={openDialog}/>
         </Box>
     )
 }

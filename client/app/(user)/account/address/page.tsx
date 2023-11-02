@@ -48,7 +48,7 @@ const Address = () => {
             </div>
             <Box>
                 <FormAddress openDialog={openDialog}/>
-                <ListAddress listAddress={listAddress} />
+                <ListAddress handleGetAllAddress={handleGetAllAddress} listAddress={listAddress} />
             </Box>
         </Box>
     )

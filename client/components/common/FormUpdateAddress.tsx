@@ -9,7 +9,7 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, FormControl, InputLabel, MenuItem, NativeSelect, Select, SelectChangeEvent } from '@mui/material';
-import { createNewAddress } from '@/services/accountService';
+import { createNewAddress, updateAddress } from '@/services/accountService';
 import { getCities, getDistricts, getWards } from '@/utils/api';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -21,7 +21,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-export default function FormUpdateAddress({ openDialog, address }: { openDialog: any, address: any }) {
+export default function FormUpdateAddress({ openDialog, address, handleGetAllAddress }: { openDialog: any, address: any, handleGetAllAddress: any }) {
     const [open, setOpen] = React.useState(false);
 
     const [newAddress, setNewAddress] = React.useState<any>({
@@ -90,7 +90,7 @@ export default function FormUpdateAddress({ openDialog, address }: { openDialog:
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
-        const address = {
+        const dataAddress = {
             name: data.get('name'),
             phone: data.get('phone'),
             city: data.get('city'),
@@ -101,11 +101,12 @@ export default function FormUpdateAddress({ openDialog, address }: { openDialog:
 
         console.log(address);
 
-        // const result = await createNewAddress(address);
-        // if (result.EC == 0) {
-        //     alert("Tao dia chi moi thanh cong")
-        //     handleClose();
-        // }
+        const result = await updateAddress(address.id, dataAddress);
+        if (result.EC == 0) {
+            alert("Cập nhật địa chỉ thành công");
+            handleGetAllAddress();
+            setOpen(false);
+        }
     }
 
     const handleGetData = async () => {

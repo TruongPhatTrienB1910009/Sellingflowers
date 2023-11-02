@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 import React from 'react'
 import AddressContain from './AddressContain'
 
-const ListAddress = ({ listAddress, handleSelectAddress, handleClose }: { listAddress: any, handleSelectAddress?: any, handleClose?: any }) => {
+const ListAddress = ({ listAddress, handleSelectAddress, handleClose, handleGetAllAddress }: { listAddress: any, handleSelectAddress?: any, handleClose?: any, handleGetAllAddress?: any }) => {
     return (
         <Box>
             {
@@ -12,7 +12,7 @@ const ListAddress = ({ listAddress, handleSelectAddress, handleClose }: { listAd
                             backgroundColor: "#fff",
                             marginBottom: '10px'
                         }}>
-                            <AddressContain handleClose={handleClose} address={address} handleSelectAddress={handleSelectAddress}/>
+                            <AddressContain handleGetAllAddress={handleGetAllAddress} handleClose={handleClose} address={address} handleSelectAddress={handleSelectAddress}/>
                         </div>
                     )
                 })
