@@ -10,18 +10,22 @@ module.exports = (sequelize, Model, DataTypes) => {
             unique: 'id'
         },
         name: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false
         },
         description: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
         },
         price: {
             type: DataTypes.BIGINT,
             allowNull: false,
         },
-        size: {
+        width: {
+            type: DataTypes.BIGINT,
+            allowNull: false,
+        },
+        height: {
             type: DataTypes.BIGINT,
             allowNull: false,
         },
@@ -30,17 +34,17 @@ module.exports = (sequelize, Model, DataTypes) => {
             allowNull: false,
         },
         characteristic: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
         },
         takecare: {
-            type: DataTypes.STRING
+            type: DataTypes.TEXT
         },
         use: {
-            type: DataTypes.STRING
+            type: DataTypes.TEXT
         },
         img: {
-            type: DataTypes.STRING
+            type: DataTypes.TEXT
         }
     }, {
         sequelize: sequelize,

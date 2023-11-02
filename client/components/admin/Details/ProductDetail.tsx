@@ -32,7 +32,7 @@ const ProductDetail = ({ product }: any) => {
             </Typography>
           </Box>
           <Typography>
-            Chiều cao: {product?.size} cm
+            Kích thước: {product?.width}x{product?.height} cm
           </Typography>
 
           <Typography>

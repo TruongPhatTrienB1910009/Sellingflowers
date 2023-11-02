@@ -5,7 +5,8 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
         public name?: string;
         public description?: string;
         public price?: number;
-        public size?: number;
+        public width?: number;
+        public height?: number;
         public inventory?: number;
         public characteristic?: string;
         public fengshui?: string;
@@ -22,18 +23,22 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
             unique: 'id'
         },
         name: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false
         },
         description: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
         },
         price: {
             type: DataTypes.BIGINT,
             allowNull: false,
         },
-        size: {
+        width: {
+            type: DataTypes.BIGINT,
+            allowNull: false,
+        },
+        height: {
             type: DataTypes.BIGINT,
             allowNull: false,
         },
@@ -42,17 +47,17 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
             allowNull: false,
         },
         characteristic: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
         },
         takecare: {
-            type: DataTypes.STRING
+            type: DataTypes.TEXT
         },
         use: {
-            type: DataTypes.STRING
+            type: DataTypes.TEXT
         },
         img: {
-            type: DataTypes.STRING
+            type: DataTypes.TEXT
         }
     }, {
         sequelize: sequelize,

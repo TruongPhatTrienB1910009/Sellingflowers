@@ -43,7 +43,7 @@ const createProduct = async (req: fileRequest, res: Response, next: NextFunction
 
         // lấy thông tin sản phẩm
         const img = req.file.path;
-        const {name, size, description, price, characteristic, use, takecare} = req.body;
+        const {name, width, height, description, price, characteristic, use, takecare} = req.body;
 
         // Details ImportBill
         const {totalItems, priceItem} = req.body;
@@ -61,7 +61,8 @@ const createProduct = async (req: fileRequest, res: Response, next: NextFunction
         // Tạo sản phẩm
         const product = await db.Product.create({
             name: name,
-            size: size,
+            width: width,
+            height: height,
             description: description,
             price: price,
             characteristic: characteristic,

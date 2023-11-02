@@ -17,7 +17,7 @@ const FormCreateProduct = () => {
     const handleGetAllCategories = async () => {
         try {
             const result = await getAllCategories();
-            if(result.EC == 0) {
+            if (result.EC == 0) {
                 setListCategories(result.DT)
             }
         } catch (error) {
@@ -35,8 +35,8 @@ const FormCreateProduct = () => {
             event.preventDefault();
             const data = new FormData(event.currentTarget);
             data.append("SupplierId", supplierId);
-            const result = await createProduct(data); 
-            if(result.EC == 0) {
+            const result = await createProduct(data);
+            if (result.EC == 0) {
                 location.href = "http://localhost:3001/dashboard/products/list"
             }
         } catch (error) {
@@ -86,12 +86,12 @@ const FormCreateProduct = () => {
                         marginBottom: '20px'
                     }}>
                         <Box className="containInput">
-                            <label htmlFor="size">Chiều cao:</label>
-                            <input placeholder='Chiều cao của cây (đơn vị cm)' id='size' name='size' type="number" />
+                            <label htmlFor="width">Chiều rộng:</label>
+                            <input placeholder='Chiều cao của cây (đơn vị cm)' id='width' name='width' type="number" />
                         </Box>
                         <Box className="containInput">
-                            <label htmlFor="totalItems">Số lượng nhập vào:</label>
-                            <input placeholder='Số lượng nhập vào' id='totalItems' name='totalItems' type="number" />
+                            <label htmlFor="height">Chiều cao:</label>
+                            <input placeholder='Số lượng nhập vào' id='height' name='height' type="number" />
                         </Box>
                     </Box>
                 </Box>
@@ -156,13 +156,9 @@ const FormCreateProduct = () => {
                             gap: '40px',
                             marginBottom: '20px'
                         }}>
-                            <Box sx={{
-                                width: '100%',
-                                display: 'flex',
-                                flexDirection: 'column',
-                            }}>
-                                <label style={{marginBottom: '6px'}} htmlFor="CategoryId">Thuộc danh mục:</label>
-                                <select style={{padding: '12px'}} name="CategoryId" id="CategoryId">
+                            <Box className = "containInput">
+                                <label htmlFor="CategoryId">Thuộc danh mục:</label>
+                                <select style={{ padding: '10px', fontSize: '14px' }} name="CategoryId" id="CategoryId">
                                     {
                                         listCategories.map((category: any, index: number) => {
                                             return (
@@ -172,7 +168,10 @@ const FormCreateProduct = () => {
                                     }
                                 </select>
                             </Box>
-                            <Box sx={{ width: '100%' }}></Box>
+                            <Box className="containInput">
+                                <label htmlFor="totalItems">Số lượng nhập vào:</label>
+                                <input placeholder='Số lượng nhập vào' id='totalItems' name='totalItems' type="number" />
+                            </Box>
                         </Box>
                     </Box>
                 </Box>

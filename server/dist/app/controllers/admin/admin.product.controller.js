@@ -40,7 +40,7 @@ const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         const { country, area } = req.body;
         // lấy thông tin sản phẩm
         const img = req.file.path;
-        const { name, size, description, price, characteristic, use, takecare } = req.body;
+        const { name, width, height, description, price, characteristic, use, takecare } = req.body;
         // Details ImportBill
         const { totalItems, priceItem } = req.body;
         // lấy subblier
@@ -53,7 +53,8 @@ const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         // Tạo sản phẩm
         const product = yield db.Product.create({
             name: name,
-            size: size,
+            width: width,
+            height: height,
             description: description,
             price: price,
             characteristic: characteristic,
