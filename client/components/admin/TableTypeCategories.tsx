@@ -9,9 +9,11 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { IconButton, Tooltip } from '@mui/material';
+import { Box, IconButton, Tooltip } from '@mui/material';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import '@/styles/common/tableItems.css'
+import DialogUpdateTypeCategories from './update/DialogUpdateTypeCategories';
+import { deleteTypeCategory } from '@/services/admin/adminProductsService';
 
 interface Column {
     id: 'name' | 'description' | 'actions';
@@ -40,9 +42,11 @@ const columns: readonly Column[] = [
 ];
 
 
-export default function TableTypeCaterories({ listTypeCategories }: any) {
+export default function TableTypeCaterories({ listTypeCategories, handleGetAllTypesCategories }: any) {
     const [page, setPage] = React.useState(0);
+    const [openDialogType, setOpenDialogType] = React.useState(-1);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [typeCategoryId, setTypeCategoryId] = React.useState(null);
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -53,7 +57,27 @@ export default function TableTypeCaterories({ listTypeCategories }: any) {
         setPage(0);
     };
 
+    const handleOpenDialog = async (id: any) => {
+        try {
+            setTypeCategoryId(id);
+            setOpenDialogType(openDialogType + 1);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
+    const handleDeleteTypeCategory = async (id: any) => {
+        try {
+            console.log(id);
+            const result = await deleteTypeCategory(id);
+            if (result.EC == 0) {
+                alert("Xóa thành công");
+                handleGetAllTypesCategories();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         (listTypeCategories) ? (
@@ -87,11 +111,11 @@ export default function TableTypeCaterories({ listTypeCategories }: any) {
                                             </TableCell>
                                             <TableCell align='center'>
                                                 <Tooltip title="Chỉnh Sửa" placement="top">
-                                                    <IconButton>
+                                                    <IconButton onClick={() => { handleOpenDialog(row.id) }}>
                                                         <BorderColorIcon />
                                                     </IconButton>
                                                 </Tooltip>
-                                                <Tooltip title="Xóa" placement="top">
+                                                <Tooltip onClick={() => {handleDeleteTypeCategory(row.id)}} title="Xóa" placement="top">
                                                     <IconButton>
                                                         <DeleteIcon />
                                                     </IconButton>
@@ -112,7 +136,8 @@ export default function TableTypeCaterories({ listTypeCategories }: any) {
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
+                <DialogUpdateTypeCategories handleGetAllTypesCategories={handleGetAllTypesCategories} typeCategoryId={typeCategoryId} openDialogType={openDialogType} />
             </Paper>
-        ) : ''
+        ) : <Box></Box>
     );
 }

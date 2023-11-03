@@ -10,14 +10,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const db = require('../../models');
-const createNewCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const createNewTypeCategories = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const newCategory = yield db.Categories.create(req.body);
-        if (newCategory) {
+        const result = yield db.TypeCategories.create(req.body);
+        if (result) {
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
-                DT: newCategory
+                DT: result
             });
         }
     }
@@ -29,14 +29,83 @@ const createNewCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         });
     }
 });
-const createNewTypeCategories = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getTypeCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield db.TypeCategories.create(req.body);
+        const result = yield db.TypeCategories.findOne({
+            where: {
+                id: req.params.id
+            }
+        });
         if (result) {
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
                 DT: result
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
+const updateTypeCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield db.TypeCategories.update(req.body, {
+            where: {
+                id: req.params.id
+            }
+        });
+        if (result) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: result
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
+const deleteTypeCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield db.TypeCategories.destroy({
+            where: {
+                id: req.params.id
+            }
+        });
+        if (result) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: result
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
+const createNewCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const newCategory = yield db.Categories.create(req.body);
+        if (newCategory) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: newCategory
             });
         }
     }
@@ -73,5 +142,5 @@ const deleteCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 module.exports = {
-    createNewTypeCategories, createNewCategory, deleteCategory
+    createNewTypeCategories, createNewCategory, deleteCategory, updateTypeCategory, deleteTypeCategory, getTypeCategory
 };

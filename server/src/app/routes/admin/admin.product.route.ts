@@ -31,4 +31,9 @@ router.route("/categories/:id")
 router.route("/categories/typecategories")
     .post(adminCategoriesController.createNewTypeCategories)
 
+router.route("/categories/typecategories/:id")
+    .get(adminCategoriesController.getTypeCategory)
+    .patch(adminCategoriesController.updateTypeCategory)
+    .delete(adminCategoriesController.deleteTypeCategory)
+
 module.exports = router;

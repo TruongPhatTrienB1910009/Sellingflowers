@@ -56,3 +56,18 @@ export const createTypeCategory = async (data: any) => {
     const result = (await axios.post(`/admin/products/categories/typecategories`, data)).data;
     return result;
 }
+
+export const getTypeCategory = async (id: any) => {
+    const result = (await axios.get(`/admin/products/categories/typecategories/${id}`)).data;
+    return result;
+}
+
+export const updateTypeCategory = async (id: any, data: any) => {
+    const result = (await axios.patch(`/admin/products/categories/typecategories/${id}`, data)).data;
+    return result;
+}
+
+export const deleteTypeCategory = async (id: any) => {
+    const result = (await axios.delete(`/admin/products/categories/typecategories/${id}`)).data;
+    return result;
+}

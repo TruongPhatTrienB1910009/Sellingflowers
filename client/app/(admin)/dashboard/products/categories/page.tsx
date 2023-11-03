@@ -137,7 +137,7 @@ const page = () => {
         {
           (openTableTypeCategories) && (
             <Box>
-              <TableTypeCaterories listTypeCategories={listTypeCategories} />
+              <TableTypeCaterories listTypeCategories={listTypeCategories} handleGetAllTypesCategories={handleGetAllTypesCategories}/>
               <Box sx={{
                 display: 'flex',
                 justifyContent: 'flex-end',
