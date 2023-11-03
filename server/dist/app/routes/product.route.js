@@ -10,4 +10,6 @@ Router.route('/sort')
     .post(productController.sortProducts);
 Router.route('/filter')
     .post(productController.filterProducts);
+Router.route('/categories/:categoryid')
+    .get(productController.getAllProductsByCategory);
 module.exports = Router;

@@ -142,6 +142,38 @@ const filterProducts = async (req: Request, res: Response, next: NextFunction) =
     }
 }
 
+export const getAllProductsByCategory = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const products = await db.Product.findAll({
+            include: [
+                {
+                    model: db.Root
+                },
+                {
+                    model: db.Categories,
+                }
+            ],
+            where: {
+                CategoryId: req.params.categoryid
+            }
+        })
+
+        if (products) {
+            return res.status(200).json({
+                EM: 'OK',
+                EC: 0,
+                DT: products
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            EM: 'NOT OK',
+            EC: -1,
+            DT: (error as Error).message
+        });
+    }
+}
+
 module.exports = {
-    getAllProducts, getProductById, sortProducts, filterProducts
+    getAllProducts, getProductById, sortProducts, filterProducts, getAllProductsByCategory
 }

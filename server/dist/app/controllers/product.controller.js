@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getAllProductsByCategory = void 0;
 const sequelize_1 = require("sequelize");
 const db = require('../models');
 const getAllProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -148,6 +149,38 @@ const filterProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         });
     }
 });
+const getAllProductsByCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const products = yield db.Product.findAll({
+            include: [
+                {
+                    model: db.Root
+                },
+                {
+                    model: db.Categories,
+                }
+            ],
+            where: {
+                CategoryId: req.params.categoryid
+            }
+        });
+        if (products) {
+            return res.status(200).json({
+                EM: 'OK',
+                EC: 0,
+                DT: products
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EM: 'NOT OK',
+            EC: -1,
+            DT: error.message
+        });
+    }
+});
+exports.getAllProductsByCategory = getAllProductsByCategory;
 module.exports = {
-    getAllProducts, getProductById, sortProducts, filterProducts
+    getAllProducts, getProductById, sortProducts, filterProducts, getAllProductsByCategory: exports.getAllProductsByCategory
 };

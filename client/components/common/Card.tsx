@@ -52,10 +52,10 @@ const MediaCard: React.FC<CardProps> = ({ item }) => {
         <>
             <Link href={`/products/${item.id}`}>
                 <CustomizedSnackbars ref={childRef} message={message} stateMessage={stateMessage} />
-                <Card sx={{ maxWidth: "100%"}}>
+                <Card sx={{ maxWidth: "100%", border: '1px solid #ccc'}}>
                     <CardMedia
                         component="img"
-                        sx={{ maxHeight: "auto",  minHeight: '313px' }}
+                        sx={{ maxHeight: "auto" }}
                         image={`/${item?.img.slice(item?.img.indexOf('images'))}`}
                         title="green iguana"
                     />

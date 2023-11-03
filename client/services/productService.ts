@@ -19,3 +19,8 @@ export const filterProducts = async (data: any) => {
     const result = (await axios.post(`/products/filter`, data)).data;
     return result;
 }
+
+export const getAllProductsByCategory = async (categoryid: any) => {
+    const result = (await axios.get(`/products/categories/${categoryid}`)).data;
+    return result;
+}

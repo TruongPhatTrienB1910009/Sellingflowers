@@ -4,14 +4,16 @@ import "@/styles/detail.css";
 import { Box, Button, ButtonGroup, Container, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { getProductById } from '@/services/productService';
+import { getAllProductsByCategory, getProductById } from '@/services/productService';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { VND } from '@/utils/VND';
+import WrapperCards from '@/components/common/WrapperCards';
 
 
 const Page = ({ params }: { params: { id: number } }) => {
     // variables
     const [item, setItem] = useState<any>({});
+    const [sameItems, setSameItems] = useState([]);
     const [totalItem, setTotalItem] = useState<number>(1);
 
     // methods
@@ -23,6 +25,17 @@ const Page = ({ params }: { params: { id: number } }) => {
             const data = await getProductById(params.id);
             if (data.EC == 0) {
                 setItem(data.DT);
+                const products = await getAllProductsByCategory(data.DT.CategoryId);
+                if(products.EC == 0) {
+                    console.log("products.DT", products.DT);
+                    const filteredProducts = products.DT.filter((p: any, index: number) => {
+                        if(p.id != data.DT.id) return p;
+                    })
+
+                    if(filteredProducts) {
+                        setSameItems(filteredProducts);
+                    }
+                }
             }
         } catch (error) {
             console.log(error);
@@ -114,6 +127,18 @@ const Page = ({ params }: { params: { id: number } }) => {
                             </Typography>
                         </Box>
                     </Box>
+                </Box>
+            </Box>
+            <Box sx={{
+                marginTop: '10px',
+                padding: '10px',
+                backgroundColor: '#fff'
+            }}>
+                <h3>SẢN PHẨM TƯƠNG TỰ</h3>
+                <Box sx={{
+                    marginTop: '10px',
+                }}>
+                    <WrapperCards listItems={sameItems} />
                 </Box>
             </Box>
         </Container>

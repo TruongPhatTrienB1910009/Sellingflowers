@@ -1,7 +1,6 @@
 import React from 'react'
 import CardComponent from "@/components/common/Card";
 import { Box, Grid, Hidden } from '@mui/material';
-import Link from 'next/link';
 
 interface proplist {
     listItems: any;
