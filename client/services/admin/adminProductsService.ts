@@ -36,14 +36,22 @@ export const getSupplierById = async (id: any) => {
 }
 
 export const updateSupplier = async (id: any, data: any) => {
-    console.log(id);
-    console.log(data.get('name'));
     const result = (await axios.patch(`/admin/products/supplier/${id}`, data, { headers: { "Content-Type": "multipart/form-data" } })).data;
     return result;
 }
 
 export const createCategory = async (data: any) => {
     const result = (await axios.post(`/admin/products/categories`, data)).data;
+    return result;
+}
+
+export const getCategory = async (id: any) => {
+    const result = (await axios.get(`/admin/products/categories/${id}`)).data;
+    return result;
+}
+
+export const updateCategory = async (id: any, data: any) => {
+    const result = (await axios.patch(`/admin/products/categories/${id}`, data)).data;
     return result;
 }
 

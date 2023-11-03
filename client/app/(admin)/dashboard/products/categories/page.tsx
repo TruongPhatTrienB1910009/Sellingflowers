@@ -110,6 +110,8 @@ const page = () => {
               <TableCaterories 
                 handleDeleteCategory={handleDeleteCategory} 
                 listcategories={listcategories}
+                listTypeCategories={listTypeCategories}
+                handleGetAllCategories={handleGetAllCategories}
               />
               <Box sx={{
                 display: 'flex',

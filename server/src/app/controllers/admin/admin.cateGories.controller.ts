@@ -115,6 +115,54 @@ const createNewCategory = async (req: adminRequest, res: Response, next: NextFun
     }
 }
 
+const getCategory = async (req: adminRequest, res: Response, next: NextFunction) => {
+    try {
+        const result = await db.Categories.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+
+        if (result) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: result
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: (error as Error).message
+        })
+    }
+}
+
+const updateCategory = async (req: adminRequest, res: Response, next: NextFunction) => {
+    try {
+        const result = await db.Categories.update(req.body, {
+            where: {
+                id: req.params.id
+            }
+        })
+
+        if (result) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: result
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: (error as Error).message
+        })
+    }
+}
+
 const deleteCategory = async (req: adminRequest, res: Response, next: NextFunction) => {
     try {
         const result = await db.Categories.destroy({
@@ -140,5 +188,5 @@ const deleteCategory = async (req: adminRequest, res: Response, next: NextFuncti
 }
 
 module.exports = {
-    createNewTypeCategories, createNewCategory, deleteCategory, updateTypeCategory, deleteTypeCategory, getTypeCategory
+    createNewTypeCategories, createNewCategory, deleteCategory, updateTypeCategory, deleteTypeCategory, getTypeCategory, getCategory, updateCategory
 }

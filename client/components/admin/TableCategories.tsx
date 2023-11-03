@@ -9,11 +9,12 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, ButtonGroup, Checkbox, IconButton, Tooltip } from '@mui/material';
+import { Box, Button, ButtonGroup, Checkbox, IconButton, Tooltip } from '@mui/material';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import { VND } from '@/utils/VND';
 import '@/styles/common/tableItems.css'
+import DialogUpdateCategory from './update/DialogUpdateCategory';
 
 interface Column {
     id: 'name' | 'description' | 'type' | 'actions';
@@ -49,9 +50,11 @@ const columns: readonly Column[] = [
 ];
 
 
-export default function TableCaterories({handleDeleteCategory, listcategories }: any) {
+export default function TableCaterories({handleDeleteCategory, listcategories, listTypeCategories, handleGetAllCategories }: any) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [openDialogCategory, setOpenDialogCategory] = React.useState(-1);
+    const [categoryId, setCategoryId] = React.useState(null);
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -62,7 +65,10 @@ export default function TableCaterories({handleDeleteCategory, listcategories }:
         setPage(0);
     };
 
-    
+    const handleOpenDialog = (id: any) => {
+        setCategoryId(id);
+        setOpenDialogCategory(openDialogCategory + 1);
+    }
 
     return (
         (listcategories) ? (
@@ -99,7 +105,7 @@ export default function TableCaterories({handleDeleteCategory, listcategories }:
                                             </TableCell>
                                             <TableCell align='center'>
                                                 <Tooltip title="Chỉnh Sửa" placement="top">
-                                                    <IconButton>
+                                                    <IconButton onClick={() => {handleOpenDialog(row.id)}}>
                                                         <BorderColorIcon />
                                                     </IconButton>
                                                 </Tooltip>
@@ -124,7 +130,9 @@ export default function TableCaterories({handleDeleteCategory, listcategories }:
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
+
+                <DialogUpdateCategory handleGetAllCategories={handleGetAllCategories} categoryId={categoryId} listTypeCategories={listTypeCategories} openDialogCategory={openDialogCategory}/>
             </Paper>
-        ) : ''
+        ) : <Box></Box>
     );
 }

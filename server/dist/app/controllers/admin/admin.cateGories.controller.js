@@ -117,6 +117,52 @@ const createNewCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         });
     }
 });
+const getCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield db.Categories.findOne({
+            where: {
+                id: req.params.id
+            }
+        });
+        if (result) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: result
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
+const updateCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield db.Categories.update(req.body, {
+            where: {
+                id: req.params.id
+            }
+        });
+        if (result) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: result
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
 const deleteCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield db.Categories.destroy({
@@ -142,5 +188,5 @@ const deleteCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 module.exports = {
-    createNewTypeCategories, createNewCategory, deleteCategory, updateTypeCategory, deleteTypeCategory, getTypeCategory
+    createNewTypeCategories, createNewCategory, deleteCategory, updateTypeCategory, deleteTypeCategory, getTypeCategory, getCategory, updateCategory
 };

@@ -23,6 +23,8 @@ router.route("/supplier/:id")
 router.route("/categories")
     .post(adminCategoriesController.createNewCategory);
 router.route("/categories/:id")
+    .get(adminCategoriesController.getCategory)
+    .patch(adminCategoriesController.updateCategory)
     .delete(adminCategoriesController.deleteCategory);
 router.route("/categories/typecategories")
     .post(adminCategoriesController.createNewTypeCategories);
