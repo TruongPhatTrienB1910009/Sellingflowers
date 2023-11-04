@@ -8,6 +8,9 @@ module.exports = (sequelize, Model, DataTypes) => {
             autoIncrement: true,
             primaryKey: true,
         },
+        statuscode: {
+            type: DataTypes.BIGINT
+        },
         detail: {
             type: DataTypes.STRING
         }

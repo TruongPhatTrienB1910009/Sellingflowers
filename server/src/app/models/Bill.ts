@@ -29,8 +29,11 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
             type: DataTypes.BIGINT,
             defaultValue: 1
         },
-        deliveryfee: {
+        deliverycode: {
             type: DataTypes.BIGINT,
+        },
+        shippingcode: {
+            type: DataTypes.STRING
         }
     }, {
         sequelize: sequelize,

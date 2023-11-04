@@ -11,6 +11,9 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
             autoIncrement: true,
             primaryKey: true,
         },
+        statuscode: {
+            type: DataTypes.BIGINT
+        },
         detail: {
             type: DataTypes.STRING
         }

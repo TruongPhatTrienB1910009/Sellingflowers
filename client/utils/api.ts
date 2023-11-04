@@ -76,8 +76,8 @@ export const caculateDeliveryFee = async ({ address }: { address: any }) => {
                 "ward": `${ward.slice(0, ward.indexOf("-"))}`
             },
             "parcel": {
-                "cod": null,
-                "amount": 2000000,
+                "cod": 200000,
+                "amount": 200000,
                 "width": 30,
                 "height": 100,
                 "length": 30,

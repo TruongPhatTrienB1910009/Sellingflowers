@@ -76,7 +76,7 @@ const ComponentAddress = ({ handleSelectAddress, selectedAddress }: { handleSele
 const ComponentCheckout = ({selectedAddress, totalpriceItems, handleCheckOut}: {selectedAddress: any, totalpriceItems: any, handleCheckOut: any}) => {
 
     const [address, setAddress] = useState<any>(null);
-    const [deliveryFee, setDeliveryFee] = useState<any>(0);
+    const [deliveryFee, setDeliveryFee] = useState<any>(null);
 
     const handleGetAddressById = async () => {
         if (selectedAddress > -1) {
@@ -84,8 +84,9 @@ const ComponentCheckout = ({selectedAddress, totalpriceItems, handleCheckOut}: {
             if (ad.EC == 0) {
                 setAddress(ad.DT);
                 const fee = await caculateDeliveryFee({address: ad.DT})
+                console.log(fee)
                 if(fee) {
-                    setDeliveryFee(fee.total_amount);
+                    setDeliveryFee(fee);
                 }
             }
         }
@@ -110,8 +111,19 @@ const ComponentCheckout = ({selectedAddress, totalpriceItems, handleCheckOut}: {
                     <div>
                         <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px' }}>
                             <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng tiền hàng: {VND.format(totalpriceItems)}</span>
-                            <span style={{ fontSize: '16px', marginBottom: '6px' }}>Phí vận chuyển: {VND.format(deliveryFee)}</span>
-                            <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng thanh toán: {VND.format(totalpriceItems + deliveryFee)}</span>
+                            {
+                                (deliveryFee != null) ? (
+                                    <>
+                                        <span style={{ fontSize: '16px', marginBottom: '6px' }}>Phí vận chuyển: {VND.format(deliveryFee?.total_fee)}</span>
+                                        <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng thanh toán: {VND.format(deliveryFee?.total_amount)}</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span style={{ fontSize: '16px', marginBottom: '6px' }}>Phí vận chuyển: {VND.format(0)}</span>
+                                        <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng thanh toán: {VND.format(0)}</span>
+                                    </>
+                                )
+                            }
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
                             <Button onClick={() => {handleCheckOut(deliveryFee)}} sx={{ backgroundColor: '#228b22', color: '#fff', padding: '16px 42px', ':hover': { backgroundColor: '#228b22' } }}>
@@ -163,19 +175,20 @@ const CheckOut = () => {
     }
 
     const handleCheckOut = async (deliveryFee: any) => {
+        console.log(deliveryFee)
         try {
             const checkout: any = sessionStorage.getItem('checkout');
             const DeliveryAddress: any = selectedAddress
             const result = await checkOut({
                 checkout: checkout,
                 DeliveryAddress: DeliveryAddress,
-                deliveryfee: deliveryFee,
+                delivery: deliveryFee,
             })
 
-            if (result.EC == 0 ) {
-                alert("thành công")
-                router.push("/account/receipts")
-            }
+            // if (result.EC == 0 ) {
+            //     alert("thành công")
+            //     router.push("/account/receipts")
+            // }
         } catch (error) {
             console.log(error)
         }

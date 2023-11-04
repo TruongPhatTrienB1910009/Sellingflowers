@@ -16,7 +16,13 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
         const billCreated = await db.Bill.findAll({
             where: {
                 AccountId: user[0].id,
-                BillStatusId: 1
+                // BillStatusId: 1
+            },
+            include: {
+                model: db.BillStatus,
+                where: {
+                    statuscode: 0
+                }
             }
         })
 
@@ -113,12 +119,18 @@ const getAllItemsInCart = async (req: IGetUserAuthInfoRequest, res: Response, ne
                 },
                 {
                     model: db.Checkout
+                },
+                {
+                    model: db.BillStatud,
+                    where: {
+                        statuscode: 0
+                    }
                 }
             ],
             where: {
                 AccountId: user.id,
-                BillStatusId: 1
-            }
+                // BillStatusId: 1
+            },
         })
 
         if(data) {

@@ -20,7 +20,13 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         const billCreated = yield db.Bill.findAll({
             where: {
                 AccountId: user[0].id,
-                BillStatusId: 1
+                // BillStatusId: 1
+            },
+            include: {
+                model: db.BillStatus,
+                where: {
+                    statuscode: 0
+                }
             }
         });
         if (billCreated[0]) {
@@ -110,12 +116,18 @@ const getAllItemsInCart = (req, res, next) => __awaiter(void 0, void 0, void 0, 
                 },
                 {
                     model: db.Checkout
+                },
+                {
+                    model: db.BillStatud,
+                    where: {
+                        statuscode: 0
+                    }
                 }
             ],
             where: {
                 AccountId: user.id,
-                BillStatusId: 1
-            }
+                // BillStatusId: 1
+            },
         });
         if (data) {
             return res.status(200).json({
