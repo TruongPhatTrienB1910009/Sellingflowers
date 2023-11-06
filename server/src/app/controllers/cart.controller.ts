@@ -13,7 +13,7 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
             }
         });
 
-        const billCreated = await db.Bill.findAll({
+        const billCreated = await db.Bill.findOne({
             where: {
                 AccountId: user[0].id,
                 // BillStatusId: 1
@@ -26,28 +26,28 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
             }
         })
 
-        if (billCreated[0]) {
+        if (billCreated) {
 
-            const detailbill = await db.DetailBill.findAll({
+            const detailbill = await db.DetailBill.findOne({
                 where: {
                     ProductId: req.body.ProductId,
-                    BillId: billCreated[0].id
+                    BillId: billCreated.id
                 }
             })
 
-            if (detailbill[0]) {
+            if (detailbill) {
                 const product = await db.Product.findOne({
                     where: {
                         id: req.body.ProductId
                     }
                 })
 
-                await detailbill[0].update({
+                await detailbill.update({
                     totalItems: req.body.totalItems,
                     totalPriceItem: req.body.totalItems * product.price
                 })
 
-                await detailbill[0].save();
+                await detailbill.save();
                 return res.status(200).json({
                     EM: 'add product successfully',
                     EC: 0,
@@ -60,7 +60,7 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
                     }
                 })
 
-                const data = { BillId: billCreated[0].id, ...req.body, totalPriceItem:  req.body.totalItems * product.price}
+                const data = { BillId: billCreated.id, ...req.body, totalPriceItem:  req.body.totalItems * product.price}
                 const newDetail = await db.DetailBill.create(data);
                 await newDetail.save();
                 return res.status(200).json({
@@ -70,7 +70,12 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
                 })
             }
         } else {
-            const bill = await db.Bill.create({ "AccountId": user[0].id});
+            const billstatus = await db.BillStatus.findOne({
+                where: {
+                    statuscode: 0
+                }
+            })
+            const bill = await db.Bill.create({ "AccountId": user[0].id, "BillStatusId": billstatus.id});
             await bill.save();
             const product = await db.Product.findOne({
                 where: {
@@ -121,7 +126,7 @@ const getAllItemsInCart = async (req: IGetUserAuthInfoRequest, res: Response, ne
                     model: db.Checkout
                 },
                 {
-                    model: db.BillStatud,
+                    model: db.BillStatus,
                     where: {
                         statuscode: 0
                     }
@@ -129,7 +134,6 @@ const getAllItemsInCart = async (req: IGetUserAuthInfoRequest, res: Response, ne
             ],
             where: {
                 AccountId: user.id,
-                // BillStatusId: 1
             },
         })
 

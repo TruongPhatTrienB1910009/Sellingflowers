@@ -58,10 +58,9 @@ export const getWards = async (district: any) => {
     }
 }
 
-export const caculateDeliveryFee = async ({ address }: { address: any }) => {
+export const caculateDeliveryFee = async ({ address, feeCod }: { address: any, feeCod: any }) => {
     console.log(address);
     const { city, district, ward }: any = address;
-    console.log(city, district, ward);
 
     const delivery = {
         "shipment": {
@@ -73,11 +72,12 @@ export const caculateDeliveryFee = async ({ address }: { address: any }) => {
             "address_to": {
                 "district": `${district.slice(0, district.indexOf("-"))}`,
                 "city": `${city.slice(0, city.indexOf("-"))}`,
-                "ward": `${ward.slice(0, ward.indexOf("-"))}`
+                "ward": `${ward.slice(0, ward.indexOf("-"))}`,
+                "street": address.detail
             },
             "parcel": {
-                "cod": 200000,
-                "amount": 200000,
+                "cod": `${feeCod}`,
+                "amount": `${feeCod}`,
                 "width": 30,
                 "height": 100,
                 "length": 30,

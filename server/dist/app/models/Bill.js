@@ -20,14 +20,10 @@ module.exports = (sequelize, Model, DataTypes) => {
         },
         BillStatusId: {
             type: DataTypes.BIGINT,
-            defaultValue: 1
         },
         CheckoutId: {
             type: DataTypes.BIGINT,
             defaultValue: 1
-        },
-        deliverycode: {
-            type: DataTypes.BIGINT,
         },
         shippingcode: {
             type: DataTypes.STRING

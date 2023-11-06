@@ -17,7 +17,7 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
                 email: req.user.email
             }
         });
-        const billCreated = yield db.Bill.findAll({
+        const billCreated = yield db.Bill.findOne({
             where: {
                 AccountId: user[0].id,
                 // BillStatusId: 1
@@ -29,24 +29,24 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
                 }
             }
         });
-        if (billCreated[0]) {
-            const detailbill = yield db.DetailBill.findAll({
+        if (billCreated) {
+            const detailbill = yield db.DetailBill.findOne({
                 where: {
                     ProductId: req.body.ProductId,
-                    BillId: billCreated[0].id
+                    BillId: billCreated.id
                 }
             });
-            if (detailbill[0]) {
+            if (detailbill) {
                 const product = yield db.Product.findOne({
                     where: {
                         id: req.body.ProductId
                     }
                 });
-                yield detailbill[0].update({
+                yield detailbill.update({
                     totalItems: req.body.totalItems,
                     totalPriceItem: req.body.totalItems * product.price
                 });
-                yield detailbill[0].save();
+                yield detailbill.save();
                 return res.status(200).json({
                     EM: 'add product successfully',
                     EC: 0,
@@ -59,7 +59,7 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
                         id: req.body.ProductId
                     }
                 });
-                const data = Object.assign(Object.assign({ BillId: billCreated[0].id }, req.body), { totalPriceItem: req.body.totalItems * product.price });
+                const data = Object.assign(Object.assign({ BillId: billCreated.id }, req.body), { totalPriceItem: req.body.totalItems * product.price });
                 const newDetail = yield db.DetailBill.create(data);
                 yield newDetail.save();
                 return res.status(200).json({
@@ -70,7 +70,12 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
             }
         }
         else {
-            const bill = yield db.Bill.create({ "AccountId": user[0].id });
+            const billstatus = yield db.BillStatus.findOne({
+                where: {
+                    statuscode: 0
+                }
+            });
+            const bill = yield db.Bill.create({ "AccountId": user[0].id, "BillStatusId": billstatus.id });
             yield bill.save();
             const product = yield db.Product.findOne({
                 where: {
@@ -118,7 +123,7 @@ const getAllItemsInCart = (req, res, next) => __awaiter(void 0, void 0, void 0, 
                     model: db.Checkout
                 },
                 {
-                    model: db.BillStatud,
+                    model: db.BillStatus,
                     where: {
                         statuscode: 0
                     }
@@ -126,7 +131,6 @@ const getAllItemsInCart = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             ],
             where: {
                 AccountId: user.id,
-                // BillStatusId: 1
             },
         });
         if (data) {

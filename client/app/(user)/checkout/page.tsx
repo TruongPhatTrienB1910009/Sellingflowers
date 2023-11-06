@@ -83,7 +83,7 @@ const ComponentCheckout = ({selectedAddress, totalpriceItems, handleCheckOut}: {
             const ad = await getAddressById(selectedAddress);
             if (ad.EC == 0) {
                 setAddress(ad.DT);
-                const fee = await caculateDeliveryFee({address: ad.DT})
+                const fee = await caculateDeliveryFee({address: ad.DT, feeCod: totalpriceItems})
                 console.log(fee)
                 if(fee) {
                     setDeliveryFee(fee);
@@ -178,10 +178,9 @@ const CheckOut = () => {
         console.log(deliveryFee)
         try {
             const checkout: any = sessionStorage.getItem('checkout');
-            const DeliveryAddress: any = selectedAddress
             const result = await checkOut({
                 checkout: checkout,
-                DeliveryAddress: DeliveryAddress,
+                DeliveryAddress: selectedAddress,
                 delivery: deliveryFee,
             })
 
