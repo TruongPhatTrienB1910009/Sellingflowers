@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { Op } from "sequelize";
-import { createShipment } from "../../utils/checkout.utils";
+import { createShipment, getInfoShipment } from "../../utils/checkout.utils";
 const db = require('../../models');
 
 interface adminRequest extends Request {
@@ -107,12 +107,11 @@ const confirmReceipt = async (req: adminRequest, res: Response, next: NextFuncti
             }
         }
 
-        console.log("data", data);
-
         const shipment: any = await createShipment(data);
-        console.log("shipment", shipment);
         if (shipment.id) {
-            await receipt.update({ shippingcode: shipment.id });
+            const data: any = await getInfoShipment(shipment.id);
+            const status = await db.BillStatus.findOne({where: {statuscode: data[0].status_code}})
+            await receipt.update({ shippingcode: shipment.id, BillStatusId: status.id });
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',

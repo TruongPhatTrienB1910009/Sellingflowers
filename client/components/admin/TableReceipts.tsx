@@ -119,7 +119,7 @@ export default function TableReceipts({ listReceipts }: any) {
                                                 </Box>
                                             </TableCell>
                                             <TableCell align='center'>
-                                                {VND.format(row.totalprice + row.deliveryfee)}
+                                                {VND.format(row.totalprice)}
                                             </TableCell>
                                             <TableCell align='center' className='inputBtnGroup'>
                                                 {(row.state) ? ('Đã Thanh Toán') : ('Chưa Thanh Toán')}

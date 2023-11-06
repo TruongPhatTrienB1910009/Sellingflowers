@@ -100,3 +100,19 @@ export const caculateDeliveryFee = async ({ address, feeCod }: { address: any, f
     
     return response.data[0]
 }
+
+export const getInfoShipment = async (id: any) => {
+    const response = (await axios({
+        method: 'GET',
+        url: `https://sandbox.goship.io/api/v2/shipments/search?code=${id}`,
+        data: null,
+        headers: {
+            'content-type': 'application/json',
+            'Acess-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + process.env.NEXT_PUBLIC_go_ship_token,
+            'Accept': "application/json",
+        }
+    })).data
+    
+    return response.data;
+}

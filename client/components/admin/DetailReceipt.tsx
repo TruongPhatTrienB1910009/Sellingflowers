@@ -1,10 +1,12 @@
 import { Box, Button } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import TableItemsCheckout from '../TableItemsCheckout'
 import { VND } from '@/utils/VND'
 import { confirmReceipt } from '@/services/admin/adminReceiptsService'
+import { getInfoShipment } from '@/utils/api'
 
 const DetailReceipt = ({ receipt }: any) => {
+    const [detail, setDetail] = useState<any>(null);
     
     const handleConfirmReceipt = async ({id}: any) => {
         try {
@@ -16,6 +18,19 @@ const DetailReceipt = ({ receipt }: any) => {
             console.log(error)
         }
     }
+
+    const getInfoShipmentReceipt = async () => {
+        if(receipt != null) {
+            const data = await getInfoShipment(receipt.shippingcode);
+            if(data) {
+                setDetail(data[0])
+            }
+        }
+    } 
+
+    useEffect(() => {
+        getInfoShipmentReceipt();
+    }, [receipt?.id, detail?.id]);
 
     return (
         <Box>
@@ -53,8 +68,8 @@ const DetailReceipt = ({ receipt }: any) => {
                                     padding: '6px'
                                 }}>
                                     <Box>Tổng tiền sản phẩm: {VND.format(receipt.totalprice)}</Box>
-                                    <Box>Phí vận chuyển: {VND.format(receipt.deliveryfee)}</Box>
-                                    <Box>Tổng thanh toán: {VND.format(receipt.totalprice + receipt.deliveryfee)}</Box>
+                                    <Box>Phí vận chuyển: {VND.format(detail?.total_fee)}</Box>
+                                    <Box>Tổng thanh toán: {VND.format(receipt.totalprice + detail?.total_fee)}</Box>
                                     <Box>Trạng thái: {(receipt.state) ? ('Đã thanh toán') : ('Chưa thanh toán')}</Box>
                                 </Box>
                             </Box>

@@ -107,11 +107,11 @@ const confirmReceipt = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                 }
             }
         };
-        console.log("data", data);
         const shipment = yield (0, checkout_utils_1.createShipment)(data);
-        console.log("shipment", shipment);
         if (shipment.id) {
-            yield receipt.update({ shippingcode: shipment.id });
+            const data = yield (0, checkout_utils_1.getInfoShipment)(shipment.id);
+            const status = yield db.BillStatus.findOne({ where: { statuscode: data[0].status_code } });
+            yield receipt.update({ shippingcode: shipment.id, BillStatusId: status.id });
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
