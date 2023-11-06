@@ -12,12 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createShipment = void 0;
+exports.getStatusShipment = exports.createShipment = void 0;
 const axios_1 = __importDefault(require("axios"));
 const createShipment = (data) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const token = process.env.token;
-        console.log(JSON.stringify(data));
         const response = (yield (0, axios_1.default)({
             method: 'POST',
             url: "https://sandbox.goship.io/api/v2/shipments",
@@ -36,3 +35,25 @@ const createShipment = (data) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.createShipment = createShipment;
+const getStatusShipment = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const token = process.env.token;
+        console.log(JSON.stringify(data));
+        const response = (yield (0, axios_1.default)({
+            method: 'GET',
+            url: `http://sandbox.goship.io/api/v2/shipments/search?code=${data}`,
+            data: null,
+            headers: {
+                'content-type': 'application/json',
+                'Acess-Control-Allow-Origin': '*',
+                'Authorization': 'Bearer ' + token,
+                'Accept': "application/json",
+            }
+        })).data;
+        return response;
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.getStatusShipment = getStatusShipment;

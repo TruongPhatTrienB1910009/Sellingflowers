@@ -5,10 +5,9 @@ export const getAllReceipts = async () => {
     return result;
 }
 
-export const updateStatusReceipt = async ({ BillStatusId, id}: any) => {
+export const confirmReceipt = async ({id}: any) => {
     try {
-        console.log(BillStatusId, id);
-        const result = (await axios.post(`/admin/receipts/status/${id}`, {BillStatusId: BillStatusId})).data;
+        const result = (await axios.post(`/admin/receipts/status/${id}`)).data;
         return result;
     } catch (error) {
         console.log(error);

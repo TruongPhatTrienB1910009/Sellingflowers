@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
+const checkout_utils_1 = require("../../utils/checkout.utils");
 const db = require('../../models');
 const getAllReceipts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -19,13 +20,8 @@ const getAllReceipts = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                 { model: db.Account },
                 { model: db.DeliveryAddress },
                 { model: db.Checkout },
-                { model: db.BillStatus },
-            ],
-            where: {
-                BillStatusId: {
-                    [sequelize_1.Op.notIn]: [1]
-                }
-            }
+                { model: db.BillStatus, where: { statuscode: { [sequelize_1.Op.notIn]: [0] } } },
+            ]
         });
         if (receipts) {
             return res.status(200).json({
@@ -68,6 +64,69 @@ const updateStatusReceipt = (req, res, next) => __awaiter(void 0, void 0, void 0
         });
     }
 });
+const confirmReceipt = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const receipt = yield db.Bill.findOne({
+            where: {
+                id: req.params.id
+            }
+        });
+        const foundAddress = yield db.DeliveryAddress.findOne({
+            where: {
+                id: receipt.DeliveryAddressId
+            }
+        });
+        const data = {
+            "shipment": {
+                "rate": `${receipt.deliverycode}`,
+                "order_id": null,
+                "address_from": {
+                    "name": "Geen.",
+                    "phone": "0787899778",
+                    "street": "102 Thái Thịnh",
+                    "district": "700100",
+                    "city": "700000",
+                    "ward": "8955"
+                },
+                "address_to": {
+                    "name": `${foundAddress.name}`,
+                    "phone": `${foundAddress.phone}`,
+                    "district": `${foundAddress.district.slice(0, foundAddress.district.indexOf("-"))}`,
+                    "street": `${foundAddress.detail}`,
+                    "city": `${foundAddress.city.slice(0, foundAddress.city.indexOf("-"))}`,
+                    "ward": `${foundAddress.ward.slice(0, foundAddress.ward.indexOf("-"))}`
+                },
+                "parcel": {
+                    "cod": `${receipt.totalprice}`,
+                    "amount": `${receipt.totalprice}`,
+                    "width": 30,
+                    "height": 100,
+                    "length": 30,
+                    "weight": 150,
+                    "metadata": "Hàng dễ vỡ, vui lòng nhẹ tay."
+                }
+            }
+        };
+        console.log("data", data);
+        const shipment = yield (0, checkout_utils_1.createShipment)(data);
+        console.log("shipment", shipment);
+        if (shipment.id) {
+            yield receipt.update({ shippingcode: shipment.id });
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: receipt
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    getAllReceipts, updateStatusReceipt
+    getAllReceipts, updateStatusReceipt, confirmReceipt
 };

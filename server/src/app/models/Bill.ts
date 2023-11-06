@@ -30,6 +30,9 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
         },
         shippingcode: {
             type: DataTypes.STRING
+        },
+        deliverycode: {
+            type: DataTypes.STRING
         }
     }, {
         sequelize: sequelize,

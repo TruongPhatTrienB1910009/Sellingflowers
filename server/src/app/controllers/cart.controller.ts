@@ -16,7 +16,6 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
         const billCreated = await db.Bill.findOne({
             where: {
                 AccountId: user[0].id,
-                // BillStatusId: 1
             },
             include: {
                 model: db.BillStatus,
@@ -93,7 +92,7 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
                 include: [{ all: true}]
             })
             return res.status(200).json({
-                EM: 'add product successfully',
+                EM: 'add product successfully', 
                 EC: 0,
                 DT: result
             })

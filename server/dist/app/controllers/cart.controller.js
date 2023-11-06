@@ -20,7 +20,6 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         const billCreated = yield db.Bill.findOne({
             where: {
                 AccountId: user[0].id,
-                // BillStatusId: 1
             },
             include: {
                 model: db.BillStatus,

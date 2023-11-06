@@ -9,5 +9,5 @@ const receiptsController = require("../../controllers/admin/admin.receipts.contr
 router.route("/")
     .get(receiptsController.getAllReceipts);
 router.route("/status/:id")
-    .post(receiptsController.updateStatusReceipt);
+    .post(receiptsController.confirmReceipt);
 module.exports = router;

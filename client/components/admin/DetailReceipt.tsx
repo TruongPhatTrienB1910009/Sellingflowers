@@ -2,13 +2,13 @@ import { Box, Button } from '@mui/material'
 import React from 'react'
 import TableItemsCheckout from '../TableItemsCheckout'
 import { VND } from '@/utils/VND'
-import { updateStatusReceipt } from '@/services/admin/adminReceiptsService'
+import { confirmReceipt } from '@/services/admin/adminReceiptsService'
 
 const DetailReceipt = ({ receipt }: any) => {
     
-    const handleUpdateBillStatus = async ({id}: any) => {
+    const handleConfirmReceipt = async ({id}: any) => {
         try {
-            const result = await updateStatusReceipt({ BillStatusId: 3, id: id})
+            const result = await confirmReceipt({id: id})
             if(result.EC == 0) {
                 location.reload()
             }
@@ -84,7 +84,7 @@ const DetailReceipt = ({ receipt }: any) => {
                                                 }
                                             }}
 
-                                            onClick={() => {handleUpdateBillStatus({id: receipt.id})}}
+                                            onClick={() => {handleConfirmReceipt({id: receipt.id})}}
                                         >
                                             Xác nhận hóa đơn
                                         </Button>

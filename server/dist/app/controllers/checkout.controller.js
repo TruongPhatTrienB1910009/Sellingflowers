@@ -9,8 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const sequelize_1 = require("sequelize");
 const db = require('../models');
-const checkout_utils_1 = require("../utils/checkout.utils");
 const checkOut = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         console.log("checkOut", req.body);
@@ -32,93 +32,67 @@ const checkOut = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
                 BillId: getBill.id
             }
         });
+        const getStatus = yield db.BillStatus.findOne({
+            where: {
+                statuscode: 1
+            }
+        });
         if (getDetailsBill.length === req.body.checkout.length) {
             let totalPrice = 0;
             for (let i = 0; i < getDetailsBill.length; i++) {
+                const Product = yield db.Product.findOne({ where: { id: getDetailsBill[i].ProductId } });
+                yield Product.update({ inventory: Product.inventory - getDetailsBill[i].totalItems });
                 totalPrice += getDetailsBill[i].totalPriceItem;
             }
-            const foundAddress = yield db.DeliveryAddress.findOne({
-                where: {
-                    id: req.body.DeliveryAddress
-                }
+            yield getBill.update({ BillStatusId: getStatus.id, DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliverycode: req.body.delivery.id });
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: getBill
             });
-            const data = {
-                "shipment": {
-                    "rate": `${req.body.delivery.id}`,
-                    "order_id": null,
-                    "address_from": {
-                        "name": "Geen.",
-                        "phone": "0787899778",
-                        "street": "102 Thái Thịnh",
-                        "district": "700100",
-                        "city": "700000",
-                        "ward": "8955"
-                    },
-                    "address_to": {
-                        "name": `${foundAddress.name}`,
-                        "phone": `${foundAddress.phone}`,
-                        "district": `${foundAddress.district.slice(0, foundAddress.district.indexOf("-"))}`,
-                        "street": `${foundAddress.detail}`,
-                        "city": `${foundAddress.city.slice(0, foundAddress.city.indexOf("-"))}`,
-                        "ward": `${foundAddress.ward.slice(0, foundAddress.ward.indexOf("-"))}`
-                    },
-                    "parcel": {
-                        "cod": totalPrice,
-                        "amount": totalPrice,
-                        "width": 30,
-                        "height": 100,
-                        "length": 30,
-                        "weight": 150,
-                        "metadata": "Hàng dễ vỡ, vui lòng nhẹ tay."
-                    }
-                }
-            };
-            const shipment = yield (0, checkout_utils_1.createShipment)(data);
-            if (shipment) {
-                console.log("shipment", shipment);
-            }
         }
         else {
-            // const user = await db.Account.findOne({ where: { email: req.user.email }})
-            // const numberArray = req.body.checkout.map((item: any) => parseInt(item, 10))
-            // const arrCheckout = (getDetailsBill.map((product: any, index: number) => {
-            //     if(numberArray.includes(index)) return product;
-            // })).filter((product: any) => product != null)
-            // const newBill = await db.Bill.create({
-            //     AccountId: user.id,
-            //     BillStatusId: 2,
-            //     note: req.body.note,
-            //     DeliveryAddressId: req.body.DeliveryAddress,
-            //     deliveryfee: req.body.deliveryfee
-            // })
-            // let totalPrice = 0;
-            // for(let i = 0; i < arrCheckout.length; i++) {
-            //     const newDetail = await db.DetailBill.create({
-            //         BillId: newBill.id,
-            //         ProductId: arrCheckout[i].ProductId,
-            //         totalItems: arrCheckout[i].totalItems,
-            //         totalPriceItem: arrCheckout[i].totalPriceItem
-            //     })
-            //     totalPrice += arrCheckout[i].totalPriceItem
-            //     await newDetail.save();
-            // }
-            // await newBill.update({ totalprice: totalPrice })
-            // const deleArr = arrCheckout.map((product: any, index: number) => {
-            //     return product.ProductId
-            // })
-            // await db.DetailBill.destroy({
-            //     where: {
-            //         BillId: getBill.id, 
-            //         ProductId: {
-            //             [Op.in] : deleArr
-            //         }
-            //     }
-            // })
-            // return res.status(200).json({
-            //     EC: 0,
-            //     EM: 'OK',
-            //     DT: newBill
-            // }) 
+            const numberArray = req.body.checkout.map((item) => parseInt(item, 10));
+            const arrCheckout = (getDetailsBill.map((product, index) => {
+                if (numberArray.includes(index))
+                    return product;
+            })).filter((product) => product != null);
+            const newBill = yield db.Bill.create({
+                AccountId: user.id,
+                BillStatusId: getStatus.id,
+                note: req.body.note,
+                DeliveryAddressId: req.body.DeliveryAddress
+            });
+            let totalPrice = 0;
+            for (let i = 0; i < arrCheckout.length; i++) {
+                const newDetail = yield db.DetailBill.create({
+                    BillId: newBill.id,
+                    ProductId: arrCheckout[i].ProductId,
+                    totalItems: arrCheckout[i].totalItems,
+                    totalPriceItem: arrCheckout[i].totalPriceItem
+                });
+                const Product = yield db.Product.findOne({ where: { id: arrCheckout[i].ProductId } });
+                yield Product.update({ inventory: Product.inventory - arrCheckout[i].totalItems });
+                totalPrice += arrCheckout[i].totalPriceItem;
+                yield newDetail.save();
+            }
+            const deleArr = arrCheckout.map((product, index) => {
+                return product.ProductId;
+            });
+            yield db.DetailBill.destroy({
+                where: {
+                    BillId: getBill.id,
+                    ProductId: {
+                        [sequelize_1.Op.in]: deleArr
+                    }
+                }
+            });
+            yield newBill.update({ DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliverycode: req.body.delivery.id });
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: newBill
+            });
         }
     }
     catch (error) {
