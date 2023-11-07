@@ -27,6 +27,7 @@ const checkoutRoute = require('./app/routes/checkout.route');
 const adminProductRoute = require('./app/routes/admin/admin.product.route');
 const adminUserRoute = require('./app/routes/admin/admin.user.route');
 const adminReceiptRoute = require('./app/routes/admin/admin.receipt.route');
+const adminDashboardRoute = require('./app/routes/admin/admin.dashboard.route');
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -42,6 +43,7 @@ app.use('/checkout', checkUserJWT, checkoutRoute);
 app.use('/admin/products', checkUserJWT, checkAdmin, adminProductRoute);
 app.use('/admin/users', checkUserJWT, checkAdmin, adminUserRoute);
 app.use('/admin/receipts', checkUserJWT, checkAdmin, adminReceiptRoute);
+app.use('/admin/dashboard', checkUserJWT, checkAdmin, adminDashboardRoute);
 const runServer = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield db.sequelize.sync();

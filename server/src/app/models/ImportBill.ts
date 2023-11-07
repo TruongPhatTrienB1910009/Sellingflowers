@@ -19,7 +19,6 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
     }, {
         sequelize: sequelize,
         modelName: 'ImportBill',
-        timestamps: false
     })
 
     return ImportBill;

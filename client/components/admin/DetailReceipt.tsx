@@ -24,6 +24,8 @@ const DetailReceipt = ({ receipt }: any) => {
             const data = await getInfoShipment(receipt.shippingcode);
             if(data) {
                 setDetail(data[0])
+                console.log(receipt)
+                console.log(data)
             }
         }
     } 

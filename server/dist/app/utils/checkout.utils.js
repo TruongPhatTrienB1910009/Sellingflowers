@@ -19,7 +19,7 @@ const createShipment = (data) => __awaiter(void 0, void 0, void 0, function* () 
         const token = process.env.token;
         const response = (yield (0, axios_1.default)({
             method: 'POST',
-            url: "https://sandbox.goship.io/api/v2/shipments",
+            url: "http://sandbox.goship.io/api/v2/shipments",
             data: JSON.stringify(data),
             headers: {
                 'content-type': 'application/json',
@@ -60,7 +60,7 @@ const getInfoShipment = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const token = process.env.token;
     const response = (yield (0, axios_1.default)({
         method: 'GET',
-        url: `https://sandbox.goship.io/api/v2/shipments/search?code=${id}`,
+        url: `http://sandbox.goship.io/api/v2/shipments/search?code=${id}`,
         data: null,
         headers: {
             'content-type': 'application/json',

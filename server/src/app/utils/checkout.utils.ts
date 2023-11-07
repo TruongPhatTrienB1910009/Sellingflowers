@@ -5,7 +5,7 @@ export const createShipment = async (data: any) => {
         const token = process.env.token;
         const response = (await axios({
             method: 'POST',
-            url: "https://sandbox.goship.io/api/v2/shipments",
+            url: "http://sandbox.goship.io/api/v2/shipments",
             data: JSON.stringify(data),
             headers: {
                 'content-type': 'application/json',
@@ -46,7 +46,7 @@ export const getInfoShipment = async (id: any) => {
     const token = process.env.token;
     const response = (await axios({
         method: 'GET',
-        url: `https://sandbox.goship.io/api/v2/shipments/search?code=${id}`,
+        url: `http://sandbox.goship.io/api/v2/shipments/search?code=${id}`,
         data: null,
         headers: {
             'content-type': 'application/json',
