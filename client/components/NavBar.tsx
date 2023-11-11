@@ -21,6 +21,7 @@ import LocalMallIcon from '@mui/icons-material/LocalMall';
 import Link from 'next/link';
 import Image from 'next/image';
 import NestedListItems from './NestedListItems';
+import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 
 // css
 import '@/styles/navStyle.css';
@@ -32,6 +33,7 @@ import { getAllItemsInCart } from '@/services/cartService';
 import CategoriesDropdown from './CategoriesDropdown';
 import { getAllProducts } from '@/services/productService';
 import SearchResult from './common/SearchResult';
+import { Tooltip } from '@mui/material';
 
 interface Props {
     window?: () => Window;
@@ -65,7 +67,7 @@ export default function DrawerAppBar(props: Props) {
 
     const handleChangeValue = async (e: any) => {
         console.log(e.target.value);
-        if(e.target.value != '') {
+        if (e.target.value != '') {
             setOpenResult(true);
         } else {
             setOpenResult(false);
@@ -78,7 +80,7 @@ export default function DrawerAppBar(props: Props) {
                 }
             })
 
-            if(data) {
+            if (data) {
                 setListSearch(data);
             }
         }
@@ -166,8 +168,17 @@ export default function DrawerAppBar(props: Props) {
                                     inputProps={{ 'aria-label': 'search' }}
                                     onChange={handleChangeValue}
                                 />
-                                {(openResult) && <SearchResult result={listSearch}/>}
+                                {(openResult) && <SearchResult result={listSearch} />}
                             </Search>
+
+                            <Tooltip title="Tìm kiếm bằng ảnh" placement="top">
+                                <Link href={"/imagesearch"}>
+                                    <IconButton>
+                                        <ImageSearchIcon sx={{ fontSize: '30px', color: 'white' }} />
+                                    </IconButton>
+                                </Link>
+                            </Tooltip>
+
                         </Typography>
 
                         <Box sx={{ display: { xs: 'none', sm: 'block' }, flexGrow: 1 }}>

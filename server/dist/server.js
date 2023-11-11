@@ -23,6 +23,7 @@ const productRoute = require('./app/routes/product.route');
 const cartRoute = require('./app/routes/cart.route');
 const billRoute = require('./app/routes/bill.route');
 const checkoutRoute = require('./app/routes/checkout.route');
+const searchRoute = require('./app/routes/search.route');
 // router admin
 const adminProductRoute = require('./app/routes/admin/admin.product.route');
 const adminUserRoute = require('./app/routes/admin/admin.user.route');
@@ -34,6 +35,7 @@ app.use(cors());
 const port = 3000;
 // handel router
 app.use('/', homeRoute);
+app.use('/search', searchRoute);
 app.use('/account', checkUserJWT, accountRoute);
 app.use('/products', productRoute);
 app.use('/cart', checkUserJWT, cartRoute);
