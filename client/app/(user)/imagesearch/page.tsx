@@ -5,6 +5,7 @@ import ImageUploading from "react-images-uploading";
 import "@/styles/imagesearch.css"
 import { Container } from "@mui/material";
 import { deleteAllFiles, storeImage } from "@/services/searchService";
+import { queryImages } from "@/embedding/query";
 
 export default function App() {
     const [images, setImages] = React.useState([]);
@@ -19,9 +20,10 @@ export default function App() {
             const result = await storeImage({
                 img: imageList[0].file
             })
-
             if (result.EC == 0) {
                 console.log(result.DT);
+                const newResult = await queryImages(result.DT);
+                console.log(newResult);
             }
         }
     };
