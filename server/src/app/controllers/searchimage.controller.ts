@@ -66,7 +66,6 @@ const deleteAllFiles = async (req: fileRequest, res: Response, next: NextFunctio
             // Loop through each file and delete it
             files.forEach((file: any) => {
                 const filePath = path.join(directoryPath, file);
-                console.log(filePath);
                 // Delete the file
                 fs.unlink(filePath, (err: any) => {
                     if (err) {

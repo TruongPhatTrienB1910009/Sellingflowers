@@ -4,14 +4,26 @@ import ImageUploading from "react-images-uploading";
 
 import "@/styles/imagesearch.css"
 import { Container } from "@mui/material";
+import { deleteAllFiles, storeImage } from "@/services/searchService";
 
 export default function App() {
     const [images, setImages] = React.useState([]);
     const maxNumber = 1;
-    const onChange = (imageList: any, addUpdateIndex: any) => {
+    const onChange = async (imageList: any, addUpdateIndex: any) => {
         // data for submit
         console.log(imageList, addUpdateIndex);
         setImages(imageList);
+
+        if (imageList[0]) {
+            await deleteAllFiles();
+            const result = await storeImage({
+                img: imageList[0].file
+            })
+
+            if (result.EC == 0) {
+                console.log(result.DT);
+            }
+        }
     };
 
     return (
@@ -23,12 +35,11 @@ export default function App() {
                     onChange={onChange}
                     maxNumber={maxNumber}
                     dataURLKey="data_url"
-                    acceptType={["jpg"]}
+                    acceptType={["jpg", "png", "jpeg"]}
                 >
                     {({
                         imageList,
                         onImageUpload,
-                        onImageRemoveAll,
                         onImageUpdate,
                         onImageRemove,
                         isDragging,
@@ -36,15 +47,17 @@ export default function App() {
                     }) => (
                         // write your building UI
                         <div className="upload__image-wrapper">
-                            <button
-                                style={isDragging ? { color: "red" } : { color: "" }}
-                                onClick={onImageUpload}
-                                {...dragProps}
-                            >
-                                Tải ảnh lên
-                            </button>
-                            &nbsp;
-                            {/* <button onClick={onImageRemoveAll}>Remove all images</button> */}
+                            {
+                                (imageList.length < 1) ? (
+                                    <button
+                                        style={isDragging ? { color: "red" } : { color: "" }}
+                                        onClick={onImageUpload}
+                                        {...dragProps}
+                                    >
+                                        Tải ảnh lên
+                                    </button>
+                                ) : <div></div>
+                            }
                             {imageList.map((image, index) => (
                                 <div key={index} className="image-item">
                                     <img src={image.data_url} alt="" width="100" />
@@ -62,45 +75,3 @@ export default function App() {
     );
 }
 
-
-
-
-
-
-
-
-
-
-
-// import { Box, Container } from '@mui/material'
-// import React from 'react'
-// import "@/styles/imagesearch.css"
-
-// const page = () => {
-//     const getImage = async (e: any) => {
-//         console.log(e.target.files[0])
-//         try {
-//             // const result = await get
-//         } catch (error) {
-//             console.log(error)
-//         }
-//     }
-
-//     return (
-//         <Container maxWidth='md'>
-//             <Box className='main'>
-//                 <Box sx={{
-//                     display: 'flex',
-//                     flexDirection: 'column',
-//                     alignItems: 'center'
-//                 }}>
-//                     <img src="/images/searchimage.png" alt="" />
-//                     <label htmlFor="avatar">Tải ảnh lên (image/png, image/jpeg)</label>
-//                     <input onChange={(e) => { getImage(e) }} type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" />
-//                 </Box>
-//             </Box>
-//         </Container>
-//     )
-// }
-
-// export default page

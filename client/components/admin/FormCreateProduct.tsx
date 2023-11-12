@@ -37,6 +37,7 @@ const FormCreateProduct = () => {
             data.append("SupplierId", supplierId);
             const result = await createProduct(data);
             if (result.EC == 0) {
+                
                 location.href = "http://localhost:3001/dashboard/products/list"
             }
         } catch (error) {
