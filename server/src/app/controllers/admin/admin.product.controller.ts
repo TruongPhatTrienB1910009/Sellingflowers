@@ -97,7 +97,7 @@ const createProduct = async (req: fileRequest, res: Response, next: NextFunction
                 return res.status(200).json({
                     EM: 'Product created',
                     EC: 0,
-                    DT: importBill
+                    DT: product
                 })
             }
         }

@@ -86,7 +86,7 @@ const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, func
                 return res.status(200).json({
                     EM: 'Product created',
                     EC: 0,
-                    DT: importBill
+                    DT: product
                 });
             }
         }

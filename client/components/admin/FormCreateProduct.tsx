@@ -5,6 +5,7 @@ import "@/styles/admin/FormCreateProduct.css";
 import SupplierComponent from './SupplierComponent';
 import { createProduct } from '@/services/admin/adminProductsService';
 import { getAllCategories } from '@/services/homeService';
+import { uploadDataToPinecone } from '@/services/manageimages';
 
 const FormCreateProduct = () => {
     const [supplierId, setSupplierId] = useState<any>(null);
@@ -37,8 +38,9 @@ const FormCreateProduct = () => {
             data.append("SupplierId", supplierId);
             const result = await createProduct(data);
             if (result.EC == 0) {
-                
-                location.href = "http://localhost:3001/dashboard/products/list"
+                console.log(result.DT)
+                await uploadDataToPinecone({"imagePath": result.DT.img});
+                // location.href = "http://localhost:3001/dashboard/products/list"
             }
         } catch (error) {
             console.log(error);
