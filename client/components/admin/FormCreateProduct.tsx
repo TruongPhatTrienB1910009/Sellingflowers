@@ -38,8 +38,10 @@ const FormCreateProduct = () => {
             data.append("SupplierId", supplierId);
             const result = await createProduct(data);
             if (result.EC == 0) {
-                console.log(result.DT)
-                await uploadDataToPinecone({"imagePath": result.DT.img});
+                const newUpload = await uploadDataToPinecone({"imagePath": result.DT.img});
+                if(newUpload.EC == 0) {
+                    alert("Success");
+                }
                 // location.href = "http://localhost:3001/dashboard/products/list"
             }
         } catch (error) {

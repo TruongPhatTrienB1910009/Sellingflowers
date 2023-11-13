@@ -59,7 +59,6 @@ const deleteAllFiles = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                 console.error('Error reading directory:', err);
                 return;
             }
-            console.log(files);
             // Loop through each file and delete it
             files.forEach((file) => {
                 const filePath = path.join(directoryPath, file);
@@ -88,6 +87,35 @@ const deleteAllFiles = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         });
     }
 });
+const deleteByPath = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const filePath = req.body.filePath;
+    try {
+        console.log(filePath);
+        fs.unlink(filePath, (err) => {
+            if (err) {
+                return res.status(500).json({
+                    EC: -1,
+                    EM: 'NOT OK',
+                    DT: err.message
+                });
+            }
+            else {
+                return res.status(200).json({
+                    EC: 0,
+                    EM: 'OK',
+                    DT: "Success"
+                });
+            }
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    uploadSearch, getPathImage, deleteAllFiles
+    uploadSearch, getPathImage, deleteAllFiles, deleteByPath
 };

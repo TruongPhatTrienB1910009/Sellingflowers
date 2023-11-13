@@ -8,5 +8,8 @@ router.route("/store")
 router.route("/deleteall")
     .post(searchController.deleteAllFiles)
 
+router.route("/delete")
+    .post(searchController.deleteByPath)
+
 
 module.exports = router

@@ -13,8 +13,28 @@ export const uploadDataToPinecone = async (data: any) => {
                 'Acess-Control-Allow-Origin': '*',
                 'Accept': "application/json",
             }
-        })).data
-        return res;
+        }))
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const deleteDataOnPinecone = async (data: any) => {
+    try {
+        const res = (await axios({
+            method: 'PATCH',
+            url: `http://localhost:3001/api/embedding`,
+            data: data,
+            headers: {
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                'Content-Type': 'application/json',
+                'Acess-Control-Allow-Origin': '*',
+                'Accept': "application/json",
+            }
+        }))
+        return res.data;
     } catch (error) {
         console.log(error);
     }

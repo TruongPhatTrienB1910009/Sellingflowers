@@ -21,18 +21,34 @@ export async function POST(req: NextRequest, res: NextResponse) {
         const imagePaths = [imagePath]; 
         await embedder.init("Xenova/clip-vit-base-patch32");
         await embedAndUpsert({ imagePaths, chunkSize: 100 }); 
-        return NextResponse.json("success");
+        return NextResponse.json({
+            EC: 0,
+            EM: 'OK',
+            DT: 'Success'
+        });
     } catch (error) {
-        return NextResponse.json({ error: 'Error when upload images to pinecone' });
+        return NextResponse.json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error
+        });
     }
 }
 
-export async function DELETE(req: NextRequest, res: NextResponse) {
+export async function PATCH(req: NextRequest, res: NextResponse) {
     try {
         const { imagePath } = await req.json();
         await deleteImage(imagePath); 
-        return NextResponse.json("success");
+        return NextResponse.json({
+            EC: 0,
+            EM: 'OK',
+            DT: 'Success'
+        });
     } catch (error) {
-        return NextResponse.json({ error: 'Error when upload images to pinecone' });
+        return NextResponse.json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error
+        });
     }
 }

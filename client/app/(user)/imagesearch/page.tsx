@@ -21,9 +21,7 @@ export default function App() {
                 img: imageList[0].file
             })
             if (result.EC == 0) {
-                console.log(result.DT);
                 const newResult = await queryImages(result.DT);
-                console.log(newResult);
             }
         }
     };

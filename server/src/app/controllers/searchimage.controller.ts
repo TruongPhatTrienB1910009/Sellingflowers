@@ -62,7 +62,6 @@ const deleteAllFiles = async (req: fileRequest, res: Response, next: NextFunctio
                 return;
             }
 
-            console.log(files);
             // Loop through each file and delete it
             files.forEach((file: any) => {
                 const filePath = path.join(directoryPath, file);
@@ -91,6 +90,34 @@ const deleteAllFiles = async (req: fileRequest, res: Response, next: NextFunctio
     }
 }
 
+const deleteByPath = async (req: fileRequest, res: Response, next: NextFunction) => {
+    const filePath = req.body.filePath;
+    try {
+        console.log(filePath);
+        fs.unlink(filePath, (err: any) => {
+            if (err) {
+                return res.status(500).json({
+                    EC: -1,
+                    EM: 'NOT OK',
+                    DT: (err as Error).message
+                })
+            } else {
+                return res.status(200).json({
+                    EC: 0,
+                    EM: 'OK',
+                    DT: "Success"
+                })
+            }
+        });
+    } catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: (error as Error).message
+        })
+    }
+}
+
 module.exports = {
-    uploadSearch, getPathImage, deleteAllFiles
+    uploadSearch, getPathImage, deleteAllFiles, deleteByPath
 }

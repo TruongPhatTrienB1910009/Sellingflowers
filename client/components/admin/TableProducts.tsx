@@ -16,6 +16,9 @@ import { VND } from '@/utils/VND';
 import '@/styles/common/tableItems.css'
 import { deleteProduct } from '@/services/admin/adminProductsService';
 import Link from 'next/link';
+import { deleteDataOnPinecone } from '@/services/manageimages';
+import { getProductById } from '@/services/productService';
+import { deleteByPath } from '@/services/searchService';
 
 interface Column {
     id: 'name' | 'code' | 'population' | 'size' | 'density';
@@ -67,10 +70,14 @@ export default function TableProducts({ listproducts, handleGetAllProducts }: an
 
     const handleDeleteProduct = async (id: any) => {
         try {
-            const result = await deleteProduct(id);
-            if (result.EC == 0) {
-                alert("Xóa sản phẩm thành công");
-                handleGetAllProducts();
+            const product = await getProductById(id);
+            if (product.EC == 0) {
+                await deleteDataOnPinecone({"imagePath": product.DT.img});
+                const result = await deleteProduct(id);
+                if (result.EC == 0) {
+                    alert("Xóa sản phẩm thành công");
+                    handleGetAllProducts();
+                }
             }
         } catch (error) {
             console.log(error);
