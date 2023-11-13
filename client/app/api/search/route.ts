@@ -5,16 +5,27 @@ import { NextResponse, NextRequest } from "next/server";
 export async function POST(req: NextRequest, res: NextResponse) {
     try {
         try {
-            const { query } = await req.json();
-            const matchingImages = await queryImages(query.imagePath);
-            if(query) {
-                return NextResponse.json(matchingImages);
+            const { imagePath } = await req.json();
+            const matchingImages = await queryImages(imagePath);
+            if(matchingImages) {
+                return NextResponse.json({
+                    EC: 0,
+                    EM: 'OK',
+                    DT: matchingImages
+                });
             }
         } catch (error) {
-            return NextResponse.json({ error: 'Error fetching images' });
+            return NextResponse.json({
+                EC: -1,
+                EM: 'NOT OK',
+                DT: error
+            });
         }
     } catch (error) {
-        console.log(error);
-        return NextResponse.json({ error: 'Error fetching images' });
+        return NextResponse.json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error
+        });
     }
 }

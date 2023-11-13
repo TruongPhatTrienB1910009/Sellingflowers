@@ -1,15 +1,19 @@
 "use client"
-import React from "react";
+import React, { useEffect } from "react";
 import ImageUploading from "react-images-uploading";
 
 import "@/styles/imagesearch.css"
-import { Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { deleteAllFiles, storeImage } from "@/services/searchService";
-import { queryImages } from "@/embedding/query";
+import { searchImage } from "@/services/manageimages";
+import { getAllProducts } from "@/services/productService";
+import WrapperCards from "@/components/common/WrapperCards";
 
 export default function App() {
     const [images, setImages] = React.useState([]);
     const maxNumber = 1;
+    const [listItems, setListItems] = React.useState([]);
+    const [show, setShow] = React.useState(false);
     const onChange = async (imageList: any, addUpdateIndex: any) => {
         // data for submit
         console.log(imageList, addUpdateIndex);
@@ -21,13 +25,46 @@ export default function App() {
                 img: imageList[0].file
             })
             if (result.EC == 0) {
-                const newResult = await queryImages(result.DT);
+                const newResult = await searchImage({ imagePath: result.DT })
+                if (newResult.EC == 0) {
+                    console.log(newResult.DT)
+                    const products = await getAllProducts();
+                    if (products.EC == 0) {
+                        const filter = (newResult.DT.map((result: any, index: number) => {
+                            if (result.score >= 0.8) {
+                                return result.src
+                            }
+                        })).filter((result: any, index: number) => result != undefined);
+
+                        let list: any = [];
+
+                        for(let i = 0; i < filter.length; i++) {
+                            for(let j = 0; j < products.DT.length; j++) {
+                                if(products.DT[j].img === filter[i]) {
+                                    list.push(products.DT[j]);
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (list.length > 0) {
+                            setListItems(list);
+                            setShow(!show);
+                        }
+                    }
+                }
             }
+        } else {
+            setListItems([]);
         }
     };
 
+    useEffect(() => {
+
+    }, [show])
+
     return (
-        <Container maxWidth='md'>
+        <Container maxWidth='lg'>
             <div className="App">
                 <ImageUploading
                     multiple
@@ -70,6 +107,9 @@ export default function App() {
                         </div>
                     )}
                 </ImageUploading>
+                <Box>
+                    <WrapperCards listItems={listItems} />
+                </Box>
             </div>
         </Container>
     );
