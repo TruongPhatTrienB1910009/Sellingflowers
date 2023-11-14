@@ -8,11 +8,12 @@ const ListAddress = ({ listAddress, handleSelectAddress, handleClose, handleGetA
             {
                 listAddress.map((address: any, index: number) => {
                     return (
-                        <div key={address.id} style={{
-                            backgroundColor: "#fff",
-                            marginBottom: '10px'
-                        }}>
-                            <AddressContain handleGetAllAddress={handleGetAllAddress} handleClose={handleClose} address={address} handleSelectAddress={handleSelectAddress}/>
+                        <div key={address.id}
+                            style={{
+                                backgroundColor: "#fff",
+                                marginBottom: '10px'
+                            }}>
+                            <AddressContain handleGetAllAddress={handleGetAllAddress} handleClose={handleClose} address={address} handleSelectAddress={handleSelectAddress} />
                         </div>
                     )
                 })

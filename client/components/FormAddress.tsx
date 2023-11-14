@@ -23,11 +23,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function FormAddress({ openDialog }: { openDialog: any }) {
     const [open, setOpen] = React.useState(false);
+    const [cities, setCities] = React.useState([]);
+    const [districts, setDistricts] = React.useState([]);
+    const [wards, setWards] = React.useState([]);
 
 
     const handleGetCities = async () => {
         const data = await getCities();
-
         if (data) {
             setCities(data);
         }
@@ -41,19 +43,11 @@ export default function FormAddress({ openDialog }: { openDialog: any }) {
         setOpen(false);
     };
 
-    React.useEffect(() => {
-        if (openDialog > 1) handleClickOpen();
-        handleGetCities();
-    }, [openDialog])
-
-    const [cities, setCities] = React.useState([]);
-    const [districts, setDistricts] = React.useState([]);
-    const [wards, setWards] = React.useState([]);
 
     const getSelectCities = async (e: any) => {
         if (e.target.value) {
             setWards([]);
-            const districts = await getDistricts(e.target.value.slice(0, e.target.value.indexOf("-")));
+            const districts = await getDistricts({ province_id: Number(e.target.value.slice(0, e.target.value.indexOf("-"))) });
             setDistricts(districts)
         } else {
             setWards([]);
@@ -62,7 +56,7 @@ export default function FormAddress({ openDialog }: { openDialog: any }) {
 
     const getSelectDistrict = async (e: any) => {
         if (e.target.value != 0) {
-            const wards = await getWards(e.target.value.slice(0, e.target.value.indexOf('-')));
+            const wards = await getWards({ district_id: Number(e.target.value.slice(0, e.target.value.indexOf("-"))) });
             if (wards) {
                 setWards(wards)
             }
@@ -89,6 +83,11 @@ export default function FormAddress({ openDialog }: { openDialog: any }) {
             handleClose();
         }
     }
+
+    React.useEffect(() => {
+        if (openDialog > 1) handleClickOpen();
+        handleGetCities();
+    }, [openDialog])
 
     React.useEffect(() => {
         handleGetCities();
@@ -156,7 +155,7 @@ export default function FormAddress({ openDialog }: { openDialog: any }) {
                                         <option value={0}>Chọn</option>
                                         {
                                             cities.map((c: any, index: number) => {
-                                                return <option value={`${c.id}-${c.name}`} key={c.id}>{c.name}</option>
+                                                return <option value={`${c.ProvinceID}-${c.ProvinceName}`} key={c.ProvinceName}>{c.ProvinceName}</option>
                                             })
                                         }
                                     </NativeSelect>
@@ -180,7 +179,9 @@ export default function FormAddress({ openDialog }: { openDialog: any }) {
                                         <option value={0}>Chọn</option>
                                         {
                                             districts.map((d: any, index: number) => {
-                                                return <option value={`${d.id}-${d.name}`} key={d.id}>{d.name}</option>
+                                                if(d.DistrictID != 3715) {
+                                                    return <option value={`${d.DistrictID}-${d.DistrictName}`} key={d.DistrictID}>{d.DistrictName}</option>
+                                                }
                                             })
                                         }
                                     </NativeSelect>
@@ -203,7 +204,7 @@ export default function FormAddress({ openDialog }: { openDialog: any }) {
                                         <option value={0}>Chọn</option>
                                         {
                                             wards.map((w: any, index: number) => {
-                                                return <option value={`${w.id}-${w.name}`} key={w.id}>{w.name}</option>
+                                                return <option value={`${w.WardCode}-${w.WardName}`} key={w.WardCode}>{w.WardName}</option>
                                             })
                                         }
                                     </NativeSelect>

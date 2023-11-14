@@ -2,12 +2,12 @@ import axios from "axios";
 
 export const getCities = async () => {
     try {
-        const response = await fetch("https://sandbox.goship.io/api/v2/cities", {
+        const response = await fetch("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province", {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
                 'Acess-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + process.env.NEXT_PUBLIC_go_ship_token,
+                'Token': process.env.NEXT_PUBLIC_ghn_token as string,
                 'Accept': "application/json",
             }
         })
@@ -18,17 +18,16 @@ export const getCities = async () => {
     }
 }
 
-export const getDistricts = async (city: any) => {
+export const getDistricts = async (data: any) => {
     try {
         const res = (await axios({
-            method: 'GET',
-            url: `https://sandbox.goship.io/api/v2/cities/${city}/districts`,
+            method: 'POST',
+            url: `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district`,
+            data: data,
             headers: {
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                'Content-Type': 'application/json',
+                'content-type': 'application/json',
                 'Acess-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + process.env.NEXT_PUBLIC_go_ship_token,
+                'Token': process.env.NEXT_PUBLIC_ghn_token as string,
                 'Accept': "application/json",
             }
         })).data
@@ -38,17 +37,16 @@ export const getDistricts = async (city: any) => {
     }
 }
 
-export const getWards = async (district: any) => {
+export const getWards = async (data: any) => {
     try {
         const res = (await axios({
-            method: 'GET',
-            url: `https://sandbox.goship.io/api/v2/districts/${district}/wards`,
+            method: 'POST',
+            url: `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward`,
+            data: data,
             headers: {
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                'Content-Type': 'application/json',
+                'content-type': 'application/json',
                 'Acess-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + process.env.NEXT_PUBLIC_go_ship_token,
+                'Token': process.env.NEXT_PUBLIC_ghn_token as string,
                 'Accept': "application/json",
             }
         })).data
@@ -58,47 +56,42 @@ export const getWards = async (district: any) => {
     }
 }
 
-export const caculateDeliveryFee = async ({ address, feeCod }: { address: any, feeCod: any }) => {
-    console.log(address);
+export const caculateDeliveryFee = async ({ address }: { address: any }) => {
+    console.log("address", address)
+
+    console.log(address)
     const { city, district, ward }: any = address;
+    console.log(district.slice(0, district.indexOf("-")))
 
     const delivery = {
-        "shipment": {
-            "address_from": {
-                "district": "700100",
-                "city": "700000",
-                "ward": "8955"
-            },
-            "address_to": {
-                "district": `${district.slice(0, district.indexOf("-"))}`,
-                "city": `${city.slice(0, city.indexOf("-"))}`,
-                "ward": `${ward.slice(0, ward.indexOf("-"))}`,
-                "street": address.detail
-            },
-            "parcel": {
-                "cod": `${feeCod}`,
-                "amount": `${feeCod}`,
-                "width": 30,
-                "height": 100,
-                "length": 30,
-                "weight": 150
-            }
-        }
+        "service_id": 53320,
+        "service_type_id": null,
+        "to_district_id": Number(district.slice(0, district.indexOf("-"))),
+        "to_ward_code": ward.slice(0, ward.indexOf("-")) as string,
+        "height": 50,
+        "length": 20,
+        "weight": 200,
+        "width": 20,
+        "insurance_value": 10000,
+        "cod_failed_amount": 2000,
+        "coupon": null
     }
+
+    console.log(delivery)
 
     const response = (await axios({
         method: 'POST',
-        url: "https://sandbox.goship.io/api/v2/rates",
+        url: "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee",
         data: delivery,
         headers: {
             'content-type': 'application/json',
             'Acess-Control-Allow-Origin': '*',
-            'Authorization': 'Bearer ' + process.env.NEXT_PUBLIC_go_ship_token,
+            'Token': process.env.NEXT_PUBLIC_ghn_token as string,
             'Accept': "application/json",
         }
     })).data
-    
-    return response.data[0]
+
+    return response.data
 }
 
 export const getInfoShipment = async (id: any) => {
@@ -113,6 +106,6 @@ export const getInfoShipment = async (id: any) => {
             'Accept': "application/json",
         }
     })).data
-    
+
     return response.data;
 }

@@ -83,7 +83,7 @@ const ComponentCheckout = ({selectedAddress, totalpriceItems, handleCheckOut}: {
             const ad = await getAddressById(selectedAddress);
             if (ad.EC == 0) {
                 setAddress(ad.DT);
-                const fee = await caculateDeliveryFee({address: ad.DT, feeCod: totalpriceItems})
+                const fee = await caculateDeliveryFee({address: ad.DT})
                 console.log(fee)
                 if(fee) {
                     setDeliveryFee(fee);
@@ -114,8 +114,8 @@ const ComponentCheckout = ({selectedAddress, totalpriceItems, handleCheckOut}: {
                             {
                                 (deliveryFee != null) ? (
                                     <>
-                                        <span style={{ fontSize: '16px', marginBottom: '6px' }}>Phí vận chuyển: {VND.format(deliveryFee?.total_fee)}</span>
-                                        <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng thanh toán: {VND.format(deliveryFee?.total_amount)}</span>
+                                        <span style={{ fontSize: '16px', marginBottom: '6px' }}>Phí vận chuyển: {VND.format(deliveryFee?.total)}</span>
+                                        <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng thanh toán: {VND.format(deliveryFee?.total + totalpriceItems)}</span>
                                     </>
                                 ) : (
                                     <>
