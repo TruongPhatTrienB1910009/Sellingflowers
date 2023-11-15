@@ -66,6 +66,19 @@ const confirmReceipt = async (req: adminRequest, res: Response, next: NextFuncti
         const receipt = await db.Bill.findOne({
             where: {
                 id: req.params.id
+            },
+            include: [
+                { model: db.Product }
+            ]
+        })
+
+
+
+        let items = receipt.Products.map((product: any) => {
+            return {
+                name: product.name,
+                quantity: product.DetailBill.totalItems,
+                weight: 100
             }
         })
 
@@ -76,42 +89,40 @@ const confirmReceipt = async (req: adminRequest, res: Response, next: NextFuncti
         })
 
         const data = {
-            "shipment": {
-                "rate": `${receipt.deliverycode}`,
-                "order_id": null,
-                "address_from": {
-                    "name": "Geen.",
-                    "phone": "0787899778",
-                    "street": "102 Thái Thịnh",
-                    "district": "700100",
-                    "city": "700000",
-                    "ward": "8955"
-                },
-                "address_to": {
-                    "name": `${foundAddress.name}`,
-                    "phone": `${foundAddress.phone}`,
-                    "district": `${foundAddress.district.slice(0, foundAddress.district.indexOf("-"))}`,
-                    "street": `${foundAddress.detail}`,
-                    "city": `${foundAddress.city.slice(0, foundAddress.city.indexOf("-"))}`,
-                    "ward": `${foundAddress.ward.slice(0, foundAddress.ward.indexOf("-"))}`
-                },
-                "parcel": {
-                    "cod": `${receipt.totalprice}`,
-                    "amount": `${receipt.totalprice}`,
-                    "width": 30,
-                    "height": 100,
-                    "length": 30,
-                    "weight": 150,
-                    "metadata": "Hàng dễ vỡ, vui lòng nhẹ tay."
-                }
-            }
+            "payment_type_id": 2,
+            "note": "",
+            "required_note": "KHONGCHOXEMHANG",
+            "return_phone": "",
+            "return_address": "",
+            "return_district_id": null,
+            "return_ward_code": "",
+            "client_order_code": "",
+            "to_name": foundAddress.name,
+            "to_phone": foundAddress.phone,
+            "to_address": foundAddress.detail,
+            "to_ward_code": foundAddress.ward.slice(0, foundAddress.ward.indexOf("-")),
+            "to_district_id": Number(foundAddress.district.slice(0, foundAddress.district.indexOf("-"))),
+            "cod_amount": Number(receipt.totalprice),
+            "content": "",
+            "height": 50,
+            "length": 20,
+            "weight": 100,
+            "width": 40,
+            "pick_station_id": null,
+            "deliver_station_id": null,
+            "insurance_value": null,
+            "service_id": 53320,
+            "service_type_id": null,
+            "coupon": null,
+            "items": items
         }
 
         const shipment: any = await createShipment(data);
-        if (shipment.id) {
-            const data: any = await getInfoShipment(shipment.id);
-            const status = await db.BillStatus.findOne({where: {statuscode: data[0].status_code}})
-            await receipt.update({ shippingcode: shipment.id, BillStatusId: status.id });
+        if (shipment) {
+            const info: any = await getInfoShipment({order_code: shipment.order_code});
+            console.log("data", info)
+            const status = await db.BillStatus.findOne({where: {statuscode: 2}})
+            await receipt.update({ shippingcode: shipment.order_code, BillStatusId: status.id });
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',

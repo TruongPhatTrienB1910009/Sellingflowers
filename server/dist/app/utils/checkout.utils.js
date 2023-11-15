@@ -17,18 +17,19 @@ const axios_1 = __importDefault(require("axios"));
 const createShipment = (data) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const token = process.env.token;
+        const ShopId = process.env.shopid;
         const response = (yield (0, axios_1.default)({
             method: 'POST',
-            url: "http://sandbox.goship.io/api/v2/shipments",
+            url: "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create",
             data: JSON.stringify(data),
             headers: {
                 'content-type': 'application/json',
                 'Acess-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + token,
-                'Accept': "application/json",
+                'Token': token,
+                'ShopId': ShopId,
             }
         })).data;
-        return response;
+        return response.data;
     }
     catch (error) {
         console.log(error);
@@ -56,17 +57,19 @@ const getStatusShipment = (data) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getStatusShipment = getStatusShipment;
-const getInfoShipment = (id) => __awaiter(void 0, void 0, void 0, function* () {
+const getInfoShipment = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(data);
     const token = process.env.token;
+    const ShopId = process.env.shopid;
     const response = (yield (0, axios_1.default)({
         method: 'GET',
-        url: `http://sandbox.goship.io/api/v2/shipments/search?code=${id}`,
-        data: null,
+        url: `https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/detail`,
+        data: data,
         headers: {
             'content-type': 'application/json',
             'Acess-Control-Allow-Origin': '*',
-            'Authorization': 'Bearer ' + token,
-            'Accept': "application/json",
+            'Token': token,
+            'ShopId': ShopId,
         }
     })).data;
     return response.data;

@@ -57,9 +57,6 @@ export const getWards = async (data: any) => {
 }
 
 export const caculateDeliveryFee = async ({ address }: { address: any }) => {
-    console.log("address", address)
-
-    console.log(address)
     const { city, district, ward }: any = address;
     console.log(district.slice(0, district.indexOf("-")))
 
@@ -70,14 +67,12 @@ export const caculateDeliveryFee = async ({ address }: { address: any }) => {
         "to_ward_code": ward.slice(0, ward.indexOf("-")) as string,
         "height": 50,
         "length": 20,
-        "weight": 200,
-        "width": 20,
-        "insurance_value": 10000,
-        "cod_failed_amount": 2000,
+        "weight": 100,
+        "width": 40,
+        "insurance_value": null,
+        "cod_failed_amount": null,
         "coupon": null
     }
-
-    console.log(delivery)
 
     const response = (await axios({
         method: 'POST',
