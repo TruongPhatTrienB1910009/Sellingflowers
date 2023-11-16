@@ -13,12 +13,26 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import '@/styles/signin.css';
 import { useRouter } from 'next/navigation';
+import { validateForm } from '@/utils/validateForm';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignUp() {
     const router = useRouter()
+    const [errors, setErrors] = React.useState<any>({})
+    const [valid, setValid] = React.useState(false)
+
+    const handleValidateForm = (data: any) => {
+        const error = validateForm(data);
+
+        if (Object.keys(error).length === 0) {
+            return true;
+        } else {
+            setErrors(error);
+            return false;
+        }
+    }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -28,11 +42,21 @@ export default function SignUp() {
             password: data.get('password'),
             confirm: data.get('confirm'),
         };
-        const newUser = await handleSignUp(user);
-        if (newUser) {
-            router.push('/signin');
+
+        const isValidate = handleValidateForm(user);
+        if(isValidate) {
+            const newUser = await handleSignUp(user);
+            if (newUser) {
+                router.push('/signin');
+            }
+        } else {
+            setValid(!setValid);
         }
     };
+
+    React.useEffect(() => {
+        
+    }, [valid]);
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -62,6 +86,7 @@ export default function SignUp() {
                                     autoComplete="email"
                                     sx={styleInput}
                                 />
+                                <span style={{ fontSize: '12px', color: 'red' }}>{errors.email ? errors.email : ''} </span>
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -74,6 +99,7 @@ export default function SignUp() {
                                     autoComplete="new-password"
                                     sx={styleInput}
                                 />
+                                <span style={{ fontSize: '12px', color: 'red' }}>{errors.password ? errors.password : ''}</span>
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -86,6 +112,7 @@ export default function SignUp() {
                                     autoComplete="new-password"
                                     sx={styleInput}
                                 />
+                                <span style={{ fontSize: '12px', color: 'red' }}>{errors.password ? errors.password : ''}</span>
                             </Grid>
                         </Grid>
                         <Button

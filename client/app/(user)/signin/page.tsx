@@ -16,13 +16,29 @@ import { signIn, signOut } from '@/redux/features/auth-slice';
 import { useDispatch } from 'react-redux';
 
 import ProgressBar from '@/components/common/ProgressBar';
+import { validateForm } from '@/utils/validateForm';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-    const [loadingPage, setLoadingPage] = React.useState(true)
+    const [loadingPage, setLoadingPage] = React.useState(false)
     const dispatch = useDispatch();
+    const [errors, setErrors] = React.useState<any>({})
+    const [valid, setValid] = React.useState(false)
+
+    const handleValidateForm = (data: any) => {
+        const error = validateForm(data);
+
+        if (Object.keys(error).length === 0) {
+            return true;
+        } else {
+            setErrors(error);
+            return false;
+        }
+    }
+
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -31,28 +47,34 @@ export default function SignIn() {
             password: data.get('password'),
         };
 
-        const userSignIn = await handleSignIn(user);
-        if (userSignIn && userSignIn.EC === 0) {
-            dispatch(signIn(userSignIn.DT));
-            localStorage.setItem('accesstoken', userSignIn.DT.accesstoken);
-            if (userSignIn.DT.groupRoles.id == 3) {
-                // router.push("/dashboard")
-                location.href = "http://localhost:3001/dashboard"
-            } else {
-                // router.push("/");
-                location.href = "http://localhost:3001/"
+        const isValidate = handleValidateForm(user);
+
+        if (isValidate) {
+            const userSignIn = await handleSignIn(user);
+            if (userSignIn && userSignIn.EC === 0) {
+                dispatch(signIn(userSignIn.DT));
+                localStorage.setItem('accesstoken', userSignIn.DT.accesstoken);
+                if (userSignIn.DT.groupRoles.id == 3) {
+                    // router.push("/dashboard")
+                    location.href = "http://localhost:3001/dashboard"
+                } else {
+                    // router.push("/");
+                    location.href = "http://localhost:3001/"
+                }
             }
+        } else {
+            setValid(!setValid);
         }
     };
 
     React.useEffect(() => {
-        if (loadingPage) {
-            const timer = setTimeout(() => {
-                setLoadingPage(false);
-            }, 3000);
-            return () => clearTimeout(timer);
-        }
-    }, []);
+        // if (loadingPage) {
+        //     const timer = setTimeout(() => {
+        //         setLoadingPage(false);
+        //     }, 2000);
+        //     return () => clearTimeout(timer);
+        // }
+    }, [valid]);
 
     return (
         <>
@@ -74,31 +96,37 @@ export default function SignIn() {
                                     <Avatar src='/images/signin.png' sx={{ m: 1, mr: 2, bgcolor: 'secondary.main' }} />
                                     Đăng nhập vào Green.
                                 </Typography>
-                                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                                    <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        id="email"
-                                        label="Email"
-                                        name="email"
-                                        autoComplete="email"
-                                        autoFocus
-                                        className='input-field'
-                                        sx={styleInput}
-                                    />
-                                    <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        name="password"
-                                        label="Mật khẩu"
-                                        type="password"
-                                        id="password"
-                                        autoComplete="current-password"
-                                        className='input-field'
-                                        sx={styleInput}
-                                    />
+                                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, width: '100%' }}>
+                                    <Box> 
+                                        <TextField
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            id="email"
+                                            label="Email"
+                                            name="email"
+                                            autoComplete="email"
+                                            autoFocus
+                                            className='input-field'
+                                            sx={styleInput}
+                                        />
+                                        <span style={{ fontSize: '12px', color: 'red' }}>{errors.email ? errors.email : ''} </span>
+                                    </Box>
+                                    <Box>
+                                        <TextField
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            name="password"
+                                            label="Mật khẩu"
+                                            type="password"
+                                            id="password"
+                                            autoComplete="current-password"
+                                            className='input-field'
+                                            sx={styleInput}
+                                        />
+                                        {errors.password && <span style={{ fontSize: '12px', color: 'red' }}>{errors.password}</span>}
+                                    </Box>
                                     <Button
                                         type="submit"
                                         fullWidth
@@ -131,6 +159,7 @@ export default function SignIn() {
 }
 
 const styleInput = {
+    width: '100%',
     "& .MuiOutlinedInput-root": {
         "&.Mui-focused fieldset": {
             borderColor: "green"
