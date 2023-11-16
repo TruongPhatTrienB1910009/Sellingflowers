@@ -1,7 +1,7 @@
 "use client"
 import '@/styles/globals.css'
 import LayOut from '@/components/MainLayout';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { signIn, signOut } from '@/redux/features/auth-slice';
 import { handleAutoSignIn } from '@/services/homeService';
 import { useDispatch } from 'react-redux';
@@ -35,9 +35,11 @@ export default function UserLayout({
     checkAutoSignIn();
   })
 
+  console.log("user layout")
+
   return (
     <LayOut>
-      {children}
+        {children}
     </LayOut>
   )
 }
