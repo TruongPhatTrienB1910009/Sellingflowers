@@ -24,3 +24,8 @@ export const getAllTypeCategories = async () => {
     const result = (await axios.get(`/categories/typecategories`)).data;
     return result;
 }
+
+export const forgotPassword = async (email: any) => {
+    const result = (await axios.post(`/forgotpassword`, email)).data;
+    return result;
+}

@@ -39,6 +39,9 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
         gender: {
             type: DataTypes.BIGINT
         },
+        resetpassword: {
+            type: DataTypes.STRING
+        },
         GroupAccountId: {
             type: DataTypes.BIGINT,
             defaultValue: 2

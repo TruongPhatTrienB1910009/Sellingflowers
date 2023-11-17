@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const email_utils_1 = require("../utils/email.utils");
 const { getRolesAccount, hashPassword, createToken, verifyToken } = require('../utils/account.utils');
 const ApiError = require('../../api-error');
 const db = require('../models');
@@ -135,6 +136,33 @@ const getAllTypeCategories = (req, res, next) => __awaiter(void 0, void 0, void 
         });
     }
 });
+const requireForgotPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email } = req.body;
+        const result = yield (0, email_utils_1.sendEmailToReset)(email);
+        if (result.token) {
+            const user = yield db.Account.findOne({
+                where: {
+                    email: email
+                }
+            });
+            yield user.update({ resetpassword: result.token });
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: user.resetpassword
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    signUp, signIn, checkUserByToken, getAllCategories, getAllTypeCategories
+    signUp, signIn, checkUserByToken, getAllCategories, getAllTypeCategories, requireForgotPassword
 };

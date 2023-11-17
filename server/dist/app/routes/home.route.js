@@ -16,4 +16,6 @@ router.route("/categories")
     .get(homeController.getAllCategories);
 router.route("/categories/typecategories")
     .get(homeController.getAllTypeCategories);
+router.route("/forgotpassword")
+    .post(homeController.requireForgotPassword);
 module.exports = router;

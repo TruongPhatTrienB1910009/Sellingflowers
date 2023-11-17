@@ -138,7 +138,7 @@ export default function SignIn() {
                                     </Button>
                                     <Grid container>
                                         <Grid item xs>
-                                            <Link href="#" variant="body2" className='link'>
+                                            <Link href="/forgotpassword" variant="body2" className='link'>
                                                 Quên mật khẩu?
                                             </Link>
                                         </Grid>
