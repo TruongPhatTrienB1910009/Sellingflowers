@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import ImageUploading from "react-images-uploading";
 
 import "@/styles/imagesearch.css"
-import { Box, Container } from "@mui/material";
+import { Box, Button, Container } from "@mui/material";
 import { deleteAllFiles, storeImage } from "@/services/searchService";
 import { searchImage } from "@/services/manageimages";
 import { getAllProducts } from "@/services/productService";
@@ -38,9 +38,9 @@ export default function App() {
 
                         let list: any = [];
 
-                        for(let i = 0; i < filter.length; i++) {
-                            for(let j = 0; j < products.DT.length; j++) {
-                                if(products.DT[j].img === filter[i]) {
+                        for (let i = 0; i < filter.length; i++) {
+                            for (let j = 0; j < products.DT.length; j++) {
+                                if (products.DT[j].img === filter[i]) {
                                     list.push(products.DT[j]);
                                     break;
                                 }
@@ -83,34 +83,39 @@ export default function App() {
                         dragProps
                     }) => (
                         // write your building UI
-                        <div className="upload__image-wrapper">
+                        <div className="upload__image-wrapper floating">
                             {
                                 (imageList.length < 1) ? (
-                                    <button
-                                        style={isDragging ? { color: "red" } : { color: "" }}
-                                        onClick={onImageUpload}
-                                        {...dragProps}
-                                    >
-                                        Tải ảnh lên
-                                    </button>
+                                    <>
+                                        <h4>TẢI ẢNH LÊN ĐỂ BẮT ĐẦU TÌM KIẾM</h4>
+                                        <img src="/images/upload.png" alt="" />
+                                        <button
+                                            style={isDragging ? { color: "red" } : { color: "" }}
+                                            onClick={onImageUpload}
+                                            {...dragProps}
+                                            className="btn-upload"
+                                        >
+                                            Tải ảnh lên
+                                        </button>
+                                    </>
                                 ) : <div></div>
                             }
                             {imageList.map((image, index) => (
                                 <div key={index} className="image-item">
-                                    <img src={image.data_url} alt="" width="100" />
+                                    <img src={image.data_url} alt="" />
                                     <div className="image-item__btn-wrapper">
-                                        <button onClick={() => onImageUpdate(index)}>Update</button>
-                                        <button onClick={() => onImageRemove(index)}>Remove</button>
+                                        <Button onClick={() => onImageUpdate(index)}>Cập nhật</Button>
+                                        <Button onClick={() => onImageRemove(index)}>Xóa</Button>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     )}
                 </ImageUploading>
-                <Box>
-                    <WrapperCards listItems={listItems} />
-                </Box>
             </div>
+            <Box className='result'>
+                <WrapperCards listItems={listItems} />
+            </Box>
         </Container>
     );
 }

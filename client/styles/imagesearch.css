@@ -1,50 +1,100 @@
-.main {
-    min-height: 80vh;
+.App {
+    display: flex;
+    justify-content: center;
+    margin-top: 4px;
+}
+
+h4 {
+    color: #228b22;
+}
+
+.upload__image-wrapper {
+    padding: 10px;
+    background-color: #fff;
+    width: 400px;
+    height: auto;
     display: flex;
     align-items: center;
-    justify-content: center;
-    background-color: aliceblue;
+    flex-direction: column;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 20px;
 }
 
-.main img {
-    width: 200px;
-    height: auto;
-}
-
-input[type="file"] {
-    display: none;
-    margin-top: 10px;
-}
-
-label {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    display: inline-block;
-}
-
-
-
-.App {
-    font-family: sans-serif;
-    /* text-align: center; */
-    background-color: #f6f9fe;
-    height: 100vh;
+.btn-upload {
+    padding: 10px 60px;
+    background-color: #228b22;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: none;
+    font-size: 16px;
 }
 
 .image-item {
     display: flex;
-    margin: 10px 0;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image-item img {
+    width: 50%;
 }
 
 .image-item__btn-wrapper {
     display: flex;
     flex-direction: column;
-    margin-left: 10px;
+    gap: 6px;
+    margin-top: 6px;
 }
 
-button {
-    height: 40px;
+.image-item__btn-wrapper button {
+    padding: 4px 30px;
+    background-color: #228b22;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: none;
+    font-size: 16px;
+}
+
+.image-item__btn-wrapper button:hover {
+    background-color: #228b22;
+    color: #fff;
+}
+
+.btn-upload:hover {
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 30px;
+}
+
+
+
+
+
+/* animation */
+
+.floating {
+    animation-name: floating;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    margin-left: 30px;
+    margin-top: 5px;
+}
+
+@keyframes floating {
+    0% {
+        transform: translate(0, 0px);
+    }
+
+    50% {
+        transform: translate(0, 5px);
+    }
+
+    100% {
+        transform: translate(0, -0px);
+    }
 }
