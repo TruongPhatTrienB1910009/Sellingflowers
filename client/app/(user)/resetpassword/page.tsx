@@ -1,18 +1,28 @@
 "use client"
 import { Box, Button, Container } from '@mui/material'
 import React from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { resetPassword } from '@/services/homeService'
 
 const Page = () => {
     const searchParams = useSearchParams();
-
-    console.log(searchParams.get('token'));
-
+    const router = useRouter();
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         try {
             event.preventDefault();
             const form = new FormData(event.currentTarget);
-            console.log(form.get('email'));
+            const data = {
+                password: form.get('password'),
+                confirm: form.get('confirm'),
+                token: searchParams.get('token'),
+            }
+
+            const result = await resetPassword(data);
+
+            if(result.EC == 0) {
+                alert('Đặt mật khẩu thành công')
+                router.push('/signin')
+            }
         } catch (error) {
             console.log(error)
         }
@@ -42,15 +52,15 @@ const Page = () => {
                         <label style={{
                             fontSize: '16px',
                             marginBottom: '6px'
-                        }} htmlFor="email">Vui lòng điền mật khẩu:</label>
+                        }} htmlFor="password">Vui lòng điền mật khẩu:</label>
                         <input style={{
                             fontSize: '14px',
                             marginBottom: '16px',
                             padding: '10px'
                         }}
                             placeholder='mật khẩu đăng nhập'
-                            name='email'
-                            type="email" />
+                            name='password'
+                            type="password" />
                     </Box>
                     <Box sx={{
                         display: 'flex',
@@ -59,15 +69,15 @@ const Page = () => {
                         <label style={{
                             fontSize: '16px',
                             marginBottom: '6px'
-                        }} htmlFor="email">Xác nhận lại mật khẩu:</label>
+                        }} htmlFor="confirm">Xác nhận lại mật khẩu:</label>
                         <input style={{
                             fontSize: '14px',
                             marginBottom: '16px',
                             padding: '10px'
                         }}
                             placeholder='xác nhận lại mật khẩu'
-                            name='email'
-                            type="email" />
+                            name='confirm'
+                            type="password" />
                     </Box>
                     <Button sx={{
                         backgroundColor: '#228b22',

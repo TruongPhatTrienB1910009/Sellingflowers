@@ -142,11 +142,10 @@ const requireForgotPassword = async (req: Request, res: Response, next: NextFunc
                 }
             })
 
-            await user.update({ resetpassword: result.token})
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
-                DT: user.resetpassword
+                DT: result.token
             })
         }
     } catch (error) {
@@ -159,6 +158,32 @@ const requireForgotPassword = async (req: Request, res: Response, next: NextFunc
     }
 }
 
+const resetPassword = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { password, confirm, token } = req.body;
+        const newPassword = await hashPassword(password);
+        const data = verifyToken(token);
+        const user = await db.Account.findOne({
+            where: {
+                email: data.email,
+            }
+        })
+        const result = await user.update({password: newPassword})
+        return res.status(200).json({
+            EC: 0,
+            EM: 'OK',
+            DT: result
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: (error as Error).message
+        })
+    }
+}
+
 module.exports = {
-    signUp, signIn, checkUserByToken, getAllCategories, getAllTypeCategories, requireForgotPassword
+    signUp, signIn, checkUserByToken, getAllCategories, getAllTypeCategories, requireForgotPassword, resetPassword
 }

@@ -18,4 +18,6 @@ router.route("/categories/typecategories")
     .get(homeController.getAllTypeCategories);
 router.route("/forgotpassword")
     .post(homeController.requireForgotPassword);
+router.route("/resetpassword")
+    .post(homeController.resetPassword);
 module.exports = router;

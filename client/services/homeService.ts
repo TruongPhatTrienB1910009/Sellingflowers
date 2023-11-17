@@ -29,3 +29,8 @@ export const forgotPassword = async (email: any) => {
     const result = (await axios.post(`/forgotpassword`, email)).data;
     return result;
 }
+
+export const resetPassword = async (data: any) => {
+    const result = (await axios.post(`/resetpassword`, data)).data;
+    return result;
+}

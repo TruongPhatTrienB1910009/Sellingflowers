@@ -146,11 +146,10 @@ const requireForgotPassword = (req, res, next) => __awaiter(void 0, void 0, void
                     email: email
                 }
             });
-            yield user.update({ resetpassword: result.token });
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
-                DT: user.resetpassword
+                DT: result.token
             });
         }
     }
@@ -163,6 +162,32 @@ const requireForgotPassword = (req, res, next) => __awaiter(void 0, void 0, void
         });
     }
 });
+const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { password, confirm, token } = req.body;
+        const newPassword = yield hashPassword(password);
+        const data = verifyToken(token);
+        const user = yield db.Account.findOne({
+            where: {
+                email: data.email,
+            }
+        });
+        const result = yield user.update({ password: newPassword });
+        return res.status(200).json({
+            EC: 0,
+            EM: 'OK',
+            DT: result
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    signUp, signIn, checkUserByToken, getAllCategories, getAllTypeCategories, requireForgotPassword
+    signUp, signIn, checkUserByToken, getAllCategories, getAllTypeCategories, requireForgotPassword, resetPassword
 };
