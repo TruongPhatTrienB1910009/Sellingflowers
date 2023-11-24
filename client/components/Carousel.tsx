@@ -4,7 +4,6 @@ import MediaCard from "./common/Card";
 import "@/styles/common/CarouselBanner.css";
 
 function CarouselComponent({ listProducts }: { listProducts: any }) {
-    console.log(listProducts)
 
     return (
         <Carousel

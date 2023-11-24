@@ -20,7 +20,6 @@ export default function UserLayout({
       const data = await handleAutoSignIn({ token: localStorage.getItem("accesstoken") as string });
       if (data && data.EC == 0) {
         dispatch(signIn(data.DT));
-        console.log(data.DT.groupRoles.id === 3);
         if (data.DT.groupRoles.id === 3) {
           router.push("/dashboard")
         }
@@ -34,8 +33,6 @@ export default function UserLayout({
   useEffect(() => {
     checkAutoSignIn();
   })
-
-  console.log("user layout")
 
   return (
     <LayOut>

@@ -17,7 +17,6 @@ const page = () => {
       const data = await getAllProducts();
       if (data.EC == 0) {
         setListProducts(data.DT);
-        console.log(data.DT)
       }
     } catch (error) {
       alert(error);

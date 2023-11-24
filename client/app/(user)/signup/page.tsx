@@ -41,10 +41,12 @@ export default function SignUp() {
             email: data.get('email'),
             password: data.get('password'),
             confirm: data.get('confirm'),
+            name: data.get('name'),
+            phone: data.get('phone'),
         };
 
         const isValidate = handleValidateForm(user);
-        if(isValidate) {
+        if (isValidate) {
             const newUser = await handleSignUp(user);
             if (newUser) {
                 router.push('/signin');
@@ -55,7 +57,7 @@ export default function SignUp() {
     };
 
     React.useEffect(() => {
-        
+
     }, [valid]);
 
     return (
@@ -76,6 +78,27 @@ export default function SignUp() {
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    autoComplete="given-name"
+                                    name="name"
+                                    required
+                                    fullWidth
+                                    id="name"
+                                    label="Tên"
+                                    autoFocus
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="phone"
+                                    label="Điện thoại"
+                                    name="phone"
+                                    autoComplete="family-name"
+                                />
+                            </Grid>
                             <Grid item xs={12}>
                                 <TextField
                                     required
@@ -113,6 +136,37 @@ export default function SignUp() {
                                     sx={styleInput}
                                 />
                                 <span style={{ fontSize: '12px', color: 'red' }}>{errors.password ? errors.password : ''}</span>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <div style={{
+                                    display: 'flex',
+                                    gap: '40px',
+                                    padding: '5px 10px'
+                                }}>
+                                    <label style={{color: '#379683'}}>Giới tính:</label>
+                                    <div style={{
+                                        display: 'flex',
+                                    }}>
+                                        <div style={{
+                                            width: '60px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'space-between',
+                                            marginRight: '60px'
+                                        }}>
+                                            <label>Nam</label>
+                                            <input type="radio" name="gender" value="1" />
+                                        </div>
+                                        <div style={{
+                                            width: '50px',
+                                            display: 'flex',
+                                            justifyContent: 'space-between'
+                                        }}>
+                                            <label>Nữ</label>
+                                            <input type="radio" name="gender" value="0" />
+                                        </div>
+                                    </div>
+                                </div>
                             </Grid>
                         </Grid>
                         <Button

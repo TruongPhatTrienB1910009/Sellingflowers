@@ -66,7 +66,6 @@ export default function DrawerAppBar(props: Props) {
     }
 
     const handleChangeValue = async (e: any) => {
-        console.log(e.target.value);
         if (e.target.value != '') {
             setOpenResult(true);
         } else {
@@ -97,6 +96,8 @@ export default function DrawerAppBar(props: Props) {
             const items: any = await getAllItemsInCart();
             if (items.EC == 0) {
                 setListItemsInCart(items.DT.Products);
+            } else {
+                localStorage.removeItem('accesstoken');
             }
         }
     }
