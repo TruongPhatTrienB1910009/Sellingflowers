@@ -17,11 +17,11 @@ export default function SubnavAccount() {
             sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', paddingBottom: '0px' }}
             component="nav"
             aria-labelledby="nested-list-subheader"
-            subheader={
-                <ListSubheader component="div" id="nested-list-subheader">
-                    Nested List Items
-                </ListSubheader>
-            }
+            // subheader={
+            //     <ListSubheader component="div" id="nested-list-subheader">
+            //         Nested List Items
+            //     </ListSubheader>
+            // }
         >
             <ListItemButton onClick={() => {router.push('/account/profile')}} sx={{
                 padding: '16px'

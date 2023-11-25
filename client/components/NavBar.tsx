@@ -93,11 +93,15 @@ export default function DrawerAppBar(props: Props) {
 
     const getAllProductsInCart = async () => {
         if (localStorage.getItem('accesstoken')) {
-            const items: any = await getAllItemsInCart();
-            if (items.EC == 0) {
-                setListItemsInCart(items.DT.Products);
-            } else {
-                localStorage.removeItem('accesstoken');
+            try {
+                const items: any = await getAllItemsInCart();
+                if (items.EC == 0) {
+                    setListItemsInCart(items.DT.Products);
+                } else {
+                    localStorage.removeItem('accesstoken');
+                }
+            } catch (error) {
+                console.log(error);
             }
         }
     }
@@ -175,7 +179,8 @@ export default function DrawerAppBar(props: Props) {
                             <Tooltip title="Tìm kiếm bằng ảnh" placement="top">
                                 <Link href={"/imagesearch"}>
                                     <IconButton>
-                                        <ImageSearchIcon sx={{ fontSize: '30px', color: 'white' }} />
+                                        {/* <ImageSearchIcon sx={{ fontSize: '30px', color: 'white' }} /> */}
+                                        <img style={{width: '32px'}} src="https://cdn-icons-png.flaticon.com/128/273/273527.png?ga=GA1.1.1538859696.1700853912&semt=ais" alt="" />
                                     </IconButton>
                                 </Link>
                             </Tooltip>
