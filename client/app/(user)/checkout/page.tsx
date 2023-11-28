@@ -175,7 +175,6 @@ const CheckOut = () => {
     }
 
     const handleCheckOut = async (deliveryFee: any) => {
-        console.log(deliveryFee)
         try {
             const checkout: any = sessionStorage.getItem('checkout');
             const result = await checkOut({
@@ -184,10 +183,10 @@ const CheckOut = () => {
                 delivery: deliveryFee,
             })
 
-            // if (result.EC == 0 ) {
-            //     alert("thành công")
-            //     router.push("/account/receipts")
-            // }
+            if (result.EC == 0 ) {
+                alert("thành công")
+                router.push("/account/receipts")
+            }
         } catch (error) {
             console.log(error)
         }

@@ -44,7 +44,7 @@ const checkOut = async (req: UserRequest, res: Response, next: NextFunction) => 
                 totalPrice += getDetailsBill[i].totalPriceItem
             }
 
-            await getBill.update({ BillStatusId: getStatus.id, DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliverycode: req.body.delivery.id })
+            await getBill.update({ BillStatusId: getStatus.id, DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliverycode: req.body.delivery.total })
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
@@ -93,7 +93,7 @@ const checkOut = async (req: UserRequest, res: Response, next: NextFunction) => 
                 }
             })
 
-            await newBill.update({ DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliverycode: req.body.delivery.id })
+            await newBill.update({ DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliverycode: req.body.delivery.total })
 
             return res.status(200).json({
                 EC: 0,

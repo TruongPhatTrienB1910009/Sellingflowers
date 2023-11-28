@@ -36,7 +36,33 @@ const getBillById = async (req: IGetUserAuthInfoRequest, res: Response, next: Ne
     }
 }
 
+const cancelBill = async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
+    try {
+        const billstatus = await db.BillStatus.findOne({
+            where: {
+                statuscode: 3
+            }
+        })
+        await db.Bill.update({BillStatusId: billstatus.id}, {
+            where: {
+                id: req.params.id
+            }
+        })
+        return res.status(200).json({
+            EC: 0,
+            EM: 'OK',
+            DT: ""
+        })
+    } catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: (error as Error).message
+        })
+    }
+}
+
 
 module.exports = {
-    getBillById
+    getBillById, cancelBill
 }

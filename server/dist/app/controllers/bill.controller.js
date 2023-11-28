@@ -40,6 +40,32 @@ const getBillById = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         });
     }
 });
+const cancelBill = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const billstatus = yield db.BillStatus.findOne({
+            where: {
+                statuscode: 3
+            }
+        });
+        yield db.Bill.update({ BillStatusId: billstatus.id }, {
+            where: {
+                id: req.params.id
+            }
+        });
+        return res.status(200).json({
+            EC: 0,
+            EM: 'OK',
+            DT: ""
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    getBillById
+    getBillById, cancelBill
 };

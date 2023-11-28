@@ -7,5 +7,6 @@ const express_1 = __importDefault(require("express"));
 const Router = express_1.default.Router();
 const billController = require("../controllers/bill.controller");
 Router.route('/:id')
-    .get(billController.getBillById);
+    .get(billController.getBillById)
+    .patch(billController.cancelBill);
 module.exports = Router;

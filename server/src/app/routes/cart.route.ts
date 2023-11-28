@@ -6,6 +6,8 @@ router.route("/")
     .get(cartController.getAllItemsInCart)
     .post(cartController.addToCart)
     .patch(cartController.updateTotalItems)
-    .delete(cartController.removeItemFromCart)
+
+router.route("/delete")
+    .post(cartController.removeItemFromCart)
 
 module.exports = router;

@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import { Button, Checkbox } from '@mui/material';
 import TableItems from '@/components/TableItems'
 import '@/styles/cart.css';
-import { getAllItemsInCart, updateTotalsItem } from '@/services/cartService';
+import { getAllItemsInCart, removeIteInCart, updateTotalsItem } from '@/services/cartService';
 import { VND } from '../../../utils/VND';
 import { useRouter } from 'next/navigation';
 
@@ -23,6 +23,18 @@ function Page() {
                 setCheckedState(new Array(items.DT.Products.length).fill(false));
                 setListItemsInCart(items.DT.Products);
             }
+        }
+    }
+
+    const handleRemoveItemInCart = async (data: any) => {
+        try {
+            const result = await removeIteInCart(data)
+            if(result.EC == 0) {
+                alert("Đã xóa khỏi giỏ hàng")
+                getAllProducts();
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -108,7 +120,7 @@ function Page() {
 
     return (
         <Container maxWidth="xl" sx={{ mt: '10px' }}>
-            <TableItems listItemsInCart={listItemsInCart} checkedState={checkedState} handleAddItemToCheckout={addItemToCheckout} handleUpdateTotalsItem={handleUpdateTotalsItem}/>
+            <TableItems handleRemoveItemInCart={handleRemoveItemInCart} listItemsInCart={listItemsInCart} checkedState={checkedState} handleAddItemToCheckout={addItemToCheckout} handleUpdateTotalsItem={handleUpdateTotalsItem}/>
             <div className='container__BuyItems'>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Checkbox checked = {checkAll} onChange={handleCheckAll} /> Chọn tất cả

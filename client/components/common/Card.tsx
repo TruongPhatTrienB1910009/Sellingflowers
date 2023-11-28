@@ -28,7 +28,6 @@ const MediaCard: React.FC<CardProps> = ({ item }) => {
     const [message, setMessage] = useState<any>("");
     const [stateMessage, setStateMessage] = useState<any>("success");
     const dispatch = useDispatch<AppDispatch>();
-    const items = useAppSelector((state) => state.cartReducer.cartItems)
 
     const handleAddItemToCart = async (e: any) => {
         try {

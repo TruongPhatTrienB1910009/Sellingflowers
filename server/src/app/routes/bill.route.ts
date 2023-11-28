@@ -4,5 +4,6 @@ const billController = require("../controllers/bill.controller");
 
 Router.route('/:id')
     .get(billController.getBillById)
+    .patch(billController.cancelBill)
 
 module.exports = Router;

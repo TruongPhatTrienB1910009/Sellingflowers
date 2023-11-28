@@ -14,3 +14,8 @@ export const updateTotalsItem = async (data: any) => {
     const result = (await axios.patch('/cart', data)).data;
     return result;
 }
+
+export const removeIteInCart = async (data: any) => {
+    const result = (await axios.post('/cart/delete', data)).data;
+    return result;
+}

@@ -160,23 +160,31 @@ const getAllItemsInCart = async (req: IGetUserAuthInfoRequest, res: Response, ne
 
 const removeItemFromCart = async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
     try {
+        console.log(req.body)
+
         const user = await db.Account.findOne({
             where: {
                 email: req.user.email
             }
         })
-    
-        const billCreated = await db.Bill.findAll({
+
+        const billStatus = await db.BillStatus.findOne({
             where: {
-                AccountId: user.id,
-                CheckoutId: 1
+                statuscode: 0
             }
         })
     
-        if(billCreated[0]) {
+        const billCreated = await db.Bill.findOne({
+            where: {
+                AccountId: user.id,
+                BillStatusId: billStatus.id
+            }
+        })
+    
+        if(billCreated) {
             await db.DetailBill.destroy({
                 where: {
-                    BillId: billCreated[0].id,
+                    BillId: billCreated.id,
                     ProductId: req.body.ProductId
                 }
             })

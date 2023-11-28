@@ -73,7 +73,6 @@ const confirmReceipt = async (req: adminRequest, res: Response, next: NextFuncti
         })
 
 
-
         let items = receipt.Products.map((product: any) => {
             return {
                 name: product.name,
@@ -117,12 +116,17 @@ const confirmReceipt = async (req: adminRequest, res: Response, next: NextFuncti
             "items": items
         }
 
+        const getStatus = await db.BillStatus.findOne({
+            where: {
+                statuscode: 2
+            }
+        })
+
         const shipment: any = await createShipment(data);
         if (shipment) {
             const info: any = await getInfoShipment({order_code: shipment.order_code});
-            console.log("data", info)
             const status = await db.BillStatus.findOne({where: {statuscode: 2}})
-            await receipt.update({ shippingcode: shipment.order_code, BillStatusId: status.id });
+            await receipt.update({ shippingcode: shipment.order_code, BillStatusId: status.id, state: 1 });
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',

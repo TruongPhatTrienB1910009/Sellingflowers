@@ -4,6 +4,7 @@ import { handleSignIn } from '@/services/homeService';
 import '@/styles/admin/formsignin.css'
 import { validateForm } from '@/utils/validateForm';
 import { Box } from '@mui/material';
+import { useRouter } from 'next/navigation';
 import React from 'react'
 import ReCAPTCHA from "react-google-recaptcha";
 import { useDispatch } from 'react-redux';
@@ -13,6 +14,8 @@ const page = () => {
   const dispatch = useDispatch();
   const [errors, setErrors] = React.useState<any>({})
   const [valid, setValid] = React.useState(false)
+
+  const router = useRouter();
 
   function onChange(value: any) {
     console.log("Captcha value:", value);
@@ -46,8 +49,8 @@ const page = () => {
         dispatch(signIn(userSignIn.DT));
         localStorage.setItem('accesstoken', userSignIn.DT.accesstoken);
         if (userSignIn.DT.groupRoles.id == 3) {
-          // router.push("/dashboard")
-          location.href = "http://localhost:3001/admin/dashboard"
+          router.push("/admin/dashboard")
+          // location.href = "http://localhost:3001/admin/dashboard"
         } else {
           // router.push("/");
           location.href = "http://localhost:3001/"

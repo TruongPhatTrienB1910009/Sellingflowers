@@ -157,21 +157,27 @@ const getAllItemsInCart = (req, res, next) => __awaiter(void 0, void 0, void 0, 
 });
 const removeItemFromCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log(req.body);
         const user = yield db.Account.findOne({
             where: {
                 email: req.user.email
             }
         });
-        const billCreated = yield db.Bill.findAll({
+        const billStatus = yield db.BillStatus.findOne({
             where: {
-                AccountId: user.id,
-                CheckoutId: 1
+                statuscode: 0
             }
         });
-        if (billCreated[0]) {
+        const billCreated = yield db.Bill.findOne({
+            where: {
+                AccountId: user.id,
+                BillStatusId: billStatus.id
+            }
+        });
+        if (billCreated) {
             yield db.DetailBill.destroy({
                 where: {
-                    BillId: billCreated[0].id,
+                    BillId: billCreated.id,
                     ProductId: req.body.ProductId
                 }
             });

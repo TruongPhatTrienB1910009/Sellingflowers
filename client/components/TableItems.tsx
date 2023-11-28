@@ -57,7 +57,7 @@ const columns: readonly Column[] = [
 ];
 
 
-export default function TableItems({ listItemsInCart, checkedState, handleAddItemToCheckout, handleUpdateTotalsItem }: any) {
+export default function TableItems({ listItemsInCart, checkedState, handleAddItemToCheckout, handleUpdateTotalsItem, handleRemoveItemInCart }: any) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -125,7 +125,7 @@ export default function TableItems({ listItemsInCart, checkedState, handleAddIte
                                                 {VND.format(row.price * row.DetailBill.totalItems)}
                                             </TableCell>
                                             <TableCell align='right'>
-                                                <Tooltip title="Xóa" placement="top">
+                                                <Tooltip onClick={() => {handleRemoveItemInCart({ProductId: row.id})}} title="Xóa" placement="top">
                                                     <IconButton>
                                                         <DeleteIcon />
                                                     </IconButton>
