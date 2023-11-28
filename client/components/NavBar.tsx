@@ -45,6 +45,7 @@ export default function DrawerAppBar(props: Props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const User = useAppSelector((state) => state.authReducer.value);
+    const items = useAppSelector((state) => state.cartReducer.cartItems.length);
     const dispatch = useDispatch();
     const router = useRouter();
 
@@ -108,7 +109,7 @@ export default function DrawerAppBar(props: Props) {
     React.useEffect(() => {
         getAllProductsInCart();
         handleGetAllProducts();
-    }, [listItemsInCart?.length]);
+    }, [listItemsInCart?.length, items]);
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
