@@ -34,7 +34,8 @@ export const auth = createSlice({
                     isAdmin: false,
                 }
             }
-        }
+        },
+
     }
 })
 

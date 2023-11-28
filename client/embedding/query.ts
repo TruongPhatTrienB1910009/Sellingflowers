@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { embedder } from "./embeddings";
 import { Pinecone } from '@pinecone-database/pinecone';
 
@@ -16,6 +15,7 @@ const index = pinecone.index<Metadata>(indexName as string);
 export const queryImages = async (imagePath: string) => {
   await embedder.init("Xenova/clip-vit-base-patch32");
   const queryEmbedding = await embedder.embed(imagePath);
+  console.log("queryEmbedding", queryEmbedding)
   const queryResult = await index.query({
       vector: queryEmbedding.values,
       includeMetadata: true,

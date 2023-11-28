@@ -27,7 +27,6 @@ export default function App() {
             if (result.EC == 0) {
                 const newResult = await searchImage({ imagePath: result.DT })
                 if (newResult.EC == 0) {
-                    console.log(newResult.DT)
                     const products = await getAllProducts();
                     if (products.EC == 0) {
                         const filter = (newResult.DT.map((result: any, index: number) => {

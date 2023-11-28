@@ -21,7 +21,6 @@ import LocalMallIcon from '@mui/icons-material/LocalMall';
 import Link from 'next/link';
 import Image from 'next/image';
 import NestedListItems from './NestedListItems';
-import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 
 // css
 import '@/styles/navStyle.css';

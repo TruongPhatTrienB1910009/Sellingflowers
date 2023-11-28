@@ -14,6 +14,9 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { VND } from '@/utils/VND';
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
+import { AppDispatch, useAppSelector } from '@/redux/store';
+import { handleGetItemsInCart } from '@/redux/features/cart-slice';
 
 
 interface CardProps {
@@ -24,7 +27,8 @@ const MediaCard: React.FC<CardProps> = ({ item }) => {
     const childRef = useRef<any>(null);
     const [message, setMessage] = useState<any>("");
     const [stateMessage, setStateMessage] = useState<any>("success");
-    const router = useRouter();
+    const dispatch = useDispatch<AppDispatch>();
+    const items = useAppSelector((state) => state.cartReducer.cartItems)
 
     const handleAddItemToCart = async (e: any) => {
         try {
@@ -37,9 +41,7 @@ const MediaCard: React.FC<CardProps> = ({ item }) => {
             if (data.EC == 0) {
                 setMessage("Thêm sản phẩm thành công");
                 childRef.current!.handleOpen();
-                setTimeout(() => {
-                    location.reload();
-                }, 3000)
+                dispatch(handleGetItemsInCart());
             } else {
                 setStateMessage("error")
             }

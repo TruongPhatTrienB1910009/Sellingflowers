@@ -41,7 +41,7 @@ export const deleteDataOnPinecone = async (data: any) => {
 }
 
 export const searchImage = async (data: any) => {
-    console.log(data);
+    console.log("data", data);
     try {
         const res = (await axios({
             method: 'POST',
