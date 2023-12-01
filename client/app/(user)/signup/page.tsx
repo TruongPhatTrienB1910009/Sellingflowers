@@ -43,6 +43,7 @@ export default function SignUp() {
             confirm: data.get('confirm'),
             name: data.get('name'),
             phone: data.get('phone'),
+            gender: data.get('gender'),
         };
 
         const isValidate = handleValidateForm(user);

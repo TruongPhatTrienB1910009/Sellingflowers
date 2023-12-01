@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux';
 
 import ProgressBar from '@/components/common/ProgressBar';
 import { validateForm } from '@/utils/validateForm';
+import { useRouter } from 'next/navigation';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -26,6 +27,7 @@ export default function SignIn() {
     const dispatch = useDispatch();
     const [errors, setErrors] = React.useState<any>({})
     const [valid, setValid] = React.useState(false)
+    const router = useRouter();
 
     const handleValidateForm = (data: any) => {
         const error = validateForm(data);
@@ -52,14 +54,13 @@ export default function SignIn() {
         if (isValidate) {
             const userSignIn = await handleSignIn(user);
             if (userSignIn && userSignIn.EC === 0) {
-                dispatch(signIn(userSignIn.DT));
-                localStorage.setItem('accesstoken', userSignIn.DT.accesstoken);
-                if (userSignIn.DT.groupRoles.id == 3) {
-                    // router.push("/dashboard")
-                    location.href = "http://localhost:3001/dashboard"
+                if (userSignIn.DT.groupRoles.name === "user") {
+                    console.log(userSignIn.DT.groupRoles.name === "user")
+                    dispatch(signIn(userSignIn.DT));
+                    localStorage.setItem('accesstoken', userSignIn.DT.accesstoken);
+                    router.push("/")
                 } else {
-                    // router.push("/");
-                    location.href = "http://localhost:3001/"
+                    alert("Thông tin đăng nhập không chính xác")
                 }
             }
         } else {

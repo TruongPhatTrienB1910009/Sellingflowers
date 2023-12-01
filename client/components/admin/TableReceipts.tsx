@@ -129,7 +129,7 @@ export default function TableReceipts({ listReceipts }: any) {
                                             </TableCell>
                                             <TableCell align='center'>
                                                 <Tooltip title="Xem Chi Tiết" placement="top">
-                                                    <Link href={`/dashboard/receipts/details/${row.id}`}>
+                                                    <Link href={`/admin/dashboard/receipts/details/${row.id}`}>
                                                         <IconButton>
                                                             <FindInPageIcon />
                                                         </IconButton>

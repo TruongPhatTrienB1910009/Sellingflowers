@@ -33,7 +33,7 @@ const page = ({params}: {params: {id: string}}) => {
                 borderRadius: '2px',
             }}>
                 <Box>
-                    <Link href={"/dashboard/receipts/list"} style={{
+                    <Link href={"/admin/dashboard/receipts/list"} style={{
                         display: 'flex',
                         marginLeft: '6px'
                     }}>

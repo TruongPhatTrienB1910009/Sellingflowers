@@ -2,7 +2,7 @@ import { Box, Button } from '@mui/material'
 import React from 'react'
 import TableItemsCheckout from './TableItemsCheckout'
 import { VND } from '@/utils/VND'
-import { updateStatusReceipt } from '@/services/admin/adminReceiptsService'
+import ItemsReceipt from './ItemsReceipt'
 
 const DetailReceiptUser = ({ receipt }: any) => {
     return (
@@ -17,7 +17,7 @@ const DetailReceiptUser = ({ receipt }: any) => {
                         }}>
                             <h3>Danh sách sản phẩm</h3>
                         </Box>
-                        <TableItemsCheckout listItemsInCart={receipt.Products} />
+                        <ItemsReceipt listItemsInCart={receipt.Products} />
                         <Box sx={{
                             padding: '10px',
                             backgroundColor: 'white',
@@ -41,8 +41,8 @@ const DetailReceiptUser = ({ receipt }: any) => {
                                     padding: '6px'
                                 }}>
                                     <Box>Tổng tiền sản phẩm: {VND.format(receipt.totalprice)}</Box>
-                                    <Box>Phí vận chuyển: {VND.format(receipt.deliveryfee)}</Box>
-                                    <Box>Tổng thanh toán: {VND.format(receipt.totalprice + receipt.deliveryfee)}</Box>
+                                    <Box>Phí vận chuyển: {VND.format(receipt.deliverycode)}</Box>
+                                    <Box>Tổng thanh toán: {VND.format(receipt.totalprice + receipt.deliverycode)}</Box>
                                     <Box>Trạng thái: {(receipt.state) ? ('Đã thanh toán') : ('Chưa thanh toán')}</Box>
                                 </Box>
                             </Box>

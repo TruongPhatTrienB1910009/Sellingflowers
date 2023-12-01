@@ -44,7 +44,7 @@ const checkOut = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
                 yield Product.update({ inventory: Product.inventory - getDetailsBill[i].totalItems });
                 totalPrice += getDetailsBill[i].totalPriceItem;
             }
-            yield getBill.update({ BillStatusId: getStatus.id, DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliverycode: req.body.delivery.total });
+            yield getBill.update({ BillStatusId: getStatus.id, DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.delivery.total });
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
@@ -87,7 +87,7 @@ const checkOut = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
                     }
                 }
             });
-            yield newBill.update({ DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliverycode: req.body.delivery.total });
+            yield newBill.update({ DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.delivery.total });
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',

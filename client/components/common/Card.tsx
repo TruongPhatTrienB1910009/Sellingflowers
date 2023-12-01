@@ -60,22 +60,30 @@ const MediaCard: React.FC<CardProps> = ({ item }) => {
                         image={`/${item?.img.slice(item?.img.indexOf('images'))}`}
                         title="green iguana"
                     />
-                    <CardContent>
+                    <CardContent sx={{
+                        padding: '4px 16px'
+                    }}>
                         <Typography gutterBottom component="div" sx={{
-                            color: "#228b22",
-                            fontSize: '16px',
-                            marginBottom: '10px'
+                            // color: "#228b22",
+                            fontWeight: '600',
+                            fontSize: '18px',
                         }}>
                             {item?.name}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        {/* <Typography variant="body2" color="text.secondary">
                             {item?.description.slice(0, 100) + '...'}
-                        </Typography>
+                        </Typography> */}
                     </CardContent>
-                    <CardActions className='cardAts'>
-                        <div>
-                            <Button size="small">Giá {VND.format(item?.price)}</Button>
-                            <Button size="small">(Còn {item?.inventory} SP)</Button>
+                    <CardActions sx={{
+                        padding: '4px 16px',
+                        color: '#228b22'
+                    }} className='cardAts'>
+                        <div style={{
+                            color: '#228b22',
+                            display: 'flex',
+                            alignItems: 'center'
+                        }}>
+                            <span>{VND.format(item?.price)}</span>
                         </div>
                         <IconButton onClick={handleAddItemToCart} sx={{ color: "#228b22" }} aria-label="add to shopping cart">
                             <AddShoppingCartIcon />

@@ -34,7 +34,7 @@ const page = ({params}: {params: {id: number}}) => {
                 borderRadius: '2px',
             }}>
                 <Box>
-                    <Link href={"/dashboard/products/list"} style={{
+                    <Link href={"/admin/dashboard/products/list"} style={{
                         display: 'flex',
                         marginLeft: '6px'
                     }}>

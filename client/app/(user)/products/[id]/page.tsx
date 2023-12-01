@@ -55,7 +55,6 @@ const Page = ({ params }: { params: { id: number } }) => {
                 setItem(data.DT);
                 const products = await getAllProductsByCategory(data.DT.CategoryId);
                 if (products.EC == 0) {
-                    console.log("products.DT", products.DT);
                     const filteredProducts = products.DT.filter((p: any, index: number) => {
                         if (p.id != data.DT.id) return p;
                     })

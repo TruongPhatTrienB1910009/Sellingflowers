@@ -1,4 +1,4 @@
-import axios from "../axios";
+import axios from "./adminAxios";
 
 export const createProduct = async (data: any) => {
     const result = (await axios.post(`/admin/products`, data, { headers: { "Content-Type": "multipart/form-data" } })).data;
@@ -78,4 +78,14 @@ export const updateTypeCategory = async (id: any, data: any) => {
 export const deleteTypeCategory = async (id: any) => {
     const result = (await axios.delete(`/admin/products/categories/typecategories/${id}`)).data;
     return result;
+}
+
+export const getAllProducts = async () => {
+    const data = (await axios.get('/products')).data;
+    return data;
+}
+
+export const getProductById = async (id: number) => {
+    const data = (await axios.get(`/products/${id}`)).data;
+    return data;
 }

@@ -105,7 +105,7 @@ export default function TableUsers({ listUsers, handleGetAllProducts }: any) {
                                                 }
                                             </TableCell>
                                             <TableCell align='center'>
-                                                <Link href={`/dashboard/users/${row.id}`}>
+                                                <Link href={`/admin/dashboard/users/${row.id}`}>
                                                     <Tooltip title="Xem Chi Tiết" placement="top">
                                                         <IconButton>
                                                             <FindInPageIcon />

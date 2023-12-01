@@ -76,18 +76,6 @@ const page = ({ params }: { params: { id: number } }) => {
         try {
             event.preventDefault();
             const data = new FormData(event.currentTarget);
-            // const newData = {
-            //     name: data.get('name'),
-            //     description: data.get('description'),
-            //     size: data.get('size'),
-            //     characteristic: data.get('characteristic'),
-            //     use: data.get('use'),
-            //     takecare: data.get('takecare'),
-            //     price: data.get('price'),
-            //     CategoryId: data.get('CategoryId'),
-            //     area: data.get('area'),
-            //     country: data.get('country'),
-            // }
             const id = params.id;
             const result = await updateProduct(id, data);
             if(result) {

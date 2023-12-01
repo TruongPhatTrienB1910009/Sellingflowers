@@ -22,6 +22,7 @@ db.ImportBill = require('../models/ImportBill')(db.sequelize, Model, DataTypes);
 db.DetailImportBill = require('../models/DetailImportBill')(db.sequelize, Model, DataTypes);
 db.DeliveryAddress = require('../models/DeliveryAddress')(db.sequelize, Model, DataTypes);
 db.BillStatus = require('../models/BillStatus')(db.sequelize, Model, DataTypes);
+db.Discount = require('../models/Discount')(db.sequelize, Model, DataTypes);
 
 // >>>>> config associations
 
@@ -89,5 +90,9 @@ db.Bill.belongsTo(db.DeliveryAddress)
 // Bill - BillStatus
 db.BillStatus.hasMany(db.Bill, { foreignKey: 'BillStatusId', onDelete: 'cascade' })
 db.Bill.belongsTo(db.BillStatus)
+
+// Bill - Discount
+db.Discount.hasMany(db.Bill)
+db.Bill.belongsTo(db.Discount)
 
 module.exports = db;

@@ -35,7 +35,7 @@ const BillContainer = ({ Bill }: { Bill: any }) => {
                 <Box sx={{
                     margin: '20px 0px'
                 }}>
-                    Thành Tiền: {VND.format(Bill.totalprice + Bill.deliveryfee)}
+                    Thành Tiền: {VND.format(Bill.totalprice + Bill.deliverycode)}
                 </Box>
                 <Box>
                     <Link href={`/account/receipts/${Bill.id}`}>

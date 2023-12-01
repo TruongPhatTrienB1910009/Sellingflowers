@@ -1,4 +1,4 @@
-import axios from "../axios";
+import axios from "./adminAxios";
 
 export const getAllReceipts = async () => {
     const result = (await axios.get('/admin/receipts')).data;

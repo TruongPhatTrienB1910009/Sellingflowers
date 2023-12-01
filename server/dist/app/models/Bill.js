@@ -28,8 +28,8 @@ module.exports = (sequelize, Model, DataTypes) => {
         shippingcode: {
             type: DataTypes.STRING
         },
-        deliverycode: {
-            type: DataTypes.STRING
+        deliveryfee: {
+            type: DataTypes.BIGINT
         }
     }, {
         sequelize: sequelize,

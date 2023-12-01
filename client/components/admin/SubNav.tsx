@@ -44,8 +44,8 @@ export default function SubNav() {
 
     const handleSignOut = () => {
         dispatch(signOut());
-        localStorage.removeItem("accesstoken");
-        router.push("/signin");
+        localStorage.removeItem("admintoken");
+        router.push("/admin/signin");
     }
 
     return (
@@ -72,7 +72,7 @@ export default function SubNav() {
                     selected={selectedIndex === 0}
                     onClick={(event) => {
                         handleListItemClick(event, 0)
-                        router.push("/dashboard")
+                        router.push("/admin/dashboard")
                     }}
                     sx={{
                         padding: '16px'
@@ -97,7 +97,7 @@ export default function SubNav() {
                         <ListItemButton selected={selectedIndex === 1} 
                                 onClick={(event) => {
                                     handleListItemClick(event, 1) 
-                                    router.push("/dashboard/receipts/list")
+                                    router.push("/admin/dashboard/receipts/list")
                                 }} 
                                 sx={{ pl: 4, paddingY: '12px' }}>
                             <ListItemIcon>
@@ -105,12 +105,6 @@ export default function SubNav() {
                             </ListItemIcon>
                             <ListItemText primary="Danh sách hóa đơn" />
                         </ListItemButton>
-                        {/* <ListItemButton sx={{ pl: 4, paddingY: '12px' }}>
-                            <ListItemIcon>
-                                <HourglassEmptyIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Chờ xác nhận" />
-                        </ListItemButton> */}
                     </List>
                 </Collapse>
 
@@ -133,7 +127,7 @@ export default function SubNav() {
                             selected={selectedIndex === 2}
                             onClick={(event) => {
                                 handleListItemClick(event, 2)
-                                router.push("/dashboard/products/list")
+                                router.push("/admin/dashboard/products/list")
                             }}
                             sx={{ pl: 4, paddingY: '12px' }}>
                             <ListItemIcon>
@@ -143,7 +137,7 @@ export default function SubNav() {
                         </ListItemButton>
                         <ListItemButton selected={selectedIndex === 5} onClick={(event) => {
                             handleListItemClick(event, 5) 
-                            router.push("/dashboard/products/importbill")
+                            router.push("/admin/dashboard/products/importbill")
                         }} sx={{ pl: 4, paddingY: '12px' }}>
                             <ListItemIcon>
                                 <AppRegistrationIcon />
@@ -152,7 +146,7 @@ export default function SubNav() {
                         </ListItemButton>
                         <ListItemButton selected={selectedIndex === 6} onClick={(event) => {
                             handleListItemClick(event, 6) 
-                            router.push("/dashboard/products/supplier")
+                            router.push("/admin/dashboard/products/supplier")
                         }} sx={{ pl: 4, paddingY: '12px' }}>
                             <ListItemIcon>
                                 <AllInboxIcon />
@@ -161,7 +155,7 @@ export default function SubNav() {
                         </ListItemButton>
                         <ListItemButton selected={selectedIndex === 7} onClick={(event) => {
                             handleListItemClick(event, 7) 
-                            router.push("/dashboard/products/categories")
+                            router.push("/admin/dashboard/products/categories")
                         }} sx={{ pl: 4, paddingY: '12px' }}>
                             <ListItemIcon>
                                 <CategoryIcon />
@@ -175,7 +169,7 @@ export default function SubNav() {
                     selected={selectedIndex === 3}
                     onClick={(event) => {
                         handleListItemClick(event, 3)
-                        router.push("/dashboard/users")
+                        router.push("/admin/dashboard/users")
                     }}
                     sx={{
                         padding: '16px'

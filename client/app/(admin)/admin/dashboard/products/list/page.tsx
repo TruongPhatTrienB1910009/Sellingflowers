@@ -2,7 +2,7 @@
 import { Box } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import TableProducts from '@/components/admin/TableProducts'
-import { getAllProducts } from '@/services/productService'
+import { getAllProducts } from '@/services/admin/adminProductsService'
 
 const AdminProducts = () => {
   const [listproducts, setListproducts] = useState([]);

@@ -34,7 +34,6 @@ const page = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(event)
     const data = new FormData(event.currentTarget);
     const user = {
       email: data.get('email'),
@@ -45,15 +44,13 @@ const page = () => {
 
     if (isValidate) {
       const userSignIn = await handleSignIn(user);
-      if (userSignIn && userSignIn.EC === 0) {
-        dispatch(signIn(userSignIn.DT));
-        localStorage.setItem('accesstoken', userSignIn.DT.accesstoken);
-        if (userSignIn.DT.groupRoles.id == 3) {
+      if (userSignIn && userSignIn.EC == 0) {
+        if (userSignIn.DT.groupRoles.name === "admin") {
+          dispatch(signIn(userSignIn.DT));
+          localStorage.setItem('admintoken', userSignIn.DT.accesstoken);
           router.push("/admin/dashboard")
-          // location.href = "http://localhost:3001/admin/dashboard"
         } else {
-          // router.push("/");
-          location.href = "http://localhost:3001/"
+          alert("Thông tin đăng nhập không chính xác")
         }
       }
     } else {
