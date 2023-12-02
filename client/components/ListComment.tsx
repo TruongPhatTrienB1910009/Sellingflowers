@@ -3,6 +3,7 @@ import React from 'react'
 import Comment from './Comment'
 
 const ListComment = ({ listComment }: any) => {
+    console.log(listComment)
     return (
         <Box>
             {

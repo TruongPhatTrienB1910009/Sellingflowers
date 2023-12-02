@@ -22,6 +22,9 @@ module.exports = (sequelize, Model, DataTypes) => {
         },
         totalPriceItem: {
             type: DataTypes.BIGINT,
+        },
+        priceItem: {
+            type: DataTypes.BIGINT,
         }
     }, {
         sequelize: sequelize,

@@ -22,6 +22,7 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import AllInboxIcon from '@mui/icons-material/AllInbox';
 import CategoryIcon from '@mui/icons-material/Category';
+import DiscountIcon from '@mui/icons-material/Discount';
 
 export default function SubNav() {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -180,8 +181,24 @@ export default function SubNav() {
                     </ListItemIcon>
                     <ListItemText primary="Khách Hàng" />
                 </ListItemButton>
+
                 <ListItemButton
                     selected={selectedIndex === 4}
+                    onClick={(event) => {
+                        handleListItemClick(event, 4)
+                        router.push("/admin/dashboard/discounts")
+                    }}
+                    sx={{
+                        padding: '16px'
+                    }}
+                >
+                    <ListItemIcon >
+                        <DiscountIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Khuyến Mãi" />
+                </ListItemButton>
+                <ListItemButton
+                    selected={selectedIndex === 5}
                     onClick={handleSignOut}
                     sx={{
                         padding: '16px'

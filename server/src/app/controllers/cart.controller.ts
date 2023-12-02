@@ -43,6 +43,7 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
 
                 await detailbill.update({
                     totalItems: req.body.totalItems,
+                    priceItem: product.price,
                     totalPriceItem: req.body.totalItems * product.price
                 })
 
@@ -59,7 +60,7 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
                     }
                 })
 
-                const data = { BillId: billCreated.id, ...req.body, totalPriceItem:  req.body.totalItems * product.price}
+                const data = { BillId: billCreated.id, ...req.body, totalPriceItem:  req.body.totalItems * product.price, priceItem: product.price}
                 const newDetail = await db.DetailBill.create(data);
                 await newDetail.save();
                 return res.status(200).json({
@@ -81,7 +82,7 @@ const addToCart = async (req: IGetUserAuthInfoRequest, res: Response, next: Next
                     id: req.body.ProductId
                 }
             })
-            const data = { BillId: bill.id, ...req.body, totalPriceItem:  req.body.totalItems * product.price }
+            const data = { BillId: bill.id, ...req.body, totalPriceItem:  req.body.totalItems * product.price, priceItem: product.price }
             const detail = await db.DetailBill.create(data);
             await detail.save();
 

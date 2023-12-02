@@ -8,6 +8,7 @@ import { getReceiptbyId } from '@/services/billService';
 
 const page = ({params}: {params: {id: string}}) => {
     const [receipt, setReceipt] = useState(null);
+    console.log(receipt)
 
     const handleGetReceiptById = async () => {
         try {

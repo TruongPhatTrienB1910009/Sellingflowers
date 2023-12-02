@@ -43,6 +43,7 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
                 });
                 yield detailbill.update({
                     totalItems: req.body.totalItems,
+                    priceItem: product.price,
                     totalPriceItem: req.body.totalItems * product.price
                 });
                 yield detailbill.save();
@@ -58,7 +59,7 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
                         id: req.body.ProductId
                     }
                 });
-                const data = Object.assign(Object.assign({ BillId: billCreated.id }, req.body), { totalPriceItem: req.body.totalItems * product.price });
+                const data = Object.assign(Object.assign({ BillId: billCreated.id }, req.body), { totalPriceItem: req.body.totalItems * product.price, priceItem: product.price });
                 const newDetail = yield db.DetailBill.create(data);
                 yield newDetail.save();
                 return res.status(200).json({
@@ -81,7 +82,7 @@ const addToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function
                     id: req.body.ProductId
                 }
             });
-            const data = Object.assign(Object.assign({ BillId: bill.id }, req.body), { totalPriceItem: req.body.totalItems * product.price });
+            const data = Object.assign(Object.assign({ BillId: bill.id }, req.body), { totalPriceItem: req.body.totalItems * product.price, priceItem: product.price });
             const detail = yield db.DetailBill.create(data);
             yield detail.save();
             const result = yield db.DetailBill.findOne({

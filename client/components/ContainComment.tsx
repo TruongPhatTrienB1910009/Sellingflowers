@@ -1,9 +1,9 @@
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ListComment from './ListComment';
+import { useAppSelector } from '@/redux/store';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -40,12 +40,29 @@ function a11yProps(index: number) {
 
 export default function ContainComment({ listComment }: any) {
     const [value, setValue] = React.useState(0);
+    const user = useAppSelector((state) => state.authReducer.value.account);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
 
     const [listCommentFilter, setListCommentFilter] = React.useState<any>([]);
+
+    const handleFilterComment = () => {
+        const comments = listComment.filter((comment: any, index: number) => {
+            if(comment.Account.email === user.email) {
+                return comment;
+            }
+        })
+
+        if(comments.length > 0) {
+            setListCommentFilter(comments);
+        }
+    }
+
+    React.useEffect(() => {
+        handleFilterComment();
+    }, [])
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -59,7 +76,7 @@ export default function ContainComment({ listComment }: any) {
                 <ListComment listComment={listComment}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-                {/* <ListComment /> */}
+                <ListComment listComment={listCommentFilter}/>
             </CustomTabPanel>
         </Box>
     );
