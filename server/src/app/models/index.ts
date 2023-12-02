@@ -76,8 +76,11 @@ db.ImportBill.belongsToMany(db.Product, { through: db.DetailImportBill, foreignK
 db.Product.belongsToMany(db.ImportBill, { through: db.DetailImportBill, foreignKey: 'ProductId', targetKey: 'id' })
 
 // Account - Review - Product
-db.Account.belongsToMany(db.Product, { through: db.Review, foreignKey: 'AccountId', targetKey: 'id' })
-db.Product.belongsToMany(db.Account, { through: db.Review, foreignKey: 'ProductId', targetKey: 'id' })
+db.Product.hasMany(db.Review)
+db.Review.belongsTo(db.Product)
+
+db.Account.hasMany(db.Review)
+db.Review.belongsTo(db.Account)
 
 // DeliveryAddress - Account
 db.Account.hasMany(db.DeliveryAddress, { foreignKey: "AccountId", onDelete: 'cascade' })

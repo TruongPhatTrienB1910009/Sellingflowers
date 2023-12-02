@@ -174,6 +174,32 @@ export const getAllProductsByCategory = async (req: Request, res: Response, next
     }
 }
 
+const getAllReviewByProductId = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const reviews = await db.Review.findAll({
+            where: {
+                ProductId: req.params.id
+            }, 
+            include: [
+                {model: db.Account},
+                {model: db.Product}
+            ]
+        })
+
+        return res.status(200).json({
+            EC: 0,
+            EM: "OK",
+            DT: reviews
+        })
+    } catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: "NOT OK",
+            DT: (error as Error).message
+        })
+    }
+}
+
 module.exports = {
-    getAllProducts, getProductById, sortProducts, filterProducts, getAllProductsByCategory
+    getAllProducts, getProductById, sortProducts, filterProducts, getAllProductsByCategory, getAllReviewByProductId
 }

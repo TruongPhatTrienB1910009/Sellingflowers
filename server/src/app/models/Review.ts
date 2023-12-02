@@ -1,27 +1,17 @@
 module.exports = (sequelize: any, Model: any, DataTypes: any) => {
     class Review extends Model {
-        public AccountId?: number;
-        public ProductId?: number;
+        public id?: number;
         public star?: number;
         public comment?: string;
     }
 
     Review.init({
-        AccountId: {
+        id: {
             type: DataTypes.BIGINT,
-            references: {
-                model: 'Account',
-                key: 'id',
-            }
+            autoIncrement: true,
+            primaryKey: true,
         },
-        ProductId: {
-            type: DataTypes.BIGINT,
-            references: {
-                model: 'Product',
-                key: 'id',
-            }
-        },
-        start: {
+        star: {
             type: DataTypes.BIGINT,
         },
         comment: {

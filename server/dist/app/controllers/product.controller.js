@@ -181,6 +181,31 @@ const getAllProductsByCategory = (req, res, next) => __awaiter(void 0, void 0, v
     }
 });
 exports.getAllProductsByCategory = getAllProductsByCategory;
+const getAllReviewByProductId = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const reviews = yield db.Review.findAll({
+            where: {
+                ProductId: req.params.id
+            },
+            include: [
+                { model: db.Account },
+                { model: db.Product }
+            ]
+        });
+        return res.status(200).json({
+            EC: 0,
+            EM: "OK",
+            DT: reviews
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: "NOT OK",
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    getAllProducts, getProductById, sortProducts, filterProducts, getAllProductsByCategory: exports.getAllProductsByCategory
+    getAllProducts, getProductById, sortProducts, filterProducts, getAllProductsByCategory: exports.getAllProductsByCategory, getAllReviewByProductId
 };

@@ -17,5 +17,10 @@ router.route("/address/:id")
 
 router.route("/receipts/:type")
     .get(accountController.getAllBillByType)
+
+router.route("/product/review")
+    .post(accountController.reviewProduct)
+
+// router.route("/product/review/:id")
     
 module.exports = router;

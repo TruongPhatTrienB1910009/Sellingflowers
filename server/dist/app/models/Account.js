@@ -35,7 +35,6 @@ module.exports = (sequelize, Model, DataTypes) => {
         },
         GroupAccountId: {
             type: DataTypes.BIGINT,
-            defaultValue: 2
         }
     }, {
         sequelize: sequelize,

@@ -330,8 +330,45 @@ const getAllBillByType = async (req: UserRequest, res: Response, next: NextFunct
 }
 
 
+const reviewProduct = async (req: UserRequest, res: Response, next: NextFunction) => {
+    try {
+        console.log(req.user)
+        const user = await db.Account.findOne({
+            where: {
+                email: req.user.email
+            }
+        })
+
+        console.log(user)
+
+        const review = await db.Review.create({
+            AccountId: user.id,
+            ProductId: req.body.ProductId,
+            comment: req.body.comment,
+            star: req.body.star
+        })
+        await review.save();
+
+        if(review) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: review
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: "NOT OK",
+            DT: (error as Error).message
+        })
+    }
+}
+
+
 module.exports = {
     getAccount, updateAccount, createDeliveryAddress, 
     getAllAddress, updateDeliveryAddress, getDetailAddress, deleteDeliveryAddress,
-    getAllBillByType
+    getAllBillByType,
+    reviewProduct
 }

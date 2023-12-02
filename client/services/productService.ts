@@ -24,3 +24,8 @@ export const getAllProductsByCategory = async (categoryid: any) => {
     const result = (await axios.get(`/products/categories/${categoryid}`)).data;
     return result;
 }
+
+export const getAllReviewByProductId = async (id: any) => {
+    const result = (await axios.post(`/products/${id}`)).data;
+    return result;
+}

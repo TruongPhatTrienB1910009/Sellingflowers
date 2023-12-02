@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { NextFunction, Request, Response } from "express";
 import { sendEmailToReset } from "../utils/email.utils";
 const { getRolesAccount, hashPassword, createToken, verifyToken } = require('../utils/account.utils');
@@ -46,6 +47,14 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
 const signUp = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await db.Account.findOne({ where: { email: req.body.email } });
+        const gAccount = await db.Group_account.findOne({
+            where: {
+                name: {
+                    [Op.eq]: "user"
+                }
+            }
+        })
+
         if (user) {
             return res.status(500).json({
                 EM: 'Email already',
@@ -54,13 +63,27 @@ const signUp = async (req: Request, res: Response, next: NextFunction) => {
             })
         } else {
             req.body.password = await hashPassword(req.body.password);
-            const newAccount = await db.Account.create(req.body)
-            await newAccount.save();
-            return res.status(200).json({
-                EM: 'Account created',
-                EC: 0,
-                DT: newAccount
-            })
+
+            if(req.body.GroupAccountId) {
+                const newAccount = await db.Account.create(req.body)
+                await newAccount.save();
+                return res.status(200).json({
+                    EM: 'Account created',
+                    EC: 0,
+                    DT: newAccount
+                })
+            } else {
+                const newAccount = await db.Account.create({
+                    ...req.body,
+                    GroupAccountId: gAccount.id
+                })
+                await newAccount.save();
+                return res.status(200).json({
+                    EM: 'Account created',
+                    EC: 0,
+                    DT: newAccount
+                })
+            }
         }
     } catch (error: any) {
         return next(

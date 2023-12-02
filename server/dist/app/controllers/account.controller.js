@@ -314,8 +314,41 @@ const getAllBillByType = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         });
     }
 });
+const reviewProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log(req.user);
+        const user = yield db.Account.findOne({
+            where: {
+                email: req.user.email
+            }
+        });
+        console.log(user);
+        const review = yield db.Review.create({
+            AccountId: user.id,
+            ProductId: req.body.ProductId,
+            comment: req.body.comment,
+            star: req.body.star
+        });
+        yield review.save();
+        if (review) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: review
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: "NOT OK",
+            DT: error.message
+        });
+    }
+});
 module.exports = {
     getAccount, updateAccount, createDeliveryAddress,
     getAllAddress, updateDeliveryAddress, getDetailAddress, deleteDeliveryAddress,
-    getAllBillByType
+    getAllBillByType,
+    reviewProduct
 };

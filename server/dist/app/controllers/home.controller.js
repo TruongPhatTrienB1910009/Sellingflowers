@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const sequelize_1 = require("sequelize");
 const email_utils_1 = require("../utils/email.utils");
 const { getRolesAccount, hashPassword, createToken, verifyToken } = require('../utils/account.utils');
 const ApiError = require('../../api-error');
@@ -52,6 +53,13 @@ const signIn = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
 const signUp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield db.Account.findOne({ where: { email: req.body.email } });
+        const gAccount = yield db.Group_account.findOne({
+            where: {
+                name: {
+                    [sequelize_1.Op.eq]: "user"
+                }
+            }
+        });
         if (user) {
             return res.status(500).json({
                 EM: 'Email already',
@@ -61,13 +69,24 @@ const signUp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         }
         else {
             req.body.password = yield hashPassword(req.body.password);
-            const newAccount = yield db.Account.create(req.body);
-            yield newAccount.save();
-            return res.status(200).json({
-                EM: 'Account created',
-                EC: 0,
-                DT: newAccount
-            });
+            if (req.body.GroupAccountId) {
+                const newAccount = yield db.Account.create(req.body);
+                yield newAccount.save();
+                return res.status(200).json({
+                    EM: 'Account created',
+                    EC: 0,
+                    DT: newAccount
+                });
+            }
+            else {
+                const newAccount = yield db.Account.create(Object.assign(Object.assign({}, req.body), { GroupAccountId: gAccount.id }));
+                yield newAccount.save();
+                return res.status(200).json({
+                    EM: 'Account created',
+                    EC: 0,
+                    DT: newAccount
+                });
+            }
         }
     }
     catch (error) {

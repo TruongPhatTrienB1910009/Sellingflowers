@@ -5,7 +5,8 @@ const productController = require('../controllers/product.controller');
 Router.route('/')
     .get(productController.getAllProducts);
 Router.route('/:id')
-    .get(productController.getProductById);
+    .get(productController.getProductById)
+    .post(productController.getAllReviewByProductId);
 Router.route('/sort')
     .post(productController.sortProducts);
 Router.route('/filter')

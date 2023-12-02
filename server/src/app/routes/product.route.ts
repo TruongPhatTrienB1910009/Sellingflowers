@@ -7,6 +7,7 @@ Router.route('/')
 
 Router.route('/:id')
     .get(productController.getProductById)
+    .post(productController.getAllReviewByProductId)
 
 Router.route('/sort')
     .post(productController.sortProducts)

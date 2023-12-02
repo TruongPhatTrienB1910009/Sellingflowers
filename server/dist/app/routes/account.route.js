@@ -18,4 +18,7 @@ router.route("/address/:id")
     .delete(accountController.deleteDeliveryAddress);
 router.route("/receipts/:type")
     .get(accountController.getAllBillByType);
+router.route("/product/review")
+    .post(accountController.reviewProduct);
+// router.route("/product/review/:id")
 module.exports = router;
