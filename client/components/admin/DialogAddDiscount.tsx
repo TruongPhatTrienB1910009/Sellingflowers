@@ -66,9 +66,32 @@ export default function DialogAddDiscount({ openDialog }: any) {
                     <CloseIcon />
                 </IconButton>
                 <DialogContent style={{
-                    width: '500px'
+                    width: '600px'
                 }} dividers>
-                    <DatePickerComponent />
+                    <Box sx={{
+                        display: 'flex',
+                        gap: '16px'
+                    }}>
+                        <Box>
+                            <DatePickerComponent />
+                        </Box>
+                        <Box sx={{
+                            width: '100%',
+                        }}>
+                            <Box>
+                                <label style={{}} htmlFor="">Số lượng: </label>
+                                <input style={{width: '100%', padding: '10px', marginTop: '8px'}} type="number" />
+                            </Box>
+                            <Box sx={{marginTop: '10px'}}>
+                                <label style={{}} htmlFor="">Số Tiền: </label>
+                                <input style={{width: '100%', padding: '10px', marginTop: '8px'}} type="number" />
+                            </Box>
+                            <Box sx={{marginTop: '10px'}}>
+                                <label style={{}} htmlFor="">Nội dung: </label>
+                                <textarea style={{width: '100%', padding: '10px', marginTop: '8px'}} name="" id="" cols={30} rows={4}></textarea>
+                            </Box>
+                        </Box>
+                    </Box>
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleClose}>
