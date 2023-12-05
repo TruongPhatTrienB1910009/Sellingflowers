@@ -44,7 +44,6 @@ const createDiscount = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
             EM: 'OK',
             DT: {
                 newDiscount,
-                "today": currentDate
             }
         });
     }
@@ -56,6 +55,23 @@ const createDiscount = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         });
     }
 });
+const getAllDiscounts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const discounts = yield db.Discount.findAll({});
+        return res.status(200).json({
+            EC: 0,
+            EM: 'OK',
+            DT: discounts
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    createDiscount
+    createDiscount, getAllDiscounts
 };

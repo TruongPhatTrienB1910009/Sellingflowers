@@ -50,7 +50,6 @@ const createDiscount = async (req: adminRequest, res: Response, next: NextFuncti
             EM: 'OK',
             DT: {
                 newDiscount,
-                "today": currentDate
             }
         })
     } catch (error) {
@@ -62,6 +61,23 @@ const createDiscount = async (req: adminRequest, res: Response, next: NextFuncti
     }
 }
 
+const getAllDiscounts = async (req: adminRequest, res: Response, next: NextFunction) => {
+    try {
+        const discounts = await db.Discount.findAll({});
+        return res.status(200).json({
+            EC: 0,
+            EM: 'OK',
+            DT: discounts
+        })
+    } catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: (error as Error).message
+        })
+    }
+}
+
 module.exports = {
-    createDiscount
+    createDiscount, getAllDiscounts
 }

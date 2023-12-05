@@ -5,11 +5,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import CloseIcon from '@mui/icons-material/Close';
 import DialogTitle from '@mui/material/DialogTitle';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 import { Box, IconButton, Rating } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DatePickerComponent from '../common/DatePickerComponent';
+import { createNewDiscount } from '@/services/admin/adminDiscountService';
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -25,9 +24,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function DialogAddDiscount({ openDialog }: any) {
     const [open, setOpen] = React.useState(false);
-    const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-    const [value, setValue] = React.useState(3);
+    const [startDate, setStartDate] = React.useState(new Date());
+    const [endDate, setEndDate] = React.useState(null);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -36,6 +34,27 @@ export default function DialogAddDiscount({ openDialog }: any) {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        try {
+            event.preventDefault();
+            const form = new FormData(event.currentTarget);
+            const data = {
+                total: form.get('total'),
+                amount: form.get('amount'),
+                description: form.get('description'),
+                start: startDate,
+                end: endDate,
+            }
+            const result = await createNewDiscount(data);
+            if (result.EC == 0) {
+                alert("Tạo thành công");
+                handleClose();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     React.useEffect(() => {
         if (openDialog > -1) {
@@ -50,54 +69,56 @@ export default function DialogAddDiscount({ openDialog }: any) {
                 aria-labelledby="customized-dialog-title"
                 open={open}
             >
-                <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                    Thông tin mã giảm giá
-                </DialogTitle>
-                <IconButton
-                    aria-label="close"
-                    onClick={handleClose}
-                    sx={{
-                        position: 'absolute',
-                        right: 8,
-                        top: 8,
-                        color: (theme) => theme.palette.grey[500],
-                    }}
-                >
-                    <CloseIcon />
-                </IconButton>
-                <DialogContent style={{
-                    width: '600px'
-                }} dividers>
-                    <Box sx={{
-                        display: 'flex',
-                        gap: '16px'
-                    }}>
-                        <Box>
-                            <DatePickerComponent />
-                        </Box>
+                <Box component={'form'} onSubmit={handleSubmit}>
+                    <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+                        Thông tin mã giảm giá
+                    </DialogTitle>
+                    <IconButton
+                        aria-label="close"
+                        onClick={handleClose}
+                        sx={{
+                            position: 'absolute',
+                            right: 8,
+                            top: 8,
+                            color: (theme) => theme.palette.grey[500],
+                        }}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                    <DialogContent style={{
+                        width: '600px'
+                    }} dividers>
                         <Box sx={{
-                            width: '100%',
+                            display: 'flex',
+                            gap: '16px'
                         }}>
                             <Box>
-                                <label style={{}} htmlFor="">Số lượng: </label>
-                                <input style={{width: '100%', padding: '10px', marginTop: '8px'}} type="number" />
+                                <DatePickerComponent startDate={startDate} endDate={endDate} setStartDate={setStartDate} setEndDate={setEndDate} />
                             </Box>
-                            <Box sx={{marginTop: '10px'}}>
-                                <label style={{}} htmlFor="">Số Tiền: </label>
-                                <input style={{width: '100%', padding: '10px', marginTop: '8px'}} type="number" />
-                            </Box>
-                            <Box sx={{marginTop: '10px'}}>
-                                <label style={{}} htmlFor="">Nội dung: </label>
-                                <textarea style={{width: '100%', padding: '10px', marginTop: '8px'}} name="" id="" cols={30} rows={4}></textarea>
+                            <Box sx={{
+                                width: '100%',
+                            }}>
+                                <Box>
+                                    <label style={{}} htmlFor="">Số lượng: </label>
+                                    <input name='total' style={{ width: '100%', padding: '10px', marginTop: '8px' }} type="number" />
+                                </Box>
+                                <Box sx={{ marginTop: '10px' }}>
+                                    <label style={{}} htmlFor="">Số Tiền: </label>
+                                    <input name='amount' style={{ width: '100%', padding: '10px', marginTop: '8px' }} type="number" />
+                                </Box>
+                                <Box sx={{ marginTop: '10px' }}>
+                                    <label style={{}} htmlFor="">Nội dung: </label>
+                                    <textarea name='description' style={{ width: '100%', padding: '10px', marginTop: '8px' }} id="" cols={30} rows={4}></textarea>
+                                </Box>
                             </Box>
                         </Box>
-                    </Box>
-                </DialogContent>
-                <DialogActions>
-                    <Button autoFocus onClick={handleClose}>
-                        Lưu
-                    </Button>
-                </DialogActions>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button type='submit' autoFocus>
+                            Lưu
+                        </Button>
+                    </DialogActions>
+                </Box>
             </BootstrapDialog>
         </React.Fragment>
     );

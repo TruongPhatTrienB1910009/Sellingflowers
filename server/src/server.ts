@@ -15,6 +15,7 @@ const cartRoute = require('./app/routes/cart.route');
 const billRoute = require('./app/routes/bill.route');
 const checkoutRoute = require('./app/routes/checkout.route');
 const searchRoute = require('./app/routes/search.route');
+const discountRoute = require('./app/routes/discount.route');
 
 // router admin
 const adminProductRoute = require('./app/routes/admin/admin.product.route');
@@ -32,6 +33,7 @@ const port = 3000;
 
 // handel router
 app.use('/', homeRoute);
+app.use('/discounts', discountRoute);
 app.use('/search', searchRoute);
 app.use('/account', checkUserJWT, accountRoute);
 app.use('/products', productRoute);
