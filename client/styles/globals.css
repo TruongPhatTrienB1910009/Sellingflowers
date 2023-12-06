@@ -17,9 +17,8 @@ a {
 }
 
 .app {
-  margin-top: 120px;
+  margin-top: 106px;
   max-width: 100%;
-  padding: 0 2%;
   overflow: hidden;
   min-height: 80vh;
   background-color: #eee;

@@ -3,10 +3,6 @@
     box-shadow: 0 0 6px #228B22 !important;
 }
 
-.toolBar {
-    min-height: 70px !important;
-}
-
 .navItemsLink {
     display: flex;
     align-items: center;
@@ -24,7 +20,7 @@
 }
 
 .navSubLink {
-    margin-left: 20px;
+    margin-left: 25px;
 }
 
 .navSubLink button {
@@ -34,7 +30,7 @@
 }
 
 .toolBar_2 {
-    min-height: 46px !important;
+    min-height: 42px !important;
 }
 
 .logo {

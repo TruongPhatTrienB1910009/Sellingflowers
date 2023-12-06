@@ -1,11 +1,29 @@
 "use client"
 import { Box, Button } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import DialogAddDiscount from '@/components/admin/DialogAddDiscount';
+import TableDiscounts from '@/components/admin/TableDiscounts';
+import { getAllDiscounts } from '@/services/admin/adminDiscountService';
 
 const page = () => {
     const [openDialog, setOpenDialog] = useState(-1);
+    const [listDiscounts, setListDiscounts] = useState<any>([])
+
+    const handleGetAllDiscounts = async () => {
+        try {
+            const data = await getAllDiscounts();
+            if(data.EC == 0) {
+                setListDiscounts(data.DT);
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        handleGetAllDiscounts();
+    }, [])
 
     return (
         <Box>
@@ -36,7 +54,7 @@ const page = () => {
                     </Button>
                 </Box>
             </Box>
-            
+            <TableDiscounts listDiscounts={listDiscounts} />
             <DialogAddDiscount openDialog={openDialog}/>
         </Box>
     )
