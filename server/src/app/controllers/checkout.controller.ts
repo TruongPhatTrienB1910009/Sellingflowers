@@ -44,7 +44,18 @@ const checkOut = async (req: UserRequest, res: Response, next: NextFunction) => 
                 totalPrice += getDetailsBill[i].totalPriceItem
             }
 
-            await getBill.update({ BillStatusId: getStatus.id, DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.delivery.total })
+            if(req.body.discountId) {
+                const getDiscount = await db.Discount.findOne({
+                    where: {
+                        id: req.body.discountId
+                    }
+                })
+                await getBill.update({ BillStatusId: getStatus.id, DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.delivery.total, discountfee: getDiscount.amount, DiscountId: req.body.discountId, totalamount: totalPrice + req.body.delivery.total - getDiscount.amount})
+                await getDiscount.update({ applied: getDiscount.applied + 1})
+            } else {
+                await getBill.update({ BillStatusId: getStatus.id, DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.delivery.total, discountfee: 0, totalamount:  totalPrice + req.body.delivery.total})
+            }
+            
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
@@ -93,7 +104,19 @@ const checkOut = async (req: UserRequest, res: Response, next: NextFunction) => 
                 }
             })
 
-            await newBill.update({ DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.delivery.total })
+            // await newBill.update({ DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.delivery.total })
+
+            if(req.body.discountId) {
+                const getDiscount = await db.Discount.findOne({
+                    where: {
+                        id: req.body.discountId
+                    }
+                })
+                await newBill.update({ DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.delivery.total, discountfee: getDiscount.amount, DiscountId: req.body.discountId, totalamount: totalPrice + req.body.delivery.total - getDiscount.amount})
+                await getDiscount.update({ applied: getDiscount.applied + 1})
+            } else {
+                await newBill.update({ DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.delivery.total, discountfee: 0, totalamount:  totalPrice + req.body.delivery.total})
+            }
 
             return res.status(200).json({
                 EC: 0,

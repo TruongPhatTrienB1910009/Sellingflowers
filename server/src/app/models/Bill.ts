@@ -33,6 +33,12 @@ module.exports = (sequelize: any, Model: any, DataTypes: any) => {
         },
         deliveryfee: {
             type: DataTypes.BIGINT
+        },
+        discountfee: {
+            type: DataTypes.BIGINT
+        },
+        totalamount: {
+            type: DataTypes.BIGINT
         }
     }, {
         sequelize: sequelize,

@@ -44,7 +44,18 @@ const checkOut = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
                 yield Product.update({ inventory: Product.inventory - getDetailsBill[i].totalItems });
                 totalPrice += getDetailsBill[i].totalPriceItem;
             }
-            yield getBill.update({ BillStatusId: getStatus.id, DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.delivery.total });
+            if (req.body.discountId) {
+                const getDiscount = yield db.Discount.findOne({
+                    where: {
+                        id: req.body.discountId
+                    }
+                });
+                yield getBill.update({ BillStatusId: getStatus.id, DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.delivery.total, discountfee: getDiscount.amount, DiscountId: req.body.discountId, totalamount: totalPrice + req.body.delivery.total - getDiscount.amount });
+                yield getDiscount.update({ applied: getDiscount.applied + 1 });
+            }
+            else {
+                yield getBill.update({ BillStatusId: getStatus.id, DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.delivery.total, discountfee: 0, totalamount: totalPrice + req.body.delivery.total });
+            }
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
@@ -87,7 +98,19 @@ const checkOut = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
                     }
                 }
             });
-            yield newBill.update({ DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.delivery.total });
+            // await newBill.update({ DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.delivery.total })
+            if (req.body.discountId) {
+                const getDiscount = yield db.Discount.findOne({
+                    where: {
+                        id: req.body.discountId
+                    }
+                });
+                yield newBill.update({ DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.delivery.total, discountfee: getDiscount.amount, DiscountId: req.body.discountId, totalamount: totalPrice + req.body.delivery.total - getDiscount.amount });
+                yield getDiscount.update({ applied: getDiscount.applied + 1 });
+            }
+            else {
+                yield newBill.update({ DeliveryAddressId: req.body.DeliveryAddress, totalprice: totalPrice, deliveryfee: req.body.delivery.total, discountfee: 0, totalamount: totalPrice + req.body.delivery.total });
+            }
             return res.status(200).json({
                 EC: 0,
                 EM: 'OK',
