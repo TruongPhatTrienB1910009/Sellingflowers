@@ -64,15 +64,11 @@ const MediaCard: React.FC<CardProps> = ({ item }) => {
                         padding: '4px 16px'
                     }}>
                         <Typography gutterBottom component="div" sx={{
-                            // color: "#228b22",
                             fontWeight: '600',
                             fontSize: '18px',
                         }}>
                             {item?.name}
                         </Typography>
-                        {/* <Typography variant="body2" color="text.secondary">
-                            {item?.description.slice(0, 100) + '...'}
-                        </Typography> */}
                     </CardContent>
                     <CardActions sx={{
                         padding: '4px 16px',

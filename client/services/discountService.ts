@@ -1,6 +1,6 @@
 import axios from "./axios";
 
-export const resetPassword = async (data: any) => {
-    const result = (await axios.post(`/resetpassword`, data)).data;
+export const getExisDiscounts = async () => {
+    const result = (await axios.get(`/discounts`)).data;
     return result;
 }
