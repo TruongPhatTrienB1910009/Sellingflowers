@@ -5,4 +5,7 @@ const discountsController = require('../controllers/discount.controller');
 router.route('/')
     .get(discountsController.getExisDiscounts)
 
+router.route('/:id')
+    .get(discountsController.getDiscountById)
+
 module.exports = router;

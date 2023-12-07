@@ -38,12 +38,10 @@ const createDiscount = async (req: adminRequest, res: Response, next: NextFuncti
 
         const newDiscount = await db.Discount.create({
             code: randomString,
-            ...req.body
+            ...req.body,
+            applied: 0
         })
         await newDiscount.save();
-
-        const currentDate = new Date();
-        console.log(currentDate.getFullYear())
 
         return res.status(200).json({
             EC: 0,
@@ -78,6 +76,29 @@ const getAllDiscounts = async (req: adminRequest, res: Response, next: NextFunct
     }
 }
 
+
+const deleteDiscount = async (req: adminRequest, res: Response, next: NextFunction) => {
+    try {
+        const result = await db.Discount.destroy({
+            where: {
+                id: req.params.id,
+            }
+        })
+
+        return res.status(200).json({
+            EC: 0,
+            EM: 'OK',
+            DT: result
+        })
+    } catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: (error as Error).message
+        })
+    }
+}
+
 module.exports = {
-    createDiscount, getAllDiscounts
+    createDiscount, getAllDiscounts, deleteDiscount
 }

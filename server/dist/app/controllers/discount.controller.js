@@ -35,6 +35,27 @@ const getExisDiscounts = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         });
     }
 });
+const getDiscountById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const discount = yield db.Discount.findOne({
+            where: {
+                id: req.params.id,
+            }
+        });
+        return res.status(200).json({
+            EC: 0,
+            EM: 'OK',
+            DT: discount
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    getExisDiscounts
+    getExisDiscounts, getDiscountById
 };

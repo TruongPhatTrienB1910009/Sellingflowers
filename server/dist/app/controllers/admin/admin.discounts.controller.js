@@ -35,10 +35,8 @@ const createDiscount = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                 break;
             }
         } while (check);
-        const newDiscount = yield db.Discount.create(Object.assign({ code: randomString }, req.body));
+        const newDiscount = yield db.Discount.create(Object.assign(Object.assign({ code: randomString }, req.body), { applied: 0 }));
         yield newDiscount.save();
-        const currentDate = new Date();
-        console.log(currentDate.getFullYear());
         return res.status(200).json({
             EC: 0,
             EM: 'OK',
@@ -72,6 +70,27 @@ const getAllDiscounts = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         });
     }
 });
+const deleteDiscount = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield db.Discount.destroy({
+            where: {
+                id: req.params.id,
+            }
+        });
+        return res.status(200).json({
+            EC: 0,
+            EM: 'OK',
+            DT: result
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: error.message
+        });
+    }
+});
 module.exports = {
-    createDiscount, getAllDiscounts
+    createDiscount, getAllDiscounts, deleteDiscount
 };

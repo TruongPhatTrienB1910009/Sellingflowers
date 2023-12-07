@@ -38,7 +38,6 @@ module.exports = (sequelize, Model, DataTypes) => {
     }, {
         sequelize: sequelize,
         modelName: 'Discount',
-        // timestamps: false
     });
     return Discount;
 };

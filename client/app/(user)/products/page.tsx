@@ -8,6 +8,7 @@ import WrapperCards from "@/components/common/WrapperCards";
 import { filterProducts, getAllProducts, sortProducts } from "@/services/productService";
 import "@/styles/home.css";
 import NavCategories from "@/components/NavCategories";
+import { Container } from "@mui/material";
 
 export default function Home() {
     const [listItems, setListItems] = useState([]);
@@ -26,7 +27,7 @@ export default function Home() {
     const handleSortProducts = async () => {
         try {
             const urlSearchParams = new URLSearchParams(window.location.search);
-            if(urlSearchParams.get('sortBy') == 'ctime') {
+            if (urlSearchParams.get('sortBy') == 'ctime') {
                 handleGetAllProducts();
             }
             if (urlSearchParams.get('sortBy')) {
@@ -94,15 +95,17 @@ export default function Home() {
         handleFilterProducts();
     }, []);
     return (
-        <div className="homeLayout">
-            <div className="leftLayout">
-                <div className="leftContainer">
-                    <NavCategories handleGetAllProducts={handleGetAllProducts} handleFilterProducts={handleFilterProducts} handleSortProducts={handleSortProducts} />
+        <Container maxWidth='xl'>
+            <div className="homeLayout">
+                <div className="leftLayout">
+                    <div className="leftContainer">
+                        <NavCategories handleGetAllProducts={handleGetAllProducts} handleFilterProducts={handleFilterProducts} handleSortProducts={handleSortProducts} />
+                    </div>
+                </div>
+                <div className="rightLayout">
+                    <WrapperCards listItems={listItems} />
                 </div>
             </div>
-            <div className="rightLayout">
-                <WrapperCards listItems={listItems} />
-            </div>
-        </div>
+        </Container>
     )
 }

@@ -9,6 +9,8 @@ import { caculateDeliveryFee } from '@/utils/api'
 import { VND } from '@/utils/VND'
 import { checkOut } from '@/services/checkoutService'
 import { useRouter } from 'next/navigation'
+import DiscountDialog from '@/components/dialog/DiscountsDialog'
+import { getDiscountById } from '@/services/discountService'
 
 const ComponentAddress = ({ handleSelectAddress, selectedAddress }: { handleSelectAddress: any, selectedAddress: any }) => {
     const [openDialog, setOpenDialog] = useState(1);
@@ -73,9 +75,10 @@ const ComponentAddress = ({ handleSelectAddress, selectedAddress }: { handleSele
 }
 
 
-const ComponentCheckout = ({selectedAddress, totalpriceItems, handleCheckOut}: {selectedAddress: any, totalpriceItems: any, handleCheckOut: any}) => {
+const ComponentCheckout = ({ selectedAddress, totalpriceItems, handleCheckOut, selectedDiscount }: { selectedAddress: any, totalpriceItems: any, handleCheckOut: any, selectedDiscount: any }) => {
 
     const [address, setAddress] = useState<any>(null);
+    const [discount, setDiscount] = useState<any>(null);
     const [deliveryFee, setDeliveryFee] = useState<any>(null);
 
     const handleGetAddressById = async () => {
@@ -83,18 +86,28 @@ const ComponentCheckout = ({selectedAddress, totalpriceItems, handleCheckOut}: {
             const ad = await getAddressById(selectedAddress);
             if (ad.EC == 0) {
                 setAddress(ad.DT);
-                const fee = await caculateDeliveryFee({address: ad.DT})
+                const fee = await caculateDeliveryFee({ address: ad.DT })
                 console.log(fee)
-                if(fee) {
+                if (fee) {
                     setDeliveryFee(fee);
                 }
             }
         }
     }
 
+    const handleGetDiscountById = async () => {
+        if (selectedDiscount > -1) {
+            const dc = await getDiscountById(selectedDiscount);
+            if (dc.EC == 0) {
+                setDiscount(dc.DT);
+            }
+        }
+    }
+
     useEffect(() => {
         handleGetAddressById();
-    }, [selectedAddress, totalpriceItems]);
+        handleGetDiscountById();
+    }, [selectedAddress, selectedDiscount, totalpriceItems]);
 
     return (
         <>
@@ -112,21 +125,45 @@ const ComponentCheckout = ({selectedAddress, totalpriceItems, handleCheckOut}: {
                         <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px' }}>
                             <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng tiền hàng: {VND.format(totalpriceItems)}</span>
                             {
-                                (deliveryFee != null) ? (
+                                (discount) ? (
                                     <>
-                                        <span style={{ fontSize: '16px', marginBottom: '6px' }}>Phí vận chuyển: {VND.format(deliveryFee?.total)}</span>
-                                        <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng thanh toán: {VND.format(deliveryFee?.total + totalpriceItems)}</span>
+                                        {
+                                            (deliveryFee != null) ? (
+                                                <>
+                                                    <span style={{ fontSize: '16px', marginBottom: '6px' }}>Phí vận chuyển: {VND.format(deliveryFee?.total)}</span>
+                                                    <span style={{ fontSize: '16px', marginBottom: '6px' }}>Giảm giá: {VND.format(discount.amount)}</span>
+                                                    <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng thanh toán: {VND.format(deliveryFee?.total + totalpriceItems - discount.amount)}</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span style={{ fontSize: '16px', marginBottom: '6px' }}>Phí vận chuyển: {VND.format(0)}</span>
+                                                    <span style={{ fontSize: '16px', marginBottom: '6px' }}>Giảm giá: {VND.format(discount.amount)}</span>
+                                                    <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng thanh toán: {VND.format(0)}</span>
+                                                </>
+                                            )
+                                        }
                                     </>
                                 ) : (
                                     <>
-                                        <span style={{ fontSize: '16px', marginBottom: '6px' }}>Phí vận chuyển: {VND.format(0)}</span>
-                                        <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng thanh toán: {VND.format(0)}</span>
+                                        {
+                                            (deliveryFee != null) ? (
+                                                <>
+                                                    <span style={{ fontSize: '16px', marginBottom: '6px' }}>Phí vận chuyển: {VND.format(deliveryFee?.total)}</span>
+                                                    <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng thanh toán: {VND.format(deliveryFee?.total + totalpriceItems)}</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span style={{ fontSize: '16px', marginBottom: '6px' }}>Phí vận chuyển: {VND.format(0)}</span>
+                                                    <span style={{ fontSize: '16px', marginBottom: '6px' }}>Tổng thanh toán: {VND.format(0)}</span>
+                                                </>
+                                            )
+                                        }
                                     </>
                                 )
                             }
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
-                            <Button onClick={() => {handleCheckOut(deliveryFee)}} sx={{ backgroundColor: '#228b22', color: '#fff', padding: '16px 42px', ':hover': { backgroundColor: '#228b22' } }}>
+                            <Button onClick={() => { handleCheckOut(deliveryFee) }} sx={{ backgroundColor: '#228b22', color: '#fff', padding: '16px 42px', ':hover': { backgroundColor: '#228b22' } }}>
                                 Đặt Hàng
                             </Button>
                         </div>
@@ -138,10 +175,73 @@ const ComponentCheckout = ({selectedAddress, totalpriceItems, handleCheckOut}: {
 }
 
 
+const DiscountComponent = ({ selectedDiscount, handleSelectDiscount }: any) => {
+    const [openDialog, setOpenDialog] = useState(-1);
+    const [discount, setDiscount] = useState<any>(null);
+
+    const handleGetDiscountById = async () => {
+        try {
+            const result = await getDiscountById(selectedDiscount);
+            if (result.EC == 0) {
+                setDiscount(result.DT);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        handleGetDiscountById();
+    }, [selectedDiscount]);
+
+    return (
+        <>
+            <Box sx={{
+                backgroundColor: '#fff',
+                padding: '20px',
+                marginBottom: '10px',
+                marginTop: '10px',
+                borderRadius: '5px'
+            }}>
+                <div>
+                    {
+                        (discount != null) ? (
+                            <Box>
+                                <Box component={"div"} sx={{
+                                    minWidth: '400px',
+                                    marginBottom: '12px'
+                                }}>
+                                    Mã Giảm: {discount.code} ({VND.format(discount.amount)})
+                                </Box>
+                                <Box>
+                                    <button style={{
+                                        padding: '6px 10px'
+                                    }} onClick={() => setOpenDialog(openDialog + 1)}>
+                                        Chọn mới
+                                    </button>
+                                </Box>
+                            </Box>
+                        ) : (
+                            <button style={{
+                                padding: '6px 10px'
+                            }} onClick={() => setOpenDialog(openDialog + 1)}>
+                                Thêm mã giảm giá
+                            </button>
+                        )
+                    }
+                </div>
+            </Box>
+            <DiscountDialog openDialog={openDialog} handleSelectDiscount={handleSelectDiscount} />
+        </>
+    )
+}
+
+
 const CheckOut = () => {
     const [listItemsInCart, setListItemsInCart] = React.useState<any>([]);
     const [selectedAddress, setSelectedAddress] = React.useState<any>(-1);
     const [totalpriceItems, setTotalpriceItems] = React.useState<any>(0);
+    const [selectedDiscount, setSelectedDiscount] = React.useState<any>(-1);
 
     const router = useRouter();
 
@@ -174,6 +274,11 @@ const CheckOut = () => {
         setSelectedAddress(id);
     }
 
+    const handleSelectDiscount = (id: number) => {
+        console.log(id)
+        setSelectedDiscount(id);
+    }
+
     const handleCheckOut = async (deliveryFee: any) => {
         try {
             const checkout: any = sessionStorage.getItem('checkout');
@@ -181,16 +286,17 @@ const CheckOut = () => {
                 checkout: checkout,
                 DeliveryAddress: selectedAddress,
                 delivery: deliveryFee,
+                discountId: selectedDiscount
             })
 
-            if (result.EC == 0 ) {
+            if (result.EC == 0) {
                 alert("thành công")
                 router.push("/account/receipts")
             }
         } catch (error) {
             console.log(error)
         }
-        
+
     }
 
     React.useEffect(() => {
@@ -201,7 +307,8 @@ const CheckOut = () => {
         <Container maxWidth='lg' sx={{ marginTop: '6px' }}>
             <ComponentAddress handleSelectAddress={handleSelectAddress} selectedAddress={selectedAddress} />
             <TableItemsCheckout listItemsInCart={listItemsInCart} />
-            <ComponentCheckout  selectedAddress={selectedAddress} totalpriceItems={totalpriceItems} handleCheckOut={handleCheckOut}/>
+            <DiscountComponent selectedDiscount={selectedDiscount} handleSelectDiscount={handleSelectDiscount} />
+            <ComponentCheckout selectedDiscount={selectedDiscount} selectedAddress={selectedAddress} totalpriceItems={totalpriceItems} handleCheckOut={handleCheckOut} />
         </Container>
     )
 }

@@ -71,39 +71,6 @@
                         )
                     })
                 }
-                {
-                    listDiscounts.map((discount: any, index: number) => {
-                        return (
-                            <div style={{
-                                marginRight: '12px',
-                            }} key={index}>
-                                <CardDiscount discount={discount} />
-                            </div>
-                        )
-                    })
-                }
-                {
-                    listDiscounts.map((discount: any, index: number) => {
-                        return (
-                            <div style={{
-                                marginRight: '12px',
-                            }} key={index}>
-                                <CardDiscount discount={discount} />
-                            </div>
-                        )
-                    })
-                }
-                {
-                    listDiscounts.map((discount: any, index: number) => {
-                        return (
-                            <div style={{
-                                marginRight: '12px',
-                            }} key={index}>
-                                <CardDiscount discount={discount} />
-                            </div>
-                        )
-                    })
-                }
             </Carousel>
         );
     }

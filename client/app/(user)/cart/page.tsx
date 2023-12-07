@@ -119,7 +119,7 @@ function Page() {
     }, [listItemsInCart.length, checkedState.length, reRender]);
 
     return (
-        <Container maxWidth="xl" sx={{ mt: '10px' }}>
+        <Container maxWidth="lg" sx={{ mt: '10px' }}>
             <TableItems handleRemoveItemInCart={handleRemoveItemInCart} listItemsInCart={listItemsInCart} checkedState={checkedState} handleAddItemToCheckout={addItemToCheckout} handleUpdateTotalsItem={handleUpdateTotalsItem}/>
             <div className='container__BuyItems'>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

@@ -9,6 +9,7 @@ import NavCategories from "@/components/NavCategories";
 import { filterProducts, getAllProducts, sortProducts } from "@/services/productService";
 import WrapperCards from "@/components/common/WrapperCards";
 import Breadcrumb from "@/components/common/BreadCrums";
+import { Container } from "@mui/material";
 
 export default function Category({ params }: { params: { category: string } }) {
     const dispatch = useDispatch();
@@ -19,7 +20,7 @@ export default function Category({ params }: { params: { category: string } }) {
     const handleSortProducts = async () => {
         try {
             const urlSearchParams = new URLSearchParams(window.location.search);
-            if(urlSearchParams.get('sortBy') == 'ctime') {
+            if (urlSearchParams.get('sortBy') == 'ctime') {
                 handleGetAllProducts();
             }
             if (urlSearchParams.get('sortBy')) {
@@ -126,18 +127,21 @@ export default function Category({ params }: { params: { category: string } }) {
         handleFilterProducts();
         checkUser();
     }, [])
+    
     return (
-        <div className="homeLayout">
-            <div className="leftLayout">
-                <div className="leftContainer">
-                    <NavCategories handleGetAllProducts={handleGetAllProducts} handleFilterProducts={handleFilterProducts} handleSortProducts={handleSortProducts} />
+        <Container maxWidth='xl'>
+            <div className="homeLayout">
+                <div className="leftLayout">
+                    <div className="leftContainer">
+                        <NavCategories handleGetAllProducts={handleGetAllProducts} handleFilterProducts={handleFilterProducts} handleSortProducts={handleSortProducts} />
+                    </div>
+                </div>
+                <div className="rightLayout">
+                    <Breadcrumb slide={decodeURIComponent(params.category)} />
+                    <hr style={{ margin: '10px 0px', color: '#228b22' }} />
+                    <WrapperCards listItems={listItems} />
                 </div>
             </div>
-            <div className="rightLayout">
-                <Breadcrumb slide={decodeURIComponent(params.category)} />
-                <hr style={{ margin: '10px 0px', color: '#228b22' }} />
-                <WrapperCards listItems={listItems} />
-            </div>
-        </div>
+        </Container>
     )
 }

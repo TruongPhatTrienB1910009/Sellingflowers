@@ -58,7 +58,8 @@ export default function SignIn() {
                     console.log(userSignIn.DT.groupRoles.name === "user")
                     dispatch(signIn(userSignIn.DT));
                     localStorage.setItem('accesstoken', userSignIn.DT.accesstoken);
-                    router.push("/")
+                    // router.push("/")
+                    location.href = "http://localhost:3001/"
                 } else {
                     alert("Thông tin đăng nhập không chính xác")
                 }
