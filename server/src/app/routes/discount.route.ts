@@ -7,5 +7,6 @@ router.route('/')
 
 router.route('/:id')
     .get(discountsController.getDiscountById)
+    .delete(discountsController.deleteDiscountById);
 
 module.exports = router;

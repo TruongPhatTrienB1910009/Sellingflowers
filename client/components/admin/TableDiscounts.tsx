@@ -14,9 +14,11 @@ import { VND } from '@/utils/VND';
 import '@/styles/common/tableItems.css'
 import Link from 'next/link';
 import { convertDatetimeLocal } from '@/utils/dateConvert';
+import { Delete, DeleteOutline } from '@mui/icons-material';
+import { deleteDiscountById } from '@/services/discountService';
 
 interface Column {
-    id: 'id' | 'code' | 'total' | 'amount' | 'start' | 'end' | 'used'| 'description' | 'actions';
+    id: 'id' | 'code' | 'total' | 'amount' | 'start' | 'end' | 'used' | 'description' | 'actions';
     label: string;
     minWidth?: number;
     align?: 'right' | 'left' | 'center';
@@ -56,7 +58,7 @@ const columns: readonly Column[] = [
         id: 'description',
         label: 'Nội Dung',
         minWidth: 200,
-        align: 'left',
+        align: 'center',
     },
     {
         id: 'actions',
@@ -67,7 +69,7 @@ const columns: readonly Column[] = [
 ];
 
 
-export default function TableDiscounts({ listDiscounts }: any) {
+export default function TableDiscounts({ listDiscounts, handleGetAllDiscounts }: any) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -81,6 +83,18 @@ export default function TableDiscounts({ listDiscounts }: any) {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+
+    const handleDeleteDiscount = async (id: any) => {
+        try {
+            const result = await deleteDiscountById(id);
+            if (result.EC == 0) {
+                alert("Đã xóa");
+                handleGetAllDiscounts();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         (listDiscounts) ? (
@@ -124,16 +138,14 @@ export default function TableDiscounts({ listDiscounts }: any) {
                                             <TableCell align='center'>
                                                 {convertDatetimeLocal(row.end)}
                                             </TableCell>
-                                            <TableCell align='left'>
+                                            <TableCell align='center'>
                                                 {row.description}
                                             </TableCell>
                                             <TableCell align='center'>
-                                                <Tooltip title="Xem Chi Tiết" placement="top">
-                                                    <Link href={`/admin/dashboard/receipts/details/${row.id}`}>
-                                                        <IconButton>
-                                                            <FindInPageIcon />
-                                                        </IconButton>
-                                                    </Link>
+                                                <Tooltip title="Xóa" placement="top">
+                                                    <IconButton onClick={() => handleDeleteDiscount(row.id)}>
+                                                        <Delete />
+                                                    </IconButton>
                                                 </Tooltip>
                                             </TableCell>
                                         </TableRow>

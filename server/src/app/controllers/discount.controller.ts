@@ -50,6 +50,28 @@ const getDiscountById = async (req: Request, res: Response, next: NextFunction) 
     }
 }
 
+const deleteDiscountById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const discount = await db.Discount.destroy({
+            where: {
+                id: req.params.id,
+            }
+        })
+
+        return res.status(200).json({
+            EC: 0,
+            EM: 'OK',
+            DT: discount
+        })
+    } catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: 'NOT OK',
+            DT: (error as Error).message
+        })
+    }
+}
+
 module.exports = {
-    getExisDiscounts, getDiscountById
+    getExisDiscounts, getDiscountById, deleteDiscountById
 }

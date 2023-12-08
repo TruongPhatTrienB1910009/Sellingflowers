@@ -54,7 +54,7 @@ const page = () => {
                     </Button>
                 </Box>
             </Box>
-            <TableDiscounts listDiscounts={listDiscounts} />
+            <TableDiscounts handleGetAllDiscounts={handleGetAllDiscounts} listDiscounts={listDiscounts} />
             <DialogAddDiscount openDialog={openDialog}/>
         </Box>
     )

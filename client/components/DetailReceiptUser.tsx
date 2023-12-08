@@ -76,8 +76,10 @@ const DetailReceiptUser = ({ receipt, handleGetReceiptById }: any) => {
                                                 <Box>
                                                     Mã vận đơn: {receipt.shippingcode}
                                                 </Box>
-                                                <Box>
-                                                    <a href={`https://tracking.ghn.dev/?order_code=${receipt.shippingcode}`}>chi tiết vận đơn</a>
+                                                <Box sx={{
+                                                    color: 'blue'
+                                                }}>
+                                                    (<a href={`https://tracking.ghn.dev/?order_code=${receipt.shippingcode}`}>chi tiết vận đơn</a>)
                                                 </Box>
                                             </>
                                         ) : ('')
