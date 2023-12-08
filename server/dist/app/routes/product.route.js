@@ -7,9 +7,9 @@ Router.route('/')
 Router.route('/:id')
     .get(productController.getProductById)
     .post(productController.getAllReviewByProductId);
-Router.route('/sort')
+Router.route('/search/sort')
     .post(productController.sortProducts);
-Router.route('/filter')
+Router.route('/search/filter')
     .post(productController.filterProducts);
 Router.route('/categories/:categoryid')
     .get(productController.getAllProductsByCategory);

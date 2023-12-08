@@ -11,12 +11,12 @@ export const getProductById = async (id: number) => {
 }
 
 export const sortProducts = async (data: any) => {
-    const result = (await axios.post(`/products/sort`, data)).data;
+    const result = (await axios.post(`/products/search/sort`, data)).data;
     return result;
 }
 
 export const filterProducts = async (data: any) => {
-    const result = (await axios.post(`/products/filter`, data)).data;
+    const result = (await axios.post(`/products/search/filter`, data)).data;
     return result;
 }
 

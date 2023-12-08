@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import { VND } from '@/utils/VND';
 
 export default function CardDiscount({ discount }: any) {
-
+    console.log(discount);
     const textRef = React.useRef<any>(null);
 
     const copyToClipboard = () => {
@@ -26,7 +26,7 @@ export default function CardDiscount({ discount }: any) {
             <CardContent>
                 <Typography sx={{ fontSize: 16 }} color="text.secondary" gutterBottom>
                     {/* Số mã đã dùng: {`${discount.applied}/${discount.total}`} */}
-                    Số mã đã dùng:
+                    Số mã đã dùng: {`${discount.applied}/${discount.total}`}
                 </Typography>
                 <Typography sx={{display: 'flex', gap: '20px', alignItems: 'center'}} variant="h5" component="div">
                    <span style={{fontSize: '16px', width: '40%'}}>Mã Code:</span> <input
@@ -44,7 +44,7 @@ export default function CardDiscount({ discount }: any) {
                     {discount.description}
                 </Typography>
             </CardContent>
-            <CardActions>
+            {/* <CardActions>
                 <Button sx={{
                     backgroundColor: '#228b22',
                     color: '#fff',
@@ -56,7 +56,7 @@ export default function CardDiscount({ discount }: any) {
                 }} size="small"
                     onClick={copyToClipboard}
                 >Lấy Mã</Button>
-            </CardActions>
+            </CardActions> */}
         </Card>
     );
 }

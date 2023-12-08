@@ -4,7 +4,7 @@
     import CardDiscount from "./common/CardDiscount";
 
     function CarouselComponent({ listDiscounts }: { listDiscounts: any }) {
-        console.log("listDiscounts", listDiscounts);
+        // console.log("listDiscounts", listDiscounts);
         return (
             <Carousel
                 additionalTransfrom={0}
