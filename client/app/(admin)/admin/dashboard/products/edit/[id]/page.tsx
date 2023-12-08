@@ -80,7 +80,7 @@ const page = ({ params }: { params: { id: number } }) => {
             const result = await updateProduct(id, data);
             if(result) {
                 alert("Cập nhật thành công");
-                router.push(`/dashboard/products/details/${id}`);
+                router.push(`/admin/dashboard/products/details/${id}`);
             }
 
         } catch (error) {
@@ -104,7 +104,7 @@ const page = ({ params }: { params: { id: number } }) => {
                 borderRadius: '2px',
             }}>
                 <Box>
-                    <Link href={"/dashboard/products/list"} style={{
+                    <Link href={"/admin/dashboard/products/list"} style={{
                         display: 'flex',
                         marginLeft: '6px'
                     }}>

@@ -266,13 +266,13 @@ export default function DrawerAppBar(props: Props) {
                                     </Button>
                                 </Link>
                             </li>
-                            <li className='navSubLink'>
+                            {/* <li className='navSubLink'>
                                 <Link href="http://localhost:3001/#Contacts">
                                     <Button sx={{ color: '#fff' }}>
                                         Liên Hệ
                                     </Button>
                                 </Link>
-                            </li>
+                            </li> */}
                             <li className='navSubLink'>
                                 <CategoriesDropdown />
                             </li>

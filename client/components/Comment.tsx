@@ -6,7 +6,6 @@ import React from 'react'
 
 const Comment = ({ comment, handleGetAllReviews }: any) => {
     const user = useAppSelector((state) => state.authReducer.value.account);
-    
     const handleDeleteComment = async (id: any) => {
         try {
             const result = await deleteComment(id);
@@ -47,7 +46,7 @@ const Comment = ({ comment, handleGetAllReviews }: any) => {
                         <p style={{ marginTop: '8px', fontSize: '14px' }}>{comment.comment}</p>
 
                         {
-                            (comment.Account.email === user.email) ? (
+                            (comment.Account.email === user.email || user.email === 'tpt@gmail.com') ? (
                                 <Box>
                                     <Button sx={{
                                         backgroundColor: 'red',

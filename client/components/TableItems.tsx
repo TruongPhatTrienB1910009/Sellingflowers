@@ -116,7 +116,15 @@ export default function TableItems({ listItemsInCart, checkedState, handleAddIte
                                                     <Button>
                                                         <input type="number" value={row.DetailBill.totalItems} onKeyDown={preventNegativeValues} onChange={(event) => { handleUpdateTotalsItem(event, { id: index }) }} />
                                                     </Button>
-                                                    <Button onClick={(event) => { handleUpdateTotalsItem(event, { id: index, totalItems: row.DetailBill.totalItems + 1 }) }}>
+                                                    <Button onClick={(event) => { 
+                                                        console.log(row.DetailBill.totalItems)
+                                                        console.log(row.inventory)
+                                                        if(row.DetailBill.totalItems + 1 <= row.inventory) {
+                                                            handleUpdateTotalsItem(event, { id: index, totalItems: row.DetailBill.totalItems + 1 })
+                                                        } else {
+                                                            alert("Đã hết sản phẩm trong kho")
+                                                        }
+                                                     }}>
                                                         <AddIcon />
                                                     </Button>
                                                 </ButtonGroup>

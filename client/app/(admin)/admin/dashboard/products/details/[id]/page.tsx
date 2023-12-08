@@ -42,7 +42,7 @@ const page = ({params}: {params: {id: number}}) => {
                     </Link>
                 </Box>
             </Box>
-            <ProductDetail product={product}/>
+            <ProductDetail params={params} product={product}/>
         </Box>
     )
 }

@@ -14,33 +14,44 @@ const UserInfo = ({ user }: { user: any }) => {
                         gap: '10px'
                     }}>
                         <Box sx={{
-                            width: '20%',
+                            marginRight: '30px',
                         }}>
-                            <img style={{ width: '100%', height: 'auto', borderRadius: '6px' }} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC0HlQ_ckX6HqCAlqroocyRDx_ZRu3x3ezoA&usqp=CAU" alt="" />
+                            <img style={{ width: 'auto', height: '100%' }} src="https://cdn-icons-png.flaticon.com/128/456/456141.png?ga=GA1.1.1538859696.1700853912&semt=ais" alt="" />
                         </Box>
+
                         <Box sx={{
-                            width: '80%',
+                            marginLeft: '10px'
                         }}>
+                            <h2 style={{
+                                marginBottom: '6px'
+                            }}>Thông tin cơ bản</h2>
+
                             <Box sx={{
-                                marginLeft: '10px'
+                                margin: '4px 0px'
                             }}>
-                                <h2 style={{
-                                    marginBottom: '14px'
-                                }}>Thông tin cơ bản</h2>
-                                <WrapperInfo>
-                                    <span>Họ Tên:</span> {user.name}
-                                </WrapperInfo>
-                                <WrapperInfo>
-                                    <span>Email:</span> {user.email}
-                                </WrapperInfo>
-                                <WrapperInfo>
-                                    <span>Điện Thoại:</span> {user.phone}
-                                </WrapperInfo>
-                                <WrapperInfo>
-                                    <span>Giới Tính:</span> {(user.gender) ? "Nam" : "Nữ"}
-                                </WrapperInfo>
+                                <strong><span>Họ Tên:</span></strong> {user.name}
                             </Box>
+
+                            <Box sx={{
+                                margin: '4px 0px'
+                            }}>
+                                <strong><span>Email:</span></strong> {user.email}
+                            </Box>
+
+                            <Box sx={{
+                                margin: '4px 0px'
+                            }}>
+                                <strong><span>Điện Thoại:</span></strong> {user.phone}
+                            </Box>
+
+                            <Box sx={{
+                                margin: '4px 0px'
+                            }}>
+                                <strong><span>Giới Tính:</span></strong> {(user.gender) ? "Nam" : "Nữ"}
+                            </Box>
+
                         </Box>
+
                     </Box>
                 ) : ''
             }

@@ -81,7 +81,7 @@ const MediaCard: React.FC<CardProps> = ({ item }) => {
                         }}>
                             <span>{VND.format(item?.price)}</span>
                         </div>
-                        <IconButton onClick={handleAddItemToCart} sx={{ color: "#228b22" }} aria-label="add to shopping cart">
+                        <IconButton disabled={item.inventory == 0} onClick={handleAddItemToCart} sx={{ color: "#228b22" }} aria-label="add to shopping cart">
                             <AddShoppingCartIcon />
                         </IconButton>
                     </CardActions>

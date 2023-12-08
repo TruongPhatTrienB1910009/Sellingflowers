@@ -9,11 +9,11 @@ const DetailReceipt = ({ receipt }: any) => {
     const [detail, setDetail] = useState<any>(null);
 
     console.log(receipt)
-    
-    const handleConfirmReceipt = async ({id}: any) => {
+
+    const handleConfirmReceipt = async ({ id }: any) => {
         try {
-            const result = await confirmReceipt({id: id})
-            if(result.EC == 0) {
+            const result = await confirmReceipt({ id: id })
+            if (result.EC == 0) {
                 location.reload()
             }
         } catch (error) {
@@ -22,15 +22,13 @@ const DetailReceipt = ({ receipt }: any) => {
     }
 
     const getInfoShipmentReceipt = async () => {
-        if(receipt != null) {
+        if (receipt != null) {
             const data = await getInfoShipment(receipt.shippingcode);
-            if(data) {
+            if (data) {
                 setDetail(data[0])
-                console.log(receipt)
-                console.log(data)
             }
         }
-    } 
+    }
 
     useEffect(() => {
         getInfoShipmentReceipt();
@@ -104,27 +102,31 @@ const DetailReceipt = ({ receipt }: any) => {
                                                 }
                                             }}
 
-                                            onClick={() => {handleConfirmReceipt({id: receipt.id})}}
+                                            onClick={() => { handleConfirmReceipt({ id: receipt.id }) }}
                                         >
                                             Xác nhận hóa đơn
                                         </Button>
                                     ) : ''
                                 }
 
-                                <Button
-                                    sx={{
-                                        backgroundColor: 'blue',
-                                        color: 'white',
-                                        padding: '10px',
-                                        marginLeft: '10px',
-                                        ':hover': {
-                                            backgroundColor: 'blue',
-                                            color: 'white',
-                                        }
-                                    }}
-                                >
-                                    Hủy đơn
-                                </Button>
+                                {
+                                    (receipt.BillStatus.statuscode == 1) ? (
+                                        <Button
+                                            sx={{
+                                                backgroundColor: 'blue',
+                                                color: 'white',
+                                                padding: '10px',
+                                                marginLeft: '10px',
+                                                ':hover': {
+                                                    backgroundColor: 'blue',
+                                                    color: 'white',
+                                                }
+                                            }}
+                                        >
+                                            Hủy đơn
+                                        </Button>
+                                    ) : ''
+                                }
                             </Box>
                         </Box>
                     </Box>

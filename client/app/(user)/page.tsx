@@ -28,7 +28,7 @@ const page = () => {
             if (result.EC == 0) {
                 console.log(result.DT);
                 const products = result.DT;
-                products.length = 4;
+                products.length = 8;
                 setListProducts(products);
             }
         } catch (error) {
