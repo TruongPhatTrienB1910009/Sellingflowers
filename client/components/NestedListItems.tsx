@@ -35,7 +35,19 @@ export default function NestedListItems({ listItemsInCart }: any) {
                             </Link>
                         )
                     })
-                ) : ('No Items in cart')
+                ) : (
+                    <Box sx={{
+                        fontSize: '20px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        paddingTop: '10px',
+                        fontWeight: '600',
+                        color: '#228b22'
+                    }}>
+                        GIỎ HÀNG TRỐNG
+                    </Box>
+                )
             }
         </List>
     );

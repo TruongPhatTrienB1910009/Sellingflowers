@@ -200,10 +200,14 @@ export default function DrawerAppBar(props: Props) {
                                                     <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                                         {
                                                             (listItemsInCart?.length > 2) ? (
-                                                                <p style={{ marginRight: '40px', fontSize: '0.875rem', color: 'rgba(0, 0, 0, 0.6)' }}>còn {listItemsInCart?.length - 2} sản phẩm khác</p>
+                                                                <p style={{ marginRight: '40px', fontSize: '0.875rem', color: 'rgba(0, 0, 0, 0.6)' }}>còn {listItemsInCart?.length - 3} sản phẩm khác</p>
                                                             ) : ''
                                                         }
-                                                        <button onClick={() => { router.push('/cart') }}>Xem giỏ hàng</button>
+                                                        {
+                                                            (listItemsInCart?.length > 0) ? (
+                                                                <button onClick={() => { router.push('/cart') }}>Xem giỏ hàng</button>
+                                                            ) : ''
+                                                        }
                                                     </span>
                                                 </div>
                                             </li>

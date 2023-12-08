@@ -40,7 +40,7 @@ const FormCreateProduct = () => {
             if (result.EC == 0) {
                 const newUpload = await uploadDataToPinecone({"imagePath": result.DT.img});
                 if(newUpload.EC == 0) {
-                    alert("Success");
+                    alert("Tạo sản phẩm thành công");
                 }
                 // location.href = "http://localhost:3001/dashboard/products/list"
             }

@@ -178,6 +178,7 @@ const Page = ({ params }: { params: { id: number } }) => {
                     backgroundColor: '#fff'
                 }}>
                     <h3>SẢN PHẨM TƯƠNG TỰ</h3>
+                    <hr />
                     <Box sx={{
                         marginTop: '10px',
                     }}>
