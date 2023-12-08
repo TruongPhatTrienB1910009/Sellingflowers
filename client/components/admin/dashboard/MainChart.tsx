@@ -31,7 +31,7 @@ export const options = {
         },
         title: {
             display: true,
-            text: 'Biểu đồ Chi - Thu (đơn vị triệu đồng)',
+            text: 'Biểu đồ Vốn - Doanh Thu theo tháng (đơn vị Việt Nam Đồng)',
         },
     },
 };
@@ -44,7 +44,7 @@ export function MainChart() {
         labels,
         datasets: [
             {
-                label: 'Tổng Chi',
+                label: 'Vốn Nhập Hàng',
                 data: cost,
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
             },
@@ -61,10 +61,16 @@ export function MainChart() {
             const data = await costStatistics();
             if(data.EC == 0) {
                 const temp = Array(labels.length).fill(0);
-                for(let i = 0; i < data.DT.length; i++) {
-                    temp[data.DT[i].month - 1] = Number(data.DT[i].sumValue);
+                for(let i = 0; i < data.DT.cost.length; i++) {
+                    temp[data.DT.cost[i].month - 1] = Number(data.DT.cost[i].cost);
                 }
                 setCost(temp);
+
+                const temp2 = Array(labels.length).fill(0);
+                for(let i = 0; i < data.DT.revenue.length; i++) {
+                    temp2[data.DT.revenue[i].month - 1] = Number(data.DT.revenue[i].revenue);
+                }
+                setRevenue(temp2);
             }
         } catch (error) {
             console.log(error);

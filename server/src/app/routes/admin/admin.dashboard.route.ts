@@ -6,4 +6,7 @@ const adminDashboardController = require("../../controllers/admin/admin.dashboar
 router.route("/statistical")
     .get(adminDashboardController.costStatistics)
 
+router.route("/today")
+    .get(adminDashboardController.getAllBillToday)
+
 module.exports = router;
