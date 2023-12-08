@@ -40,6 +40,11 @@ export const updateSupplier = async (id: any, data: any) => {
     return result;
 }
 
+export const deleteSupplier = async (id: any) => {
+    const result = (await axios.delete(`/admin/products/supplier/${id}`)).data;
+    return result;
+}
+
 export const createCategory = async (data: any) => {
     const result = (await axios.post(`/admin/products/categories`, data)).data;
     return result;

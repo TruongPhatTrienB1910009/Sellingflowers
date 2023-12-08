@@ -41,7 +41,7 @@ const page = ({ params }: { params: { id: string } }) => {
                     </Link>
                 </Box>
             </Box>
-            <DetailReceiptUser receipt={receipt} />
+            <DetailReceiptUser handleGetReceiptById={handleGetReceiptById} receipt={receipt} />
         </Box>
     )
 }

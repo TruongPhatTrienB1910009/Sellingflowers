@@ -54,7 +54,7 @@ const columns: readonly Column[] = [
 ];
 
 
-export default function ItemsReceipt({ listItemsInCart }: any) {
+export default function ItemsReceipt({ listItemsInCart, receipt }: any) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const router = useRouter();
@@ -109,7 +109,7 @@ export default function ItemsReceipt({ listItemsInCart }: any) {
                                             </TableCell>
                                             <TableCell align='right'>
                                                 <Tooltip onClick={() => {router.push(`/account/feedback/${row.id}`)}} title="Đánh Giá" placement="top">
-                                                    <IconButton>
+                                                    <IconButton disabled={receipt.BillStatus.statuscode != 2}>
                                                         <img style={{width: '24px'}} src="https://cdn-icons-png.flaticon.com/128/9592/9592955.png?uid=R100488832&ga=GA1.1.1538859696.1700853912&semt=ais" alt="" />
                                                     </IconButton>
                                                 </Tooltip>

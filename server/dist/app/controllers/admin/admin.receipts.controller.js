@@ -100,7 +100,7 @@ const confirmReceipt = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
             "to_address": foundAddress.detail,
             "to_ward_code": foundAddress.ward.slice(0, foundAddress.ward.indexOf("-")),
             "to_district_id": Number(foundAddress.district.slice(0, foundAddress.district.indexOf("-"))),
-            "cod_amount": Number(receipt.totalprice),
+            "cod_amount": Number(receipt.totalprice - receipt.discountfee),
             "content": "",
             "height": 50,
             "length": 20,
@@ -114,14 +114,9 @@ const confirmReceipt = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
             "coupon": null,
             "items": items
         };
-        const getStatus = yield db.BillStatus.findOne({
-            where: {
-                statuscode: 2
-            }
-        });
         const shipment = yield (0, checkout_utils_1.createShipment)(data);
         if (shipment) {
-            const info = yield (0, checkout_utils_1.getInfoShipment)({ order_code: shipment.order_code });
+            // const info: any = await getInfoShipment({order_code: shipment.order_code});
             const status = yield db.BillStatus.findOne({ where: { statuscode: 2 } });
             yield receipt.update({ shippingcode: shipment.order_code, BillStatusId: status.id, state: 1 });
             return res.status(200).json({

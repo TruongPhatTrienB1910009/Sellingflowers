@@ -43,3 +43,8 @@ export const getAllBillByType = async (type: any) => {
         console.log(error);
     }
 }
+
+export const reviewProduct = async (data: any) => {
+    const result = (await axios.post(`/account/product/review`, data)).data;
+    return result;
+}

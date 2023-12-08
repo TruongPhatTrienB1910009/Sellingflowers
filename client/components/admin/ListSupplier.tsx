@@ -15,7 +15,7 @@ import FindInPageIcon from '@mui/icons-material/FindInPage';
 import { VND } from '@/utils/VND';
 import '@/styles/common/tableItems.css'
 import DialogUpdateSupplier from './update/DialogUpdateSupplier';
-import { getSupplierById } from '@/services/admin/adminProductsService';
+import { deleteSupplier, getSupplierById } from '@/services/admin/adminProductsService';
 
 interface Column {
     id: 'name' | 'code' | 'population' | 'size' | 'density';
@@ -52,7 +52,7 @@ const columns: readonly Column[] = [
 ];
 
 
-export default function ListSupplier({ listSuppliers }: any) {
+export default function ListSupplier({ listSuppliers, handlegetAllSuppliers }: any) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [openDialogUpdate, setOpenDialogUpdate] = React.useState(-1);
@@ -73,6 +73,19 @@ export default function ListSupplier({ listSuppliers }: any) {
             if(result.EC == 0) {
                 setSupplier(result.DT);
                 setOpenDialogUpdate(openDialogUpdate + 1);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const handeleteDeleteSupplier = async (id: any) => {
+        try {
+            console.log(id);
+            const result = await deleteSupplier(id);
+            if(result.EC == 0) {
+                alert("Đã xóa nhà cung cấp");
+                handlegetAllSuppliers();
             }
         } catch (error) {
             console.log(error);
@@ -125,7 +138,7 @@ export default function ListSupplier({ listSuppliers }: any) {
                                                         <BorderColorIcon />
                                                     </IconButton>
                                                 </Tooltip>
-                                                <Tooltip title="Xóa" placement="top">
+                                                <Tooltip onClick={() => {handeleteDeleteSupplier(row.id)}} title="Xóa" placement="top">
                                                     <IconButton>
                                                         <DeleteIcon />
                                                     </IconButton>

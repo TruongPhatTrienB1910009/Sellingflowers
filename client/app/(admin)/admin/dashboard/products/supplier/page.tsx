@@ -53,7 +53,7 @@ const Supplier = () => {
 
             <Box>
                 <DialigAddSupplier openDialog={openDialog} />
-                <ListSupplier listSuppliers={listSuppliers}/>
+                <ListSupplier handlegetAllSuppliers={handlegetAllSuppliers} listSuppliers={listSuppliers}/>
             </Box>
         </Box>
     )

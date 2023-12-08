@@ -45,7 +45,7 @@ export default function Receipts() {
         setValue(newValue);
     };
 
-    const labels = ["Tất Cả", "Chờ Xác Nhận", "Đã Xác Nhận", "Đã Thanh Toán", "Đã Nhận Hàng", "Đã Hủy"]
+    const labels = ["Tất Cả", "Chờ Xác Nhận", "Đã Xác Nhận", "Đã Hủy"]
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -54,7 +54,7 @@ export default function Receipts() {
                     {
                         labels.map((label: any, index: number) => {
                             return (
-                                <Tab key={label} sx={{ width: '16.6%' }} label={`${label}`} {...a11yProps(index)} />
+                                <Tab key={label} sx={{ width: '25%' }} label={`${label}`} {...a11yProps(index)} />
                             )
                         })
                     }

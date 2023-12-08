@@ -4,7 +4,7 @@ import "@/styles/detail.css";
 import { Box, Button, ButtonGroup, Container, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { getAllProductsByCategory, getProductById } from '@/services/productService';
+import { getAllProductsByCategory, getAllReviewByProductId, getProductById } from '@/services/productService';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { VND } from '@/utils/VND';
 import WrapperCards from '@/components/common/WrapperCards';
@@ -13,6 +13,7 @@ import CustomizedSnackbars from '@/components/common/Snackbar';
 import { handleGetItemsInCart } from '@/redux/features/cart-slice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
+import ContainComment from '@/components/ContainComment';
 
 
 const Page = ({ params }: { params: { id: number } }) => {
@@ -23,6 +24,7 @@ const Page = ({ params }: { params: { id: number } }) => {
     const childRef = useRef<any>(null);
     const [message, setMessage] = useState<any>("");
     const [stateMessage, setStateMessage] = useState<any>("success");
+    const [listComment, setListComment] = useState<any>([]);
     const dispatch = useDispatch<AppDispatch>();
 
     // methods
@@ -69,8 +71,20 @@ const Page = ({ params }: { params: { id: number } }) => {
         }
     }
 
+    const handleGetAllReviews = async () => {
+        try {
+            const data = await getAllReviewByProductId(params.id);
+            if(data.EC == 0) {
+                setListComment(data.DT)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         handleGetProduct();
+        handleGetAllReviews();
     }, [])
 
     return (
@@ -169,6 +183,13 @@ const Page = ({ params }: { params: { id: number } }) => {
                     }}>
                         <WrapperCards listItems={sameItems} />
                     </Box>
+                </Box>
+                <Box sx={{
+                    backgroundColor: '#fff',
+                    marginTop: '10px',
+                    padding: '10px'
+                }}>
+                    <ContainComment listComment={listComment} />
                 </Box>
             </Container>
         </>

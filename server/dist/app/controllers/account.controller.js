@@ -322,7 +322,6 @@ const reviewProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, func
                 email: req.user.email
             }
         });
-        console.log(user);
         const review = yield db.Review.create({
             AccountId: user.id,
             ProductId: req.body.ProductId,

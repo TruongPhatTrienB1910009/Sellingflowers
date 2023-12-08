@@ -101,7 +101,7 @@ const confirmReceipt = async (req: adminRequest, res: Response, next: NextFuncti
             "to_address": foundAddress.detail,
             "to_ward_code": foundAddress.ward.slice(0, foundAddress.ward.indexOf("-")),
             "to_district_id": Number(foundAddress.district.slice(0, foundAddress.district.indexOf("-"))),
-            "cod_amount": Number(receipt.totalprice),
+            "cod_amount": Number(receipt.totalprice - receipt.discountfee),
             "content": "",
             "height": 50,
             "length": 20,
@@ -116,15 +116,9 @@ const confirmReceipt = async (req: adminRequest, res: Response, next: NextFuncti
             "items": items
         }
 
-        const getStatus = await db.BillStatus.findOne({
-            where: {
-                statuscode: 2
-            }
-        })
-
         const shipment: any = await createShipment(data);
         if (shipment) {
-            const info: any = await getInfoShipment({order_code: shipment.order_code});
+            // const info: any = await getInfoShipment({order_code: shipment.order_code});
             const status = await db.BillStatus.findOne({where: {statuscode: 2}})
             await receipt.update({ shippingcode: shipment.order_code, BillStatusId: status.id, state: 1 });
             return res.status(200).json({

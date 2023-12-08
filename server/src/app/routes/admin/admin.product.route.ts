@@ -20,6 +20,7 @@ router.route("/supplier")
 router.route("/supplier/:id")
     .patch(adminProductController.upload, adminProductController.updateSupplier)
     .get(adminProductController.getSupplierById)
+    .delete(adminProductController.deleteSupplier)
 
 
 router.route("/categories")

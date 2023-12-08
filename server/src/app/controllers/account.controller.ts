@@ -339,8 +339,6 @@ const reviewProduct = async (req: UserRequest, res: Response, next: NextFunction
             }
         })
 
-        console.log(user)
-
         const review = await db.Review.create({
             AccountId: user.id,
             ProductId: req.body.ProductId,

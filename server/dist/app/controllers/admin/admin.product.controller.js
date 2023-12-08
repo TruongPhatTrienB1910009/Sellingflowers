@@ -281,7 +281,30 @@ const updateSupplier = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         });
     }
 });
+const deleteSupplier = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield db.Supplier.destroy({
+            where: {
+                id: req.params.id
+            }
+        });
+        if (result) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: result
+            });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            EM: 'NOT OK',
+            EC: -1,
+            DT: error.message
+        });
+    }
+});
 module.exports = {
     createProduct, upload, createSupplier, getAllSuppliers, getSupplierById, createImportBillMultipleProducts, deleteProduct,
-    updateProduct, updateSupplier
+    updateProduct, updateSupplier, deleteSupplier
 };

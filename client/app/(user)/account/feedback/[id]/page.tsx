@@ -137,7 +137,7 @@ const FeedBack = ({ params }: { params: { id: number } }) => {
                 }}>
                     <ContainComment listComment={listComment} />
                 </Box>
-                <FeedBackDialog openDialog={openDialog}/>
+                <FeedBackDialog handleGetAllReviews={handleGetAllReviews} product={product} openDialog={openDialog}/>
             </Box>
         ) : ('')
     )

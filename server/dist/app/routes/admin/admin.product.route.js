@@ -19,7 +19,8 @@ router.route("/supplier")
     .post(adminProductController.createSupplier);
 router.route("/supplier/:id")
     .patch(adminProductController.upload, adminProductController.updateSupplier)
-    .get(adminProductController.getSupplierById);
+    .get(adminProductController.getSupplierById)
+    .delete(adminProductController.deleteSupplier);
 router.route("/categories")
     .post(adminCategoriesController.createNewCategory);
 router.route("/categories/:id")

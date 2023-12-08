@@ -33,12 +33,15 @@ export default function DialigAddSupplier({ openDialog }: { openDialog: any }) {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         try {
+            console.log(data);
             const result = await createSupplier({
                 name: data.get('name'),
                 email: data.get('email'),
                 phone: data.get('phone'),
                 address: data.get('address'),
             })
+
+            console.log(result);
 
             if(result.EC == 0) {
                 alert('Thêm nhà cung cấp thành công');

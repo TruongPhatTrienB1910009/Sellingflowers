@@ -62,7 +62,7 @@ export default function ContainComment({ listComment }: any) {
 
     React.useEffect(() => {
         handleFilterComment();
-    }, [])
+    }, [listComment.length]);
 
     return (
         <Box sx={{ width: '100%' }}>

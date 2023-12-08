@@ -307,7 +307,32 @@ const updateSupplier = async (req: fileRequest, res: Response, next: NextFunctio
     }
 }
 
+
+const deleteSupplier = async (req: fileRequest, res: Response, next: NextFunction) => {
+    try {
+        const result = await db.Supplier.destroy({
+            where: {
+                id: req.params.id
+            }
+        });
+
+        if(result) {
+            return res.status(200).json({
+                EC: 0,
+                EM: 'OK',
+                DT: result
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            EM: 'NOT OK',
+            EC: -1,
+            DT: (error as Error).message
+        });
+    }
+}
+
 module.exports = {
     createProduct, upload, createSupplier, getAllSuppliers, getSupplierById, createImportBillMultipleProducts, deleteProduct,
-    updateProduct, updateSupplier
+    updateProduct, updateSupplier, deleteSupplier
 }
