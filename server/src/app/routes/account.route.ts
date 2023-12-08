@@ -21,6 +21,7 @@ router.route("/receipts/:type")
 router.route("/product/review")
     .post(accountController.reviewProduct)
 
-// router.route("/product/review/:id")
+router.route("/product/review/:id")
+    .delete(accountController.deleteComment)
     
 module.exports = router;

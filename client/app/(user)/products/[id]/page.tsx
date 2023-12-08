@@ -29,7 +29,18 @@ const Page = ({ params }: { params: { id: number } }) => {
 
     // methods
     const preventNegativeValues = (e: any) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault();
-    const handleChange = (e: any) => setTotalItem(e.target.value);
+    const handleChange = (e: any) => {
+        if(e.target.value > item.inventory) {
+            alert("Vượt quá số lượng tồn kho")
+            e.target.value = 2
+        }
+
+        if(e.target.value == 0) {
+            alert("Số lượng tối thiểu là 1")
+            e.target.value = 1
+        }
+        setTotalItem(e.target.value);
+    }
 
     const handleAddItemToCart = async (e: any) => {
         try {
@@ -117,13 +128,17 @@ const Page = ({ params }: { params: { id: number } }) => {
                                         <Button>
                                             <input type="number" value={totalItem} onKeyDown={preventNegativeValues} onChange={handleChange} />
                                         </Button>
-                                        <Button onClick={() => { setTotalItem(Number(totalItem) + 1) }}>
+                                        <Button onClick={() => { 
+                                            if(Number(totalItem) + 1 <= item.inventory) {
+                                                setTotalItem(Number(totalItem) + 1)
+                                            }
+                                         }}>
                                             <AddIcon />
                                         </Button>
                                     </ButtonGroup>
                                     <Typography sx={{ marginBottom: 0, color: '#757575', fontSize: '0.875rem' }} variant="body1" display="block" gutterBottom>{item.inventory} sản phẩm có sẵn</Typography>
                                 </div>
-                                <Button onClick={(e) => handleAddItemToCart(e)} className='btnAddToCart'>
+                                <Button disabled={item.inventory == 0} onClick={(e) => handleAddItemToCart(e)} className='btnAddToCart'>
                                     Thêm Vào Giỏ Hàng
                                     <AddShoppingCartIcon sx={{ marginLeft: '6px' }} />
                                 </Button>
@@ -190,7 +205,7 @@ const Page = ({ params }: { params: { id: number } }) => {
                     marginTop: '10px',
                     padding: '10px'
                 }}>
-                    <ContainComment listComment={listComment} />
+                    <ContainComment handleGetAllReviews={handleGetAllReviews} listComment={listComment} />
                 </Box>
             </Container>
         </>

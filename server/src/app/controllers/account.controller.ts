@@ -363,10 +363,32 @@ const reviewProduct = async (req: UserRequest, res: Response, next: NextFunction
     }
 }
 
+const deleteComment = async (req: UserRequest, res: Response, next: NextFunction) => {
+    try {
+        const result = await db.Review.destroy({
+            where: {
+                id: req.params.id,
+            }
+        })
+
+        return res.status(200).json({
+            EC: 0,
+            EM: 'OK',
+            DT: result
+        })
+    } catch (error) {
+        return res.status(500).json({
+            EC: -1,
+            EM: "NOT OK",
+            DT: (error as Error).message
+        })
+    }
+}
+
 
 module.exports = {
     getAccount, updateAccount, createDeliveryAddress, 
     getAllAddress, updateDeliveryAddress, getDetailAddress, deleteDeliveryAddress,
     getAllBillByType,
-    reviewProduct
+    reviewProduct, deleteComment
 }

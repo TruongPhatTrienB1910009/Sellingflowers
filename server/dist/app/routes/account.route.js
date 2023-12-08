@@ -20,5 +20,6 @@ router.route("/receipts/:type")
     .get(accountController.getAllBillByType);
 router.route("/product/review")
     .post(accountController.reviewProduct);
-// router.route("/product/review/:id")
+router.route("/product/review/:id")
+    .delete(accountController.deleteComment);
 module.exports = router;

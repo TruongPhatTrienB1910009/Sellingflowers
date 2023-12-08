@@ -2,13 +2,12 @@ import { Box } from '@mui/material'
 import React from 'react'
 import Comment from './Comment'
 
-const ListComment = ({ listComment }: any) => {
-    console.log(listComment)
+const ListComment = ({ listComment, handleGetAllReviews }: any) => {
     return (
         <Box>
             {
                 listComment.map((comment: any, index: number) => {
-                    return <Comment comment={comment} key={comment.id}/>
+                    return <Comment handleGetAllReviews={handleGetAllReviews} comment={comment} key={comment.id}/>
                 })
             }
         </Box>

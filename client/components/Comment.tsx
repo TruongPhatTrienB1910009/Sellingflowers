@@ -1,12 +1,23 @@
 import { useAppSelector } from '@/redux/store';
+import { deleteComment } from '@/services/accountService';
 import { Box, Button, Rating } from '@mui/material'
 import React from 'react'
 
 
-const Comment = ({ comment }: any) => {
-    console.log(comment)
+const Comment = ({ comment, handleGetAllReviews }: any) => {
     const user = useAppSelector((state) => state.authReducer.value.account);
-    console.log(user)
+    
+    const handleDeleteComment = async (id: any) => {
+        try {
+            const result = await deleteComment(id);
+            if (result.EC == 0) {
+                handleGetAllReviews();
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <Box sx={{
             margin: '28px 0px'
@@ -48,7 +59,9 @@ const Comment = ({ comment }: any) => {
                                             backgroundColor: 'red',
                                             color: 'white',
                                         }
-                                    }}>Xóa</Button>
+                                    }}
+                                    onClick={() => {handleDeleteComment(comment.id)}}
+                                    >Xóa</Button>
                                 </Box>
                             ) : ''
                         }

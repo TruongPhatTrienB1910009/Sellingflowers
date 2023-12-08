@@ -48,3 +48,8 @@ export const reviewProduct = async (data: any) => {
     const result = (await axios.post(`/account/product/review`, data)).data;
     return result;
 }
+
+export const deleteComment = async (id: any) => {
+    const result = (await axios.delete(`/account/product/review/${id}`)).data;
+    return result;
+}

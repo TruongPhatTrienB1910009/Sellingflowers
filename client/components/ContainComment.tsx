@@ -38,7 +38,7 @@ function a11yProps(index: number) {
     };
 }
 
-export default function ContainComment({ listComment }: any) {
+export default function ContainComment({ listComment, handleGetAllReviews }: any) {
     const [value, setValue] = React.useState(0);
     const user = useAppSelector((state) => state.authReducer.value.account);
 
@@ -73,10 +73,10 @@ export default function ContainComment({ listComment }: any) {
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
-                <ListComment listComment={listComment}/>
+                <ListComment handleGetAllReviews={handleGetAllReviews} listComment={listComment}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-                <ListComment listComment={listCommentFilter}/>
+                <ListComment handleGetAllReviews={handleGetAllReviews} listComment={listCommentFilter}/>
             </CustomTabPanel>
         </Box>
     );
