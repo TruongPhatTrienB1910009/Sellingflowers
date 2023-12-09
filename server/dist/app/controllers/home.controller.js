@@ -10,31 +10,55 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
+const bcrypt = require('bcrypt');
 const email_utils_1 = require("../utils/email.utils");
 const { getRolesAccount, hashPassword, createToken, verifyToken } = require('../utils/account.utils');
 const ApiError = require('../../api-error');
 const db = require('../models');
 const signIn = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log(req.body);
         const user = yield db.Account.findOne({
             where: { email: req.body.email }
         });
         if (user) {
-            const rolesAccount = yield getRolesAccount(user);
-            const payload = {
-                email: user.email,
-                groupRoles: rolesAccount
-            };
-            let token = createToken(payload);
-            res.setHeader('Authorization', token);
-            res.status(200).json({
-                EM: 'OK',
-                EC: 0,
-                DT: {
-                    accesstoken: token,
-                    email: user.email,
-                    groupRoles: rolesAccount
-                }
+            console.log(req.body.password);
+            console.log(user.password);
+            bcrypt.compare(req.body.password, user.password, function (err, result) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    if (err) {
+                        console.error('Error:', err);
+                    }
+                    else {
+                        if (result) {
+                            console.log('Passwords match');
+                            const rolesAccount = yield getRolesAccount(user);
+                            const payload = {
+                                email: user.email,
+                                groupRoles: rolesAccount
+                            };
+                            let token = createToken(payload);
+                            res.setHeader('Authorization', token);
+                            res.status(200).json({
+                                EM: 'OK',
+                                EC: 0,
+                                DT: {
+                                    accesstoken: token,
+                                    email: user.email,
+                                    groupRoles: rolesAccount
+                                }
+                            });
+                        }
+                        else {
+                            console.log('Passwords do not match');
+                            res.status(500).json({
+                                EM: 'Account not found',
+                                EC: 500,
+                                DT: "Sai mật khẩu"
+                            });
+                        }
+                    }
+                });
             });
         }
         else {

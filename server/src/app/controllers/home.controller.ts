@@ -1,4 +1,5 @@
 import { Op } from 'sequelize';
+const bcrypt = require('bcrypt');
 import { NextFunction, Request, Response } from "express";
 import { sendEmailToReset } from "../utils/email.utils";
 const { getRolesAccount, hashPassword, createToken, verifyToken } = require('../utils/account.utils');
@@ -7,29 +8,50 @@ const db = require('../models');
 
 const signIn = async (req: Request, res: Response, next: NextFunction) => {
     try {
+
+        console.log(req.body);
         const user = await db.Account.findOne({
             where: { email: req.body.email }
         })
 
-        if(user) {
-            const rolesAccount = await getRolesAccount(user);
-            const payload = {
-                email: user.email,
-                groupRoles: rolesAccount
-            }
+        if (user) {
+            console.log(req.body.password);
+            console.log(user.password);
+            bcrypt.compare(req.body.password, user.password, async function (err: any, result: any) {
+                if (err) {
+                    console.error('Error:', err);
+                } else {
+                    if (result) {
+                        console.log('Passwords match');
+                        const rolesAccount = await getRolesAccount(user);
+                        const payload = {
+                            email: user.email,
+                            groupRoles: rolesAccount
+                        }
 
-            let token = createToken(payload);
-            res.setHeader('Authorization', token);
-            res.status(200).json({
-                EM: 'OK',
-                EC: 0,
-                DT: {
-                    accesstoken: token,
-                    email: user.email,
-                    groupRoles: rolesAccount
+                        let token = createToken(payload);
+                        res.setHeader('Authorization', token);
+                        res.status(200).json({
+                            EM: 'OK',
+                            EC: 0,
+                            DT: {
+                                accesstoken: token,
+                                email: user.email,
+                                groupRoles: rolesAccount
+                            }
+                        })
+                    } else {
+                        console.log('Passwords do not match');
+                        res.status(500).json({
+                            EM: 'Account not found',
+                            EC: 500,
+                            DT: "Sai mật khẩu"
+                        })
+                    }
                 }
-            })
-        }else {
+            });
+
+        } else {
             res.status(500).json({
                 EM: 'Account not found',
                 EC: 500,
@@ -64,7 +86,7 @@ const signUp = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             req.body.password = await hashPassword(req.body.password);
 
-            if(req.body.GroupAccountId) {
+            if (req.body.GroupAccountId) {
                 const newAccount = await db.Account.create(req.body)
                 await newAccount.save();
                 return res.status(200).json({
@@ -92,7 +114,7 @@ const signUp = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-const checkUserByToken = async (req: Request, res:Response, next: NextFunction) => {
+const checkUserByToken = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.body.token;
     try {
         const result = verifyToken(token);
@@ -101,7 +123,7 @@ const checkUserByToken = async (req: Request, res:Response, next: NextFunction) 
             EC: 0,
             DT: result
         })
-    } catch (error:any) {
+    } catch (error: any) {
         return res.send({
             EM: 'token expired',
             EC: -1,
@@ -158,10 +180,10 @@ const requireForgotPassword = async (req: Request, res: Response, next: NextFunc
     try {
         const { email } = req.body;
         const result = await sendEmailToReset(email);
-        if(result.token) {
+        if (result.token) {
             const user = await db.Account.findOne({
                 where: {
-                    email: email 
+                    email: email
                 }
             })
 
@@ -191,7 +213,7 @@ const resetPassword = async (req: Request, res: Response, next: NextFunction) =>
                 email: data.email,
             }
         })
-        const result = await user.update({password: newPassword})
+        const result = await user.update({ password: newPassword })
         return res.status(200).json({
             EC: 0,
             EM: 'OK',
